@@ -1,0 +1,341 @@
+[
+  {
+    "model": "app.tipocontrolmaterial",
+    "pk": 1,
+    "fields": {
+      "tipo_control_material": "Control Tipo 1"
+    }
+  },
+  {
+    "model": "app.tipocontrolmaterial",
+    "pk": 2,
+    "fields": {
+      "tipo_control_material": "Control Tipo 2"
+    }
+  },
+  {
+    "model": "app.tipocontrolmaterial",
+    "pk": 3,
+    "fields": {
+      "tipo_control_material": "Control Tipo 3"
+    }
+  },
+  {
+    "model": "app.tipomaterial",
+    "pk": 1,
+    "fields": {
+      "tipo_material": "Material Tipo 1"
+    }
+  },
+  {
+    "model": "app.tipomaterial",
+    "pk": 2,
+    "fields": {
+      "tipo_material": "Material Tipo 2"
+    }
+  },
+  {
+    "model": "app.tipomaterial",
+    "pk": 3,
+    "fields": {
+      "tipo_material": "Material Tipo 3"
+    }
+  },
+  {
+    "model": "app.metodoesterilizacion",
+    "pk": 1,
+    "fields": {
+      "metodo": "Metodo 1"
+    }
+  },
+  {
+    "model": "app.metodoesterilizacion",
+    "pk": 2,
+    "fields": {
+      "metodo": "Metodo 2"
+    }
+  },
+  {
+    "model": "app.metodoesterilizacion",
+    "pk": 3,
+    "fields": {
+      "metodo": "Metodo 3"
+    }
+  },
+  {
+    "model": "app.estadomaterial",
+    "pk": 1,
+    "fields": {
+      "estado": "Estado 1"
+    }
+  },
+  {
+    "model": "app.estadomaterial",
+    "pk": 2,
+    "fields": {
+      "estado": "Estado 2"
+    }
+  },
+  {
+    "model": "app.estadomaterial",
+    "pk": 3,
+    "fields": {
+      "estado": "Estado 3"
+    }
+  },
+  {
+    "model": "app.rol",
+    "pk": 1,
+    "fields": {
+      "rol": "Rol 1"
+    }
+  },
+  {
+    "model": "app.rol",
+    "pk": 2,
+    "fields": {
+      "rol": "Rol 2"
+    }
+  },
+  {
+    "model": "app.rol",
+    "pk": 3,
+    "fields": {
+      "rol": "Rol 3"
+    }
+  },
+  {
+    "model": "app.prestacion",
+    "pk": 1,
+    "fields": {
+      "prestacion": "Prestaci\u00f3n 1"
+    }
+  },
+  {
+    "model": "app.prestacion",
+    "pk": 2,
+    "fields": {
+      "prestacion": "Prestaci\u00f3n 2"
+    }
+  },
+  {
+    "model": "app.prestacion",
+    "pk": 3,
+    "fields": {
+      "prestacion": "Prestaci\u00f3n 3"
+    }
+  },
+  {
+    "model": "app.estadocliente",
+    "pk": 1,
+    "fields": {
+      "estado": "Estado Cliente 1"
+    }
+  },
+  {
+    "model": "app.estadocliente",
+    "pk": 2,
+    "fields": {
+      "estado": "Estado Cliente 2"
+    }
+  },
+  {
+    "model": "app.estadocliente",
+    "pk": 3,
+    "fields": {
+      "estado": "Estado Cliente 3"
+    }
+  },
+  {
+    "model": "app.usuario",
+    "pk": 1000,
+    "fields": {
+      "nombre": "Usuario 1",
+      "contrasena": "123456",
+      "id_Rol": 1
+    }
+  },
+  {
+    "model": "app.usuario",
+    "pk": 1001,
+    "fields": {
+      "nombre": "Usuario 2",
+      "contrasena": "123456",
+      "id_Rol": 2
+    }
+  },
+  {
+    "model": "app.usuario",
+    "pk": 1002,
+    "fields": {
+      "nombre": "Usuario 3",
+      "contrasena": "123456",
+      "id_Rol": 3
+    }
+  },
+  {
+    "model": "app.cliente",
+    "pk": 1,
+    "fields": {
+      "nombre": "Cliente 1",
+      "id_EstadoCliente": 1,
+      "id_Prestacion": 1
+    }
+  },
+  {
+    "model": "app.cliente",
+    "pk": 2,
+    "fields": {
+      "nombre": "Cliente 2",
+      "id_EstadoCliente": 2,
+      "id_Prestacion": 2
+    }
+  },
+  {
+    "model": "app.cliente",
+    "pk": 3,
+    "fields": {
+      "nombre": "Cliente 3",
+      "id_EstadoCliente": 3,
+      "id_Prestacion": 3
+    }
+  },
+  {
+    "model": "app.material",
+    "pk": 1,
+    "fields": {
+      "fecha_ingreso": "2025-04-18",
+      "nombre": "Material 1",
+      "id_EstadoMaterial": 1,
+      "id_TipoMaterial": 1,
+      "id_MetodoEsterilizacion": 1,
+      "id_TipoControlMaterial": 1
+    }
+  },
+  {
+    "model": "app.material",
+    "pk": 2,
+    "fields": {
+      "fecha_ingreso": "2025-04-18",
+      "nombre": "Material 2",
+      "id_EstadoMaterial": 2,
+      "id_TipoMaterial": 2,
+      "id_MetodoEsterilizacion": 2,
+      "id_TipoControlMaterial": 2
+    }
+  },
+  {
+    "model": "app.material",
+    "pk": 3,
+    "fields": {
+      "fecha_ingreso": "2025-04-18",
+      "nombre": "Material 3",
+      "id_EstadoMaterial": 3,
+      "id_TipoMaterial": 3,
+      "id_MetodoEsterilizacion": 3,
+      "id_TipoControlMaterial": 3
+    }
+  },
+  {
+    "model": "app.numcarga",
+    "pk": 1,
+    "fields": {
+      "fechahora": "2025-04-18T01:00:00Z",
+      "id_Material": 1
+    }
+  },
+  {
+    "model": "app.numcarga",
+    "pk": 2,
+    "fields": {
+      "fechahora": "2025-04-18T02:00:00Z",
+      "id_Material": 2
+    }
+  },
+  {
+    "model": "app.numcarga",
+    "pk": 3,
+    "fields": {
+      "fechahora": "2025-04-18T03:00:00Z",
+      "id_Material": 3
+    }
+  },
+  {
+    "model": "app.autoclave",
+    "pk": 1,
+    "fields": {
+      "id_NumCarga": 1
+    }
+  },
+  {
+    "model": "app.autoclave",
+    "pk": 2,
+    "fields": {
+      "id_NumCarga": 2
+    }
+  },
+  {
+    "model": "app.autoclave",
+    "pk": 3,
+    "fields": {
+      "id_NumCarga": 3
+    }
+  },
+  {
+    "model": "app.historialmodificacion",
+    "pk": 1,
+    "fields": {
+      "rut_Usuario": 1000,
+      "id_Material": 1,
+      "fecha_modificacion": "2025-04-18T01:30:00Z"
+    }
+  },
+  {
+    "model": "app.historialmodificacion",
+    "pk": 2,
+    "fields": {
+      "rut_Usuario": 1001,
+      "id_Material": 2,
+      "fecha_modificacion": "2025-04-18T02:30:00Z"
+    }
+  },
+  {
+    "model": "app.historialmodificacion",
+    "pk": 3,
+    "fields": {
+      "rut_Usuario": 1002,
+      "id_Material": 3,
+      "fecha_modificacion": "2025-04-18T03:30:00Z"
+    }
+  },
+  {
+    "model": "app.folio",
+    "pk": 1,
+    "fields": {
+      "fechahora_ingreso": "2025-04-18T10:00:00Z",
+      "id_Material": 1,
+      "id_Cliente": 1,
+      "rut_Usuario": 1000
+    }
+  },
+  {
+    "model": "app.folio",
+    "pk": 2,
+    "fields": {
+      "fechahora_ingreso": "2025-04-18T11:00:00Z",
+      "id_Material": 2,
+      "id_Cliente": 2,
+      "rut_Usuario": 1001
+    }
+  },
+  {
+    "model": "app.folio",
+    "pk": 3,
+    "fields": {
+      "fechahora_ingreso": "2025-04-18T12:00:00Z",
+      "id_Material": 3,
+      "id_Cliente": 3,
+      "rut_Usuario": 1002
+    }
+  }
+]
