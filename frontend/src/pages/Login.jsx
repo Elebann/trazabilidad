@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo_EsterilMed from '@/assets/Logo_EsterilMed.png';
+import Logo_EsterilMed from '@/assets/Logo_EsterilMed.jpeg';
 
 function Login() {
     return (
