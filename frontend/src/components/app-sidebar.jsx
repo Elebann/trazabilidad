@@ -1,18 +1,25 @@
-import {Home, Users, Box} from "lucide-react"
+import {Home, Users, Box, FileSpreadsheet, Briefcase, ChevronUp, LogOut, User} from "lucide-react"
 import Logo from "@/assets/Logo_EsterilMed.jpeg"
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarGroupLabel, SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem, SidebarSeparator,
 } from "@/components/ui/sidebar"
 
 import {Link} from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.jsx";
 
 // Menu items.
 const items = [
@@ -27,9 +34,19 @@ const items = [
     icon: Users,
   },
   {
-    title: "Trazabilidad",
-    url: "/trazabilidad",
+    title: "Clientes",
+    url: "/clientes",
+    icon: Briefcase,
+  },
+  {
+    title: "Material",
+    url: "/material",
     icon: Box,
+  },
+  {
+    title: "Folios",
+    url: "/folios",
+    icon: FileSpreadsheet,
   }
 ]
 
@@ -38,7 +55,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <img src={Logo} alt="Logo de EsterilMed" className="mx-auto h-10 w-auto" />
+          {/*<img src={Logo} alt="Logo de EsterilMed" className="mx-auto h-10 w-auto"/> */}
           <SidebarGroupLabel>EsterilMed</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -47,10 +64,9 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     {/* Use Link from react-router-dom to navigate */}
                     <Link to={item.url}>
-                      <item.icon />
+                      { item.url ? <item.icon/> : null}
                       <span>{item.title}</span>
                     </Link>
-
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -58,6 +74,35 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton>
+                    <span>Usuario</span>
+                    <ChevronUp className="ml-auto" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="top"
+                  className="w-[--radix-popper-anchor-width]"
+                >
+                  <DropdownMenuItem>
+                    <User />
+                    <span>Ver Perfil</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <LogOut />
+                    <span>Cerrar sesión</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+
     </Sidebar>
   )
 }

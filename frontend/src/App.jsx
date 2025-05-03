@@ -3,8 +3,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Index from "@/pages/Index.jsx"
 import Login from "@/pages/Login.jsx"
 import Users from "@/pages/Users.jsx"
+import Folios from "@/pages/Folios.jsx"
+import Material from "@/pages/Material.jsx"
+import Clientes from "@/pages/Clientes.jsx"
 import SidebarLayout from "@/layouts/SidebarLayout.jsx";
-import Trazabilidad from "@/pages/Trazabilidad.jsx";
+import Trazabilidad from "@/pages/Material.jsx";
 
 function App() {
   return (
@@ -16,7 +19,9 @@ function App() {
                     <Route path="/" element={<Navigate to={"/index"}/>}/>
                     <Route path="/index" element={<Index />}/>
                     <Route path="/users" element={<Users />}/>
-                    <Route path="/trazabilidad" element={<Trazabilidad />}/>
+                    <Route path="/clientes" element={<Clientes />}/>
+                    <Route path="/material" element={<Material />}/>
+                    <Route path="/folios" element={<Folios />}/>
                     {/* Add more routes here */}
                 </Route>
                 {/* routes that does not use persistent sidebar */}
