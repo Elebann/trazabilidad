@@ -1,5 +1,4 @@
 import {Home, Users, Box, FileSpreadsheet, Briefcase, ChevronUp, LogOut, User} from "lucide-react"
-import Logo from "@/assets/Logo_EsterilMed.jpeg"
 
 import {
   Sidebar,

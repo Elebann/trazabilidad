@@ -1,13 +1,15 @@
 import React from 'react';
 import Main from "@/components/Main.jsx";
+import FoliosData from "@/components/FoliosData.jsx";
+import Title from "@/components/Title.jsx";
 
 function Folios() {
     return (
         <div>
             <Main>
-                <h1 className={"text-4xl font-bold"}>Página de Folios</h1>
+                <Title>Folios</Title>
                 <p>Página para mostrar los folios de los productos</p>
-                <p>La única razón de esta página es probar la persistencia del sidebar</p>
+                <FoliosData />
             </Main>
         </div>
     );
