@@ -1,3 +1,5 @@
+{/* todo: hacer los folios cliqueables para mostrar mas datos adicionales */}
+
 import {
     Table,
     TableBody,
@@ -32,6 +34,7 @@ export default function FoliosData() {
                 <TableHeader className="bg-esteril-blue">
                     <TableRow className="hover:bg-transparent ">
                         <TableHead className="text-white">ID</TableHead>
+                        <TableHead className="text-white">ID Cliente</TableHead>
                         <TableHead className="text-white">Nombre Cliente</TableHead>
                         <TableHead className="text-white">Tipo de prestación</TableHead>
                         <TableHead className="text-white">Estado del cliente</TableHead>
@@ -40,8 +43,6 @@ export default function FoliosData() {
                         <TableHead className="text-white">Nombre Material</TableHead>
                         <TableHead className="text-white">Tipo de material</TableHead>
                         <TableHead className="text-white">Estado de Material</TableHead>
-                        <TableHead className="text-white">Método de esterilización</TableHead>
-                        <TableHead className="text-white">Tipo de control</TableHead>
                         <TableHead className="text-white">Fecha ingreso de folio</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -50,6 +51,7 @@ export default function FoliosData() {
                         folios.map((item) => (
                             <TableRow key={item.id}>
                                 <TableCell className="font-medium">{item.id}</TableCell>
+                                <TableCell className="font-medium">{item.cliente.id}</TableCell>
                                 <TableCell className="font-medium">{item.cliente.nombre}</TableCell>
                                 <TableCell className="font-medium">{item.cliente.prestacion.prestacion}</TableCell>
                                 <TableCell className="font-medium">{item.cliente.estado.estado}</TableCell>
@@ -58,10 +60,7 @@ export default function FoliosData() {
                                 <TableCell className="font-medium">{item.material.nombre}</TableCell>
                                 <TableCell className="font-medium">{item.material.tipo.tipo_material}</TableCell>
                                 <TableCell className="font-medium">{item.material.estado.estado}</TableCell>
-                                <TableCell
-                                    className="font-medium">{item.material.metodo_esterilizacion.metodo}</TableCell>
-                                <TableCell
-                                    className="font-medium">{item.material.tipo_control.tipo_control_material}</TableCell>
+                                
                                 <TableCell className="font-medium">
                                     {new Date(item.fechahora_ingreso).toLocaleString('es-ES', {
                                         year: 'numeric',

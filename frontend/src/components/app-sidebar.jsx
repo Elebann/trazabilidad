@@ -1,4 +1,4 @@
-import {Home, Users, Box, FileSpreadsheet, Briefcase, ChevronUp, LogOut, User} from "lucide-react"
+import {Home, Users, Box, FileSpreadsheet, Briefcase, ChevronUp, LogOut, User, ClockFading} from "lucide-react"
 
 import {
   Sidebar,
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/dropdown-menu.jsx";
 
 // Menu items.
+
+// todo: en /folios, crear 2 subvistas que permitan: una visualizar y una para editar los elementos, algo como el estado y la vista en la que está el folio completo
 const items = [
   {
     title: "Inicio",
@@ -28,6 +30,7 @@ const items = [
     icon: Home,
   },
   {
+    /* todo: el crud para los usuarios */
     title: "Usuarios",
     url: "/users",
     icon: Users,
@@ -46,6 +49,11 @@ const items = [
     title: "Folios",
     url: "/folios",
     icon: FileSpreadsheet,
+  },
+  {
+    title: "Gestión de tiempo",
+    url: "/gestiontiempo",
+    icon: ClockFading,
   }
 ]
 

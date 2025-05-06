@@ -1,3 +1,5 @@
+# todo: eliminar la contraseña de la api
+
 # Serializer permite convertir los modelos a JSON mediante el paquete DRF
 from rest_framework import serializers
 from .models import *
