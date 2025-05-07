@@ -6,7 +6,7 @@ function GestionTiempo() {
     return (
         <div>
             <Main>
-                <Title>Gestión de tiempo</Title>
+                <Title>Gestión de Tiempo</Title>
                 <p>Página para mostrar la gestión de tiempo</p>
             </Main>
         </div>

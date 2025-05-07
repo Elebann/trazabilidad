@@ -5,6 +5,7 @@ import { DataTable } from "@/components/DataTable.jsx";
 import { getUsers } from "@/api/trazabilidad.api.js";
 import { userColumns } from "@/features/columns.jsx";
 import {Button} from "@/components/ui/button.jsx";
+import { UserPlus } from "lucide-react";
 
 function Users() {
     const [users, setUsers] = useState([]);
@@ -28,16 +29,18 @@ function Users() {
     return (
         <div className="flex">
             <Main>
-                <Title>Usuarios</Title>
+                <Title>Gestión de Usuarios</Title>
 
-                <Button variant="outline">Agregar Usuario</Button>
-                <Button variant="outline">Modificar Usuario</Button>
-                <Button variant="outline">Elminar Usuario</Button>
+                <Button className="bg-esteril-blue text-white hover:bg-esteril-blue-light">
+                    <UserPlus /> Agregar nuevo Usuario
+                </Button>
 
                 {isLoading ? (
                     <p>Cargando usuarios...</p>
                 ) : (
-                    <DataTable columns={userColumns} data={users} />
+                    <div className="mt-5">
+                        <DataTable columns={userColumns} data={users} />
+                    </div>
                 )}
             </Main>
         </div>

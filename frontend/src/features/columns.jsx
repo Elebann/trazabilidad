@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/dropdown-menu.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {MoreHorizontal} from "lucide-react";
+import toast, { Toaster } from 'react-hot-toast';
+import {Paperclip, Pencil, Trash2 } from "lucide-react";
 
 // This is used by <Users /> component to display the users in a Data Table
 export const userColumns = [
@@ -24,12 +26,35 @@ export const userColumns = [
         header: "Rol"
     },
     {
-        header: "Acción",
+        header: "Modificar",
+        cell: () => {
+            return(
+                <Button variant="outline">
+                    <Pencil className="h-4 w-4"/> Modificar
+                </Button>
+            )
+        }
+    },{
+        header: "Eliminar",
+        cell: () => {
+            return(
+                <Button variant="destructive" className="hover:text-white hover:bg-red-800">
+                    <Trash2 className="h-4 w-4"/> Eliminar Usuario
+                </Button>
+            )
+        }
+    },
+    {
+        header: "Más",
         id: "actions",
         cell: ({row}) => {
             const usuario = row.original
+            const notify = () => toast.success('Copiado.');
             return (
                 <DropdownMenu>
+                    {/* Load Toast Component */}
+                    <Toaster />
+
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
                             <span className="sr-only">Abrir menú</span>
@@ -40,13 +65,24 @@ export const userColumns = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(usuario.rut)}
+                            onClick={() => {
+                                navigator.clipboard.writeText(usuario.rut).then(() => {
+                                    notify();
+                                });
+                            }}
                         >
-                            Copiar rut del empleado
+                            <Paperclip /> Copiar rut del empleado
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator/>
-                        <DropdownMenuItem>Modificar datos del usuario</DropdownMenuItem>
-                        <DropdownMenuItem>Eliminar al usuario</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                navigator.clipboard.writeText(usuario.nombre).then(() => {
+                                    notify();
+                                });
+                            }}
+                        >
+                            <Paperclip /> Copiar nombre del empleado
+                        </DropdownMenuItem>
+
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
