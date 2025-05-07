@@ -7,8 +7,7 @@ import Folios from "@/pages/Folios.jsx"
 import Material from "@/pages/Material.jsx"
 import Clientes from "@/pages/Clientes.jsx"
 import SidebarLayout from "@/layouts/SidebarLayout.jsx";
-import Trazabilidad from "@/pages/Material.jsx";
-import Gestiontiempo from './pages/Gestiontiempo'
+import GestionTiempo from '@/pages/GestionTiempo.jsx';
 
 function App() {
   return (
@@ -17,15 +16,17 @@ function App() {
             <Routes>
                 {/* routes that uses persistent sidebar */}
                 <Route element={<SidebarLayout />}>
+                    {/* Default views */}
                     <Route path="/" element={<Navigate to={"/index"}/>}/>
                     <Route path="/index" element={<Index />}/>
-                    <Route path="/users" element={<Users />}/>
                     <Route path="/clientes" element={<Clientes />}/>
                     <Route path="/material" element={<Material />}/>
                     <Route path="/folios" element={<Folios />}/>
-                    <Route path="/gestiontiempo" element={<Gestiontiempo />} />
-                    {/* Add more routes here */}
+                    {/* administrative views: todo make these links only visible for Administrator role */}
+                    <Route path="/gestion-de-usuarios" element={<Users />}/>
+                    <Route path="/gestion-de-tiempo" element={<GestionTiempo />} />
                 </Route>
+
                 {/* routes that does not use persistent sidebar */}
                 <Route path="/login" element={<Login />}/>
             </Routes>

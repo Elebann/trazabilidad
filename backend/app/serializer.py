@@ -1,5 +1,3 @@
-# todo: eliminar la contraseña de la api
-
 # Serializer permite convertir los modelos a JSON mediante el paquete DRF
 from rest_framework import serializers
 from .models import *
@@ -57,11 +55,11 @@ class AutoclaveSerializer(serializers.ModelSerializer):
 # ------------------------------------------------------------
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    rol = RolSerializer(read_only=True)
+    id_Rol = RolSerializer(read_only=True)
 
     class Meta:
         model = Usuario
-        fields = '__all__'
+        fields = 'rut', 'nombre', 'id_Rol'
 
 class MaterialSerializer(serializers.ModelSerializer):
     tipo = TipoMaterialSerializer(read_only=True)

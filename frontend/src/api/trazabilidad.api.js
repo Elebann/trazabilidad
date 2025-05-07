@@ -9,3 +9,6 @@ export const getFolios = () => apiURL.get('folio/')
 export const getFolio = (id) => apiURL.get(`folio/${id}/`)
 export const createFolio = (folio) => apiURL.post('folio/', folio)
 export const deleteFolio = (id) => apiURL.delete(`folio/${id}/`)
+
+// Usuarios
+export const getUsers = () => apiURL.get('usuario/')

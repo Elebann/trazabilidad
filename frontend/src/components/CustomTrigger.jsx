@@ -3,6 +3,7 @@ import { PanelLeftOpen, PanelLeftClose } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
+/* todo: fix the change of icon and description that doesn't work on mobile view */
 export function CustomTrigger() {
   const { open, toggleSidebar } = useSidebar()
 

@@ -32,7 +32,7 @@ const items = [
   {
     /* todo: el crud para los usuarios */
     title: "Usuarios",
-    url: "/users",
+    url: "/gestion-de-usuarios",
     icon: Users,
   },
   {
@@ -52,7 +52,7 @@ const items = [
   },
   {
     title: "Gestión de tiempo",
-    url: "/gestiontiempo",
+    url: "/gestion-de-tiempo",
     icon: ClockFading,
   }
 ]
