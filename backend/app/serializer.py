@@ -1,6 +1,8 @@
 # Serializer permite convertir los modelos a JSON mediante el paquete DRF
 from rest_framework import serializers
 from .models import *
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class TipoMaterialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -87,3 +89,22 @@ class FolioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Folio
         fields = '__all__'
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # add custom data to the token
+        token['user_id'] = user.rut
+        token['rol'] = user.rol.rol # this is important because rol is the key for hiding the menu
+        token['nombre'] = user.nombre
+        return token
+
+class MyTokenRefreshSerializer(TokenRefreshSerializer):
+    def validate(self, attrs):
+        refresh = RefreshToken(attrs['refresh'])
+        data = { 'access': str(refresh.access_token) }
+
+        if 'refresh' in attrs:
+            data['refresh'] = attrs['refresh']
+        return data

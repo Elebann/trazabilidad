@@ -1,3 +1,5 @@
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.utils import timezone
 from django.db import models
 
 # Create your models here.
@@ -31,6 +33,7 @@ class EstadoMaterial(models.Model):
 class Material(models.Model):
     fecha_ingreso = models.DateField()
     nombre = models.CharField(max_length=50)
+    comentarios = models.TextField(blank=True, null=True, max_length=200)
     estado = models.ForeignKey(EstadoMaterial, on_delete=models.CASCADE)
     tipo = models.ForeignKey(TipoMaterial, on_delete=models.CASCADE)
     metodo_esterilizacion = models.ForeignKey(MetodoEsterilizacion, on_delete=models.CASCADE)
@@ -58,11 +61,56 @@ class Rol(models.Model):
     def __str__(self):
         return self.rol
 
-class Usuario(models.Model):
-    rut = models.IntegerField(primary_key=True)
+# Constructor model for Usuario. this will make you login in /admin with rut and password instead username and password
+class UsuarioManager(BaseUserManager):
+    def create_user(self, rut, nombre, password=None, **extra_fields):
+        if not rut:
+            raise ValueError('El usuario debe tener un RUT')
+        user = self.model(rut=rut, nombre=nombre, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, rut, nombre, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser debe tener is_staff=True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser debe tener is_superuser=True')
+
+        # set the highest role in the project, if there is no role, do it
+        try:
+            rol_admin = Rol.objects.get(rol='Administrador')
+        except Rol.DoesNotExist:
+            rol_admin = Rol.objects.create(rol='Administrador')
+
+        extra_fields['rol'] = rol_admin
+
+        return self.create_user(rut, nombre, password, **extra_fields)
+
+class Usuario(AbstractBaseUser, PermissionsMixin):
+    rut = models.IntegerField(primary_key=True, unique=True)
     nombre = models.CharField(max_length=50)
-    contrasena = models.CharField(max_length=50)
-    id_Rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+    rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+
+    """
+    JWT search for and ID field by default, but we are using rut as our primary key.
+    This code below is a way to say that rut is our "id". so we can use it in JWT without changing how it works.
+    """
+    @property
+    def id(self):
+        return self.rut
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    # this is the way to say that we are using our own manager
+    objects = UsuarioManager()
+    USERNAME_FIELD = 'rut'
+    REQUIRED_FIELDS = ['nombre']
 
     def __str__(self):
         return f"{self.rut} - {self.nombre}"

@@ -22,6 +22,6 @@ router.register(r'historial-modificacion', views.HistorialModificacionViewSet)
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),
+    path('api/v1/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/token/refresh/', views.MyTokenRefreshView.as_view(), name='token_refresh'),
 ]
-
-# Todo lo anterior esta generando GET, POST, PUT, DELETE

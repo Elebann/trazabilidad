@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 # Create your views here.
 from rest_framework import viewsets
@@ -62,3 +63,9 @@ class ClienteViewSet(viewsets.ModelViewSet):
 class FolioViewSet(viewsets.ModelViewSet):
     queryset = Folio.objects.all()
     serializer_class = FolioSerializer
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+class MyTokenRefreshView(TokenRefreshView):
+    serializer_class = MyTokenRefreshSerializer
