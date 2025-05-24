@@ -57,11 +57,11 @@ class AutoclaveSerializer(serializers.ModelSerializer):
 # ------------------------------------------------------------
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    id_Rol = RolSerializer(read_only=True)
+    rol = RolSerializer(read_only=True)
 
     class Meta:
         model = Usuario
-        fields = 'rut', 'nombre', 'id_Rol'
+        fields = 'rut', 'nombre', 'rol'
 
 class MaterialSerializer(serializers.ModelSerializer):
     tipo = TipoMaterialSerializer(read_only=True)
@@ -96,7 +96,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         # add custom data to the token
         token['user_id'] = user.rut
-        token['rol'] = user.rol.rol # this is important because rol is the key for hiding the menu
+        token['rol'] = user.rol.rol
+        token['rol_id'] = user.rol.id # this is important because rol is the key for hiding the menu
         token['nombre'] = user.nombre
         return token
 

@@ -6,13 +6,15 @@ import {
     Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
     SidebarMenu, SidebarMenuButton, SidebarMenuItem
 } from "@/components/ui/sidebar";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
+import {useEffect, useState} from "react";
+import toast from "react-hot-toast";
 
 const menuGroups = [
     {
@@ -47,6 +49,37 @@ const menuGroups = [
 
 // todo: permitir que ciertos enlaces puedan expandirse para mostrar subenlaces, no es indispensable pero otorgaría mayor comodidad al usuario final.
 export function AppSidebar() {
+
+    const [userName, setUserName] = useState('Usuario') // <- name by default
+    const navigate = useNavigate();
+
+    // display user name from localStorage
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('user_data')
+        if (storedUserData) {
+            try {
+                const userData = JSON.parse(storedUserData);
+                if (userData && userData.nombre) {
+                    setUserName(userData.nombre)
+                }
+            } catch (error) {
+                console.error("Error al parsear user_data de localStorage:", error)
+            }
+        }
+    }, []);
+
+    const handleLogout = async () => {
+        // todo send the refresh token to the backend to invalidate it using an endpoint (not implemented yet)
+
+        // clean localStorage
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('user_data');
+
+        toast.success('Sesión cerrada correctamente.');
+        navigate('/login');
+    };
+
     return (
         <Sidebar>
             <SidebarContent>
@@ -78,7 +111,7 @@ export function AppSidebar() {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton>
-                                    <span>Usuario</span>
+                                    <span className="truncate">{userName}</span>
                                     <ChevronUp className="ml-auto"/>
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
@@ -87,7 +120,7 @@ export function AppSidebar() {
                                     <User/>
                                     <span>Ver Perfil</span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleLogout}>
                                     <LogOut/>
                                     <span>Cerrar sesión</span>
                                 </DropdownMenuItem>

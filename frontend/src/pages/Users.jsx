@@ -16,6 +16,7 @@ function Users() {
             try {
                 const { data } = await getUsers();
                 setUsers(data);
+                console.log("Usuarios cargados:", data);
             } catch (error) {
                 console.error("Error al cargar usuarios:", error);
             } finally {

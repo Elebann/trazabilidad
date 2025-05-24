@@ -12,3 +12,7 @@ export const deleteFolio = (id) => apiURL.delete(`folio/${id}/`)
 
 // Usuarios
 export const getUsers = () => apiURL.get('usuario/')
+// todo make an endpoint to invalidate a refresh token from a user
+
+// Login
+export const userLogin = (credentials) => apiURL.post('token/', credentials)

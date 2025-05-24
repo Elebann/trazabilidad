@@ -12,10 +12,14 @@ import IngresoMaterial from "@/pages/instrumentista/IngresoMaterial.jsx";
 import PreparacionMaterial from "@/pages/instrumentista/PreparacionMaterial.jsx";
 import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
 import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
     return (
         <>
+            {/* This is used to display toast notifications */}
+            <Toaster />
+
             <BrowserRouter>
                 <Routes>
                     {/* routes that uses persistent sidebar */}

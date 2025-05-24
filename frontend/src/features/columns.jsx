@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {MoreHorizontal} from "lucide-react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import {Paperclip, Pencil, Trash2 } from "lucide-react";
 
 // This is used by <Users /> component to display the users in a Data Table
@@ -22,7 +22,7 @@ export const userColumns = [
         header: "Nombre",
     },
     {
-        accessorKey: "id_Rol.rol",
+        accessorKey: "rol.rol",
         header: "Rol"
     },
     {
@@ -53,7 +53,6 @@ export const userColumns = [
             return (
                 <DropdownMenu>
                     {/* Load Toast Component */}
-                    <Toaster />
 
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
