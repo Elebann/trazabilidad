@@ -6,10 +6,12 @@ import { getUsers } from "@/api/trazabilidad.api.js";
 import { userColumns } from "@/features/columns.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import { UserPlus } from "lucide-react";
+import {useNavigate} from "react-router-dom";
 
 function Users() {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function loadUsers() {
@@ -32,7 +34,7 @@ function Users() {
             <Main>
                 <Title>Gestión de Usuarios</Title>
 
-                <Button className="bg-esteril-blue text-white hover:bg-esteril-blue-light">
+                <Button onClick={() => navigate('/nuevo-usuario')} className="bg-esteril-blue text-white hover:bg-esteril-blue-light">
                     <UserPlus /> Agregar nuevo Usuario
                 </Button>
 

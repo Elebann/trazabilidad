@@ -58,10 +58,27 @@ class AutoclaveSerializer(serializers.ModelSerializer):
 
 class UsuarioSerializer(serializers.ModelSerializer):
     rol = RolSerializer(read_only=True)
+    rol_id = serializers.PrimaryKeyRelatedField(
+        queryset=Rol.objects.all(),
+        write_only=True,
+        source='rol'
+    )
 
     class Meta:
         model = Usuario
-        fields = 'rut', 'nombre', 'rol'
+        # todo search id showing the role id could be a security vulnerability, and if the id is being used to display data.
+        fields = ['rut', 'nombre', 'rol', 'rol_id']
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        usuario = Usuario(**validated_data)
+        if password:
+            usuario.set_password(password)
+        usuario.save()
+        return usuario
 
 class MaterialSerializer(serializers.ModelSerializer):
     tipo = TipoMaterialSerializer(read_only=True)

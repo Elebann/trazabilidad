@@ -11,6 +11,7 @@ export const createFolio = (folio) => apiURL.post('folio/', folio)
 export const deleteFolio = (id) => apiURL.delete(`folio/${id}/`)
 
 // Usuarios
+export const createUser = (user) => apiURL.post('usuario/', user)
 export const getUsers = () => apiURL.get('usuario/')
 // todo make an endpoint to invalidate a refresh token from a user
 

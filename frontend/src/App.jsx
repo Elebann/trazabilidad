@@ -13,6 +13,7 @@ import PreparacionMaterial from "@/pages/instrumentista/PreparacionMaterial.jsx"
 import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
 import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
 import { Toaster } from 'react-hot-toast';
+import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
 
 function App() {
     return (
@@ -31,8 +32,9 @@ function App() {
                         <Route path="/material" element={<Material/>}/>
                         <Route path="/folios" element={<Folios/>}/>
                         {/* administrative/Enfermera views: todo hide this to non-permission users when roles has been implemented */}
-                        <Route path="/gestion-de-usuarios" element={<Users/>}/>
+                        <Route path="/usuarios" element={<Users/>}/>
                         <Route path="/gestion-de-tiempo" element={<GestionTiempo/>}/>
+                        <Route path="/nuevo-usuario" element={<NuevoUsuario/>}/>
                         {/* Instrumentista routes */}
                         <Route path="/ingreso-material" element={<IngresoMaterial/>}/>
                         <Route path="/preparacion-material" element={<PreparacionMaterial/>}/>
