@@ -1,6 +1,6 @@
 import {
     Home, UserCog, Package, FileSpreadsheet, Briefcase, ChevronUp, LogOut, User, ClockFading,
-    PackagePlus, PackageOpen, FileBox
+    PackagePlus, PackageOpen, FileBox, Box
 } from "lucide-react";
 import {
     Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -43,6 +43,7 @@ const menuGroups = [
             {title: "Modificación de Material", url: "/modificacion-material", icon: FileBox},
             // Only Operador
             {title: "Ingreso de carga", url: "/ingreso-carga", icon: FileBox},
+            {title:"Ingreso Material de Pabellón",url: "/ingreso-pabellon", icon: Box}
         ],
     },
 ];
