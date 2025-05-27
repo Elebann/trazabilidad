@@ -2,7 +2,7 @@ import Main from "@/components/Main.jsx";
 import Title from "@/components/Title.jsx";
 import React from "react";
 
-export default function IngresoMaterial() {
+export default function IngresoMaterialExterno() {
     return (
         <div>
             <Main>

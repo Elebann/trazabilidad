@@ -8,12 +8,13 @@ import Material from "@/pages/Material.jsx"
 import Clientes from "@/pages/Clientes.jsx"
 import SidebarLayout from "@/layouts/SidebarLayout.jsx";
 import GestionTiempo from '@/pages/GestionTiempo.jsx';
-import IngresoMaterial from "@/pages/instrumentista/IngresoMaterial.jsx";
+import IngresoMaterialExterno from "@/pages/instrumentista/IngresoMaterialExterno.jsx";
 import PreparacionMaterial from "@/pages/instrumentista/PreparacionMaterial.jsx";
 import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
 import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
 import { Toaster } from 'react-hot-toast';
 import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
+import IngresoMaterialPabellon from "@/pages/instrumentista/IngresoMaterialPabellon.jsx";
 
 function App() {
     return (
@@ -36,12 +37,14 @@ function App() {
                         <Route path="/gestion-de-tiempo" element={<GestionTiempo/>}/>
                         <Route path="/nuevo-usuario" element={<NuevoUsuario/>}/>
                         {/* Instrumentista routes */}
-                        <Route path="/ingreso-material" element={<IngresoMaterial/>}/>
+                        <Route path="/ingreso-externo" element={<IngresoMaterialExterno/>}/>
                         <Route path="/preparacion-material" element={<PreparacionMaterial/>}/>
                         {/* Coordinador routes */}
                         <Route path="/modificacion-material" element={<ModificacionMaterial/>}/>
                         {/* Operador routes */}
                         <Route path="/ingreso-carga" element={<IngresoCarga/>}/>"
+
+                        <Route path="/ingreso-pabellon" element={<IngresoMaterialPabellon/>}/>
                     </Route>
 
                     {/* routes that does not use persistent sidebar */}

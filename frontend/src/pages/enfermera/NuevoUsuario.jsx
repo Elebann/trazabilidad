@@ -80,10 +80,7 @@ export function NuevoUsuario() {
                 fields={fields}
                 onSubmit={onSubmit}
                 defaultValues={{
-                    rut: "",
-                    name: "",
                     cargo: "4", // 4 is the lower rol 'Instrumentista'.
-                    password: "",
                 }}
             />
         </Main>
