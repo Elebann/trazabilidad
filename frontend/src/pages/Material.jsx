@@ -1,15 +1,41 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Main from "@/components/Main.jsx";
 import Title from "@/components/Title.jsx";
+import {getMaterials} from "@/api/trazabilidad.api.js";
+import {DataTable} from "@/components/DataTable.jsx";
+import {materialsColumns} from "@/features/columns.jsx";
 
 function Material() {
+
+    const [materials, setMaterials] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // load materials
+    useEffect(() => {
+        async function loadMaterials() {
+            try{
+                const { data } = await getMaterials();
+                setMaterials(data);
+            }
+            catch (error) {
+                console.error("Error al cargar los materiales:", error);
+            }
+            finally {
+                setIsLoading(false);
+            }
+        }
+        loadMaterials();
+    }, []);
+
     return (
         <div>
             <Main>
                 <Title>Materiales</Title>
-                <p>Página para mostrar la trazabilidad de los productos</p>
-                <p>La única razón de esta página es probar la persistencia del sidebar</p>
-                <p></p>
+                { isLoading ? (
+                    <p>Cargando materiales...</p>
+                ) : (
+                    <DataTable data={materials} columns={materialsColumns} />
+                )}
             </Main>
         </div>
     );

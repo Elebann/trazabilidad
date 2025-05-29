@@ -6,9 +6,22 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {MoreHorizontal} from "lucide-react";
+import {MoreHorizontal, Check, PackageCheck, CircleHelp, Bubbles, Paperclip, Pencil, Trash2} from "lucide-react";
 import toast from 'react-hot-toast';
-import {Paperclip, Pencil, Trash2 } from "lucide-react";
+import {useNavigate} from "react-router-dom";
+
+function EditUserButton({ rut }) {
+    const navigate = useNavigate();
+    return (
+        <Button
+            variant="outline"
+            onClick={() => navigate(`/editar-usuario/${rut}`)}
+            className="hover:bg-esteril-blue-light hover:text-white"
+        >
+            <Pencil className="h-4 w-4" /> Modificar
+        </Button>
+    );
+}
 
 // This is used by <Users /> component to display the users in a Data Table
 export const userColumns = [
@@ -27,14 +40,9 @@ export const userColumns = [
     },
     {
         header: "Modificar",
-        cell: () => {
-            return(
-                <Button variant="outline">
-                    <Pencil className="h-4 w-4"/> Modificar
-                </Button>
-            )
-        }
-    },{
+        cell: ({ row }) => <EditUserButton rut={row.original.rut} />
+    },
+    {
         header: "Eliminar",
         cell: () => {
             return(
@@ -92,7 +100,7 @@ export const userColumns = [
 export const folioColumns = [
     {
         accessorKey: "id",
-        header: "ID Folio"
+        header: "#"
     },
     {
         accessorKey: "cliente.id",
@@ -100,11 +108,11 @@ export const folioColumns = [
     },
     {
         accessorKey: "cliente.nombre",
-        header: "Nombre Cliente"
+        header: "Cliente"
     },
     {
         accessorKey: "cliente.prestacion.prestacion",
-        header: "Tipo de prestación"
+        header: "Prestación"
     },
     {
         accessorKey: "cliente.estado.estado",
@@ -112,15 +120,15 @@ export const folioColumns = [
     },
     {
         accessorKey: "usuario.rut",
-        header: "Rut de Usuario"
+        header: "Rut de usuario"
     },
     {
         accessorKey: "usuario.nombre",
-        header: "Nombre Usuario"
+        header: "Usuario"
     },
     {
         accessorKey: "material.nombre",
-        header: "Nombre Material"
+        header: "Material"
     },
     {
         accessorKey: "material.tipo.tipo_material",
@@ -128,11 +136,25 @@ export const folioColumns = [
     },
     {
         accessorKey: "material.estado.estado",
-        header: "Estado de Material"
+        header: "Estado",
+        cell: ({ row }) => {
+            const estadoConfig = {
+                1: { color: "text-yellow-600", icon: <PackageCheck />, label: row.original.material.estado.estado },
+                2: { color: "text-blue-500", icon: <Bubbles />, label: row.original.material.estado.estado },
+                3: { color: "text-green-600", icon: <Check />, label: row.original.material.estado.estado },
+                default: { color: "text-red-500", icon: <CircleHelp />, label: "Estado desconocido" },
+            };
+            const { color, icon, label } = estadoConfig[row.original.material.estado.id] || estadoConfig.default;
+            return (
+                <span className={`flex items-center gap-2 ${color}`}>
+                    {icon} <span>{label}</span>
+                </span>
+            );
+        }
     },
     {
         accessorKey: "fechahora_ingreso",
-        header: "Fecha de ingreso",
+        header: "Ingreso",
         cell: ({row}) => {
             const date = new Date(row.original.fechahora_ingreso);
             console.log(date);
@@ -144,5 +166,90 @@ export const folioColumns = [
                 minute: '2-digit'
             });
         }
+    }
+]
+
+export const materialsColumns = [
+    {
+        accessorKey: "id",
+        header: "#"
+    },
+    {
+        accessorKey: "nombre",
+        header: "Nombre del material"
+    },
+    {
+        accessorKey: "tipo.tipo_material",
+        header: "Tipo de material"
+    },
+    {
+        accessorKey: "estado.estado",
+        header: "Estado del material",
+        cell: ({ row }) => {
+            const estadoConfig = {
+                1: { color: "text-yellow-600", icon: <PackageCheck />, label: row.original.estado.estado },
+                2: { color: "text-blue-500", icon: <Bubbles />, label: row.original.estado.estado },
+                3: { color: "text-green-600", icon: <Check />, label: row.original.estado.estado },
+                default: { color: "text-red-500", icon: <CircleHelp />, label: "Estado desconocido" },
+            };
+            const { color, icon, label } = estadoConfig[row.original.estado.id] || estadoConfig.default;
+            return (
+                <span className={`flex items-center gap-2 ${color}`}>
+                    {icon} <span>{label}</span>
+                </span>
+            );
+        }
+    },
+    {
+        accessorKey: "metodo_esterilizacion.metodo",
+        header: "Método de esterilización"
+    },
+    {
+        accessorKey: "tipo_control.tipo_control_material",
+        header: "Tipo de control",
+    },
+    {
+        accessorKey: "fecha_ingreso",
+        header: "Fecha del ingreso"
+    },
+    {
+        accessorKey: "comentarios",
+        header: "Comentarios"
+    }
+]
+
+export const clientesColumns = [
+    {
+        accessorKey: "id",
+        header: "#"
+    },
+    {
+        accessorKey: "nombre",
+        header: "Nombre"
+    },
+    {
+        accessorKey: "estado.estado",
+        header: "Estado",
+    },
+    {
+        accessorKey: "prestacion.prestacion",
+        header: "Prestación"
+    }
+]
+
+export const userEditColumns = [
+    {
+        accessorKey: "rut",
+        header: "RUT del empleado",
+        cell: ({ row }) => row.original.rut || "Sin rut"
+    },
+    {
+        accessorKey: "nombre",
+        header: "Nombre del empleado"
+    },
+    {
+        accessorKey: "rol.rol",
+        header: "Rol del empleado",
+        cell: ({ row }) => row.original.rol?.rol || "Sin rol"
     }
 ]

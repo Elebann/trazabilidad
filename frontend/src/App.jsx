@@ -15,6 +15,7 @@ import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
 import { Toaster } from 'react-hot-toast';
 import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
 import IngresoMaterialPabellon from "@/pages/instrumentista/IngresoMaterialPabellon.jsx";
+import {EditarUsuario} from "@/pages/enfermera/EditarUsuario.jsx";
 
 function App() {
     return (
@@ -36,6 +37,7 @@ function App() {
                         <Route path="/usuarios" element={<Users/>}/>
                         <Route path="/gestion-de-tiempo" element={<GestionTiempo/>}/>
                         <Route path="/nuevo-usuario" element={<NuevoUsuario/>}/>
+                        <Route path="/editar-usuario/:rut" element={<EditarUsuario/>}/>
                         {/* Instrumentista routes */}
                         <Route path="/ingreso-externo" element={<IngresoMaterialExterno/>}/>
                         <Route path="/preparacion-material" element={<PreparacionMaterial/>}/>

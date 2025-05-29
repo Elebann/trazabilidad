@@ -21,7 +21,7 @@ import {Input} from "@/components/ui/input";
 
 export function FormModel({schema, fields, onSubmit, defaultValues}) {
     const form = useForm({
-        resolver: zodResolver(schema),
+        ...(schema ? {resolver: zodResolver(schema)} : {}),
         defaultValues,
     });
 
@@ -58,6 +58,8 @@ export function FormModel({schema, fields, onSubmit, defaultValues}) {
                                         <Input
                                             type={field.type || "text"}
                                             placeholder={field.placeholder}
+                                            disabled={field.disabled}
+                                            readOnly={field.readOnly}
                                             {...f}
                                             {...(field.type === "number" ? {
                                                 onChange: (e) => f.onChange(e.target.value === "" ? "" : Number(e.target.value)),

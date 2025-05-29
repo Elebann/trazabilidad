@@ -32,7 +32,6 @@ function Folios() {
         <div>
             <Main>
                 <Title>Folios</Title>
-                <p>Página para mostrar los folios de los productos</p>
                 { isLoading ? (
                     <p>Cargando folios...</p>
                 ) : (
