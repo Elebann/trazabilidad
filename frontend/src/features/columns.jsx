@@ -24,7 +24,7 @@ function EditUserButton({ rut }) {
 }
 
 // This is used by <Users /> component to display the users in a Data Table
-export const userColumns = [
+export const userColumns = ({ handleDelete }) => [
     {
         accessorKey: "rut",
         header: "RUT",
@@ -44,13 +44,15 @@ export const userColumns = [
     },
     {
         header: "Eliminar",
-        cell: () => {
-            return(
-                <Button variant="destructive" className="hover:text-white hover:bg-red-800">
-                    <Trash2 className="h-4 w-4"/> Eliminar Usuario
-                </Button>
-            )
-        }
+        cell: ({row}) => (
+            <Button
+                variant="destructive"
+                className="hover:text-white hover:bg-red-800"
+                onClick={() => handleDelete(row.original.rut)}
+            >
+                <Trash2 className="h-4 w-4"/> Eliminar Usuario
+            </Button>
+        )
     },
     {
         header: "Más",

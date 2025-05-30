@@ -1,19 +1,24 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
-import {getUser} from "@/api/trazabilidad.api.js";
+import {getUser, updateUser} from "@/api/trazabilidad.api.js";
 import Main from "@/components/Main.jsx";
 import Title from "@/components/Title.jsx";
 import {userEditColumns} from "@/features/columns.jsx";
 import {DataTable} from "@/components/DataTable.jsx";
 import {FormModel} from "@/components/FormModel.jsx";
+import { useParams } from "react-router-dom";
+import {z} from "zod";
 
 export function EditarUsuario() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    // get user "rut" from URL params
+    const { rut: userRut } = useParams();
 
     useEffect(() => {
-        const userRut = window.location.pathname.split("/").pop();
+        console.log("Ruta del usuario:", userRut);
+
         if (!userRut) {
             toast.error("ID de usuario no válido.");
             return navigate("/");
@@ -32,17 +37,35 @@ export function EditarUsuario() {
         loadUser();
     }, []);
 
+    const schema = z.object({
+        rol: z
+        .string()
+        .min(1, {message: "Debe seleccionar un cargo."})
+        .transform((val) => parseInt(val, 10)),
+        rut: z.number().int(),
+        nombre: z.string().min(3, {message: "Debe tener al menos 3 caracteres."}),
+    });
+
     const onSubmit = async (data) => {
         const userData = {
             rut: data.rut,
             nombre: data.nombre,
-            rol: data.rol,
-            password: data.password,
+            rol_id: data.rol,
+            // password: data.password,
         };
 
         console.log(userData)
 
-        // todo PUT the form on the database
+        try {
+            const response = await updateUser(userRut, userData);
+            console.log("Usuario creado exitosamente: ", response);
+            toast.success(`Usuario "${userData.nombre}" actualizado exitosamente`);
+            navigate("/usuarios");
+        } catch (error) {
+            console.error("Error al actualizar el usuario:", error.response?.data || error);
+            toast.error("Error al actualizar el usuario. Inténtelo nuevamente");
+            navigate("/usuarios");
+        }
     };
 
     const fields = [
@@ -50,7 +73,7 @@ export function EditarUsuario() {
             name: "rut",
             label: "RUT del usuario",
             placeholder: "Ingrese el rut del usuario",
-            type: "text",
+            type: "number",
             disabled: true,
             description: "El RUT no se puede modificar una vez creado el usuario.",
         },
@@ -72,12 +95,13 @@ export function EditarUsuario() {
                 {value: "4", label: "Instrumentista"},
             ],
         },
-        {
+        //todo if there is time before the deadline. make the password changeable
+        /*{
             name: "password",
             label: "Contraseña",
             placeholder: "Mínimo 8 caracteres (opcional)",
             type: "password",
-        },
+        },*/
     ];
 
     return (
@@ -94,13 +118,14 @@ export function EditarUsuario() {
 
                     <FormModel
                         key={user.rut}
+                        schema={schema}
                         onSubmit={onSubmit}
                         fields={fields}
                         defaultValues={{
                             rut: user.rut,
                             nombre: user.nombre,
                             rol: user.rol?.id?.toString() || "4",
-                            password: "",
+                            /*password: "",*/
                         }}
                     />
                 </>

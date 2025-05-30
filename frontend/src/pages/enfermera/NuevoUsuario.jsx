@@ -55,9 +55,11 @@ export function NuevoUsuario() {
         const userData = {
             rut: data.rut,
             nombre: data.name,
-            rol: data.cargo,
+            rol_id: data.cargo,
             password: data.password,
         };
+
+        console.log("Datos del nuevo usuario:", userData);
 
         try {
             const response = await createUser(userData);

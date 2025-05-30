@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Main from "@/components/Main.jsx";
 import Title from "@/components/Title.jsx";
 import { DataTable } from "@/components/DataTable.jsx";
-import { getUsers } from "@/api/trazabilidad.api.js";
+import {deleteUser, getUsers} from "@/api/trazabilidad.api.js";
 import { userColumns } from "@/features/columns.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import { UserPlus } from "lucide-react";
 import {useNavigate} from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Users() {
     const [users, setUsers] = useState([]);
@@ -29,6 +30,22 @@ function Users() {
         loadUsers();
     }, []);
 
+    const handleDelete = async (rut) => {
+        const confirmDelete = window.confirm(`¿Estás seguro de eliminar al usuario con RUT: ${rut}?`);
+        if (!confirmDelete) return;
+
+        try {
+            await deleteUser(rut);
+            setUsers((prevUsers) => prevUsers.filter(user => user.rut !== rut));
+            toast.success(`Usuario ${rut} eliminado.`);
+        } catch (error) {
+            console.error("Error al eliminar el usuario:", error);
+            toast.error("Error al eliminar el usuario.");
+        }
+    };
+
+    const columns = userColumns({ handleDelete });
+
     return (
         <div className="flex">
             <Main>
@@ -42,7 +59,7 @@ function Users() {
                     <p>Cargando usuarios...</p>
                 ) : (
                     <div className="mt-5">
-                        <DataTable columns={userColumns} data={users} />
+                        <DataTable columns={columns} data={users} />
                     </div>
                 )}
             </Main>
