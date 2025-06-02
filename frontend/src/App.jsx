@@ -16,6 +16,7 @@ import { Toaster } from 'react-hot-toast';
 import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
 import IngresoMaterialPabellon from "@/pages/instrumentista/IngresoMaterialPabellon.jsx";
 import {EditarUsuario} from "@/pages/enfermera/EditarUsuario.jsx";
+import IngresoMaterialMedico from "@/pages/instrumentista/IngresoMaterialMedico.jsx";
 
 function App() {
     return (
@@ -47,6 +48,7 @@ function App() {
                         <Route path="/ingreso-carga" element={<IngresoCarga/>}/>"
 
                         <Route path="/ingreso-pabellon" element={<IngresoMaterialPabellon/>}/>
+                        <Route path="/ingreso-medico" element={<IngresoMaterialMedico/>}/>
                     </Route>
 
                     {/* routes that does not use persistent sidebar */}

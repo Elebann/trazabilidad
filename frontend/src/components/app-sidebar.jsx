@@ -36,14 +36,15 @@ const menuGroups = [
     {
         label: "Instrumentista",
         items: [
-            {title: "Ingreso de material externo", url: "/ingreso-externo", icon: PackagePlus},
+            {title: "Ingreso de Material Externo", url: "/ingreso-externo", icon: PackagePlus},
+            {title:"Ingreso Material de Pabellón",url: "/ingreso-pabellon", icon: Box},
+            {title:"Ingreso de Material Médico",url: "/ingreso-medico", icon: Box},
             {title: "Preparación de material", url: "/preparacion-material", icon: PackageOpen},
             //! TODO: these routes below should be hidden to non-permission users when roles has been implemented
             // Only Coordinador
             {title: "Modificación de Material", url: "/modificacion-material", icon: FileBox},
             // Only Operador
             {title: "Ingreso de carga", url: "/ingreso-carga", icon: FileBox},
-            {title:"Ingreso Material de Pabellón",url: "/ingreso-pabellon", icon: Box}
         ],
     },
 ];
