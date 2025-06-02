@@ -84,6 +84,7 @@ class MaterialSerializer(serializers.ModelSerializer):
     tipo = TipoMaterialSerializer(read_only=True)
     estado = EstadoMaterialSerializer(read_only=True)
     metodo_esterilizacion = MetodoEsterilizacionSerializer(read_only=True)
+    agregado_por = UsuarioSerializer(read_only=True)
     tipo_control = TipoControlMaterialSerializer(read_only=True)
 
     class Meta:
