@@ -30,6 +30,30 @@ class EstadoMaterial(models.Model):
         return self.estado
 
 # Models with relationships
+class Material(models.Model):
+    fecha_ingreso = models.DateField()
+    nombre = models.CharField(max_length=50)
+    comentarios = models.TextField(blank=True, null=True, max_length=200)
+    estado = models.ForeignKey(EstadoMaterial, on_delete=models.CASCADE)
+    tipo = models.ForeignKey(TipoMaterial, on_delete=models.CASCADE)
+    metodo_esterilizacion = models.ForeignKey(MetodoEsterilizacion, on_delete=models.CASCADE)
+    tipo_control = models.ForeignKey(TipoControlMaterial, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.nombre}"
+
+class NumCarga(models.Model):
+    fechahora = models.DateTimeField()
+    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.fechahora} - {self.material.nombre}"
+
+class Autoclave(models.Model):
+    carga = models.ForeignKey(NumCarga, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Autoclave {self.carga.fechahora} - {self.carga.material.nombre}"
 
 class Rol(models.Model):
     rol = models.CharField(max_length=50, unique=True)
@@ -37,7 +61,7 @@ class Rol(models.Model):
     def __str__(self):
         return self.rol
 
-# Constructor model for Usuario. this will make you log in /admin with rut and password instead username and password
+# Constructor model for Usuario. this will make you login in /admin with rut and password instead username and password
 class UsuarioManager(BaseUserManager):
     def create_user(self, rut, nombre, password=None, **extra_fields):
         if not rut:
@@ -90,32 +114,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.rut} - {self.nombre}"
-
-class Material(models.Model):
-    fecha_ingreso = models.DateField()
-    nombre = models.CharField(max_length=50)
-    comentarios = models.TextField(blank=True, null=True, max_length=200)
-    estado = models.ForeignKey(EstadoMaterial, on_delete=models.CASCADE)
-    tipo = models.ForeignKey(TipoMaterial, on_delete=models.CASCADE)
-    agregado_por = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True)
-    metodo_esterilizacion = models.ForeignKey(MetodoEsterilizacion, on_delete=models.CASCADE)
-    tipo_control = models.ForeignKey(TipoControlMaterial, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.nombre}"
-
-class NumCarga(models.Model):
-    fechahora = models.DateTimeField()
-    material = models.ForeignKey(Material, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.fechahora} - {self.material.nombre}"
-
-class Autoclave(models.Model):
-    carga = models.ForeignKey(NumCarga, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"Autoclave {self.carga.fechahora} - {self.carga.material.nombre}"
 
 class HistorialModificacion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)

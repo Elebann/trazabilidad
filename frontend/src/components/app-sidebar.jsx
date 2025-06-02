@@ -36,7 +36,7 @@ const menuGroups = [
     {
         label: "Instrumentista",
         items: [
-            {title: "Ingreso de material", url: "/ingreso-externo", icon: PackagePlus},
+            {title: "Ingreso de material externo", url: "/ingreso-externo", icon: PackagePlus},
             {title: "Preparación de material", url: "/preparacion-material", icon: PackageOpen},
             //! TODO: these routes below should be hidden to non-permission users when roles has been implemented
             // Only Coordinador

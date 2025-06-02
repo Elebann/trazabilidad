@@ -215,10 +215,6 @@ export const materialsColumns = [
         header: "Fecha del ingreso"
     },
     {
-        accessorKey: "agregado_por.nombre",
-        header: "Agregado por",
-    },
-    {
         accessorKey: "comentarios",
         header: "Comentarios"
     }
