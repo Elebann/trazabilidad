@@ -1,10 +1,10 @@
 import {
     Home, UserCog, Package, FileSpreadsheet, Briefcase, ChevronUp, LogOut, User, ClockFading,
-    PackagePlus, PackageOpen, FileBox, Box
+    PackagePlus, PackageOpen, FileBox, Box, ChevronRight
 } from "lucide-react";
 import {
     Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-    SidebarMenu, SidebarMenuButton, SidebarMenuItem
+    SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubItem
 } from "@/components/ui/sidebar";
 import {Link, useNavigate} from "react-router-dom";
 import {
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu.jsx";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
 
 const menuGroups = [
     {
@@ -36,17 +37,31 @@ const menuGroups = [
     {
         label: "Instrumentista",
         items: [
-            {title: "Ingreso de Material Externo", url: "/ingreso-externo", icon: PackagePlus},
-            {title:"Ingreso Material de Pabellón",url: "/ingreso-pabellon", icon: Box},
-            {title:"Ingreso de Material Médico",url: "/ingreso-medico", icon: Box},
+            // this is collapsable, it has sublinks thanks to the children array
+            {
+                title: "Ingreso de Material", icon: PackagePlus,
+                children: [
+                    {title: "Externo", url: "/ingreso-externo", icon: Box},
+                    {title: "Pabellón", url: "/ingreso-pabellon", icon: Box},
+                    {title: "Médico", url: "/ingreso-medico", icon: Box},
+                    {title: "Dental", url: "/ingreso-dental", icon: Box},
+                ],
+            },
             {title: "Preparación de material", url: "/preparacion-material", icon: PackageOpen},
-            //! TODO: these routes below should be hidden to non-permission users when roles has been implemented
-            // Only Coordinador
-            {title: "Modificación de Material", url: "/modificacion-material", icon: FileBox},
-            // Only Operador
-            {title: "Ingreso de carga", url: "/ingreso-carga", icon: FileBox},
         ],
     },
+    {
+        label: "Coordinador",
+        items: [
+            {title: "Modificación de material", url: "/modificacion-material", icon: FileBox},
+        ],
+    },
+    {
+        label: "Operador",
+        items: [
+            {title: "Ingreso de carga", url: "/ingreso-carga", icon: FileBox},
+        ],
+    }
 ];
 
 // todo: permitir que ciertos enlaces puedan expandirse para mostrar subenlaces, no es indispensable pero otorgaría mayor comodidad al usuario final.
@@ -55,7 +70,7 @@ export function AppSidebar() {
     const [userName, setUserName] = useState('Usuario') // <- name by default
     const navigate = useNavigate();
 
-    // display user name from localStorage
+    // display username from localStorage
     useEffect(() => {
         const storedUserData = localStorage.getItem('user_data')
         if (storedUserData) {
@@ -90,16 +105,45 @@ export function AppSidebar() {
                         <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
-                                {group.items.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
-                                            <Link to={item.url}>
-                                                {item.icon && <item.icon/>}
-                                                <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                ))}
+                                {group.items.map((item) =>
+                                    item.children ? (
+                                        <Collapsible key={item.title}>
+                                            <SidebarMenuItem>
+                                                <CollapsibleTrigger asChild>
+                                                    <SidebarMenuButton>
+                                                        {item.icon && <item.icon/>}
+                                                        <span>{item.title}</span>
+                                                        <ChevronRight
+                                                            className="ml-auto transition-transform data-[state=open]:rotate-90"/>
+                                                    </SidebarMenuButton>
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent>
+                                                    <SidebarMenuSub>
+                                                        {item.children.map((subitem) => (
+                                                            <SidebarMenuSubItem key={subitem.title}>
+                                                                <SidebarMenuButton asChild>
+                                                                    <Link to={subitem.url}>
+                                                                        {subitem.icon && <subitem.icon/>}
+                                                                        <span>{subitem.title}</span>
+                                                                    </Link>
+                                                                </SidebarMenuButton>
+                                                            </SidebarMenuSubItem>
+                                                        ))}
+                                                    </SidebarMenuSub>
+                                                </CollapsibleContent>
+                                            </SidebarMenuItem>
+                                        </Collapsible>
+                                    ) : (
+                                        <SidebarMenuItem key={item.title}>
+                                            <SidebarMenuButton asChild>
+                                                <Link to={item.url}>
+                                                    {item.icon && <item.icon/>}
+                                                    <span>{item.title}</span>
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )
+                                )}
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>

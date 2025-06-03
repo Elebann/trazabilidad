@@ -17,6 +17,7 @@ import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
 import IngresoMaterialPabellon from "@/pages/instrumentista/IngresoMaterialPabellon.jsx";
 import {EditarUsuario} from "@/pages/enfermera/EditarUsuario.jsx";
 import IngresoMaterialMedico from "@/pages/instrumentista/IngresoMaterialMedico.jsx";
+import IngresoMaterialDental from "@/pages/instrumentista/IngresoMaterialDental.jsx";
 
 function App() {
     return (
@@ -49,6 +50,7 @@ function App() {
 
                         <Route path="/ingreso-pabellon" element={<IngresoMaterialPabellon/>}/>
                         <Route path="/ingreso-medico" element={<IngresoMaterialMedico/>}/>
+                        <Route path="/ingreso-dental" element={<IngresoMaterialDental/>}/>
                     </Route>
 
                     {/* routes that does not use persistent sidebar */}
