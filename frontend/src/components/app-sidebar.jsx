@@ -110,11 +110,11 @@ export function AppSidebar() {
                                         <Collapsible key={item.title}>
                                             <SidebarMenuItem>
                                                 <CollapsibleTrigger asChild>
-                                                    <SidebarMenuButton>
+                                                    <SidebarMenuButton className="group">
                                                         {item.icon && <item.icon/>}
                                                         <span>{item.title}</span>
                                                         <ChevronRight
-                                                            className="ml-auto transition-transform data-[state=open]:rotate-90"/>
+                                                        className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-90"/>
                                                     </SidebarMenuButton>
                                                 </CollapsibleTrigger>
                                                 <CollapsibleContent>
@@ -156,9 +156,11 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton>
+                                <SidebarMenuButton className="group">
+                                    <User className="h-5 w-5"/>
                                     <span className="truncate">{userName}</span>
-                                    <ChevronUp className="ml-auto"/>
+                                    <ChevronRight
+                                        className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:-rotate-90"/>
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
