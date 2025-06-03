@@ -7,14 +7,16 @@ import Title from "@/components/Title.jsx";
 import {userEditColumns} from "@/features/columns.jsx";
 import {DataTable} from "@/components/DataTable.jsx";
 import {FormModel} from "@/components/FormModel.jsx";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {z} from "zod";
+import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
 
 export function EditarUsuario() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     // get user "rut" from URL params
     const { rut: userRut } = useParams();
+    const { roles} = useFetchSelectOptions();
 
     useEffect(() => {
         console.log("Ruta del usuario:", userRut);
@@ -24,6 +26,7 @@ export function EditarUsuario() {
             return navigate("/");
         }
 
+        // Function to load user data
         async function loadUser() {
             try {
                 const {data} = await getUser(userRut);
@@ -88,12 +91,10 @@ export function EditarUsuario() {
             label: "Rol del usuario",
             placeholder: "Seleccione el rol del usuario",
             type: "select",
-            options: [
-                {value: "1", label: "Administrador"},
-                {value: "2", label: "Operador"},
-                {value: "3", label: "Coordinador"},
-                {value: "4", label: "Instrumentista"},
-            ],
+            options: roles.map(r => ({
+                value: r.id.toString(),
+                label: r.rol
+            })),
         },
         //todo if there is time before the deadline. make the password changeable
         /*{

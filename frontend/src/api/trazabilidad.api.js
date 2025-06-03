@@ -26,3 +26,13 @@ export const userLogin = (credentials) => apiURL.post('token/', credentials)
 
 // Clientes
 export const getClientes = () => apiURL.get('cliente/')
+
+// get some select options for the frontend. with this we can avoid hardcoding the options in the frontend
+// todo explain why and where we are using this
+export const getTiposMateriales = () => apiURL.get('tipo-material/')
+export const getEstadosMateriales = () => apiURL.get('estado-material/')
+export const getMetodosEsterilizacion = () => apiURL.get('metodo-esterilizacion/')
+export const getTiposControlesMaterial = () => apiURL.get('tipo-control-material/')
+export const getPrestaciones = () => apiURL.get('prestacion/')
+export const getEstadosClientes = () => apiURL.get('estado-cliente/')
+export const getRoles = () => apiURL.get('rol/')

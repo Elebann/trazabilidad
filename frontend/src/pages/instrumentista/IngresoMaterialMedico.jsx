@@ -1,17 +1,27 @@
 import Main from "@/components/Main.jsx";
 import Title from "@/components/Title.jsx";
 import React from "react";
+import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
 
 /* Validador */
 import { z } from "zod";
 import {FormModel} from "@/components/FormModel.jsx";
 import "../CSS.css";
 
-
 function IngresoMaterialMedico() {
+    const {
+        clientes,
+        metEsterilizacion,
+        usuarios,
+        prestaciones,
+        tiposMateriales,
+        materiales
+    } = useFetchSelectOptions(); // custom hook para obtener las opciones del formulario
 
     /* Este es para definir las validaciones, con https://zod.dev/ */
     const schema = z.object({
+        /* todo las relaciones entre tablas deben recibir el valor como número, transformar los que hagan falta.
+        *  si no recuerdo mal, hay un ejemplo en el schema del rol de EditarUsuario.jsx */
         responsable: z.string({required_error:"Debe seleccionar una opción."}), //ejemplo con input text
         servicio: z.string({required_error:"Debe seleccionar una opción."}),
         proveedor: z.string({required_error:"Debe seleccionar una opción."}),
@@ -29,41 +39,41 @@ function IngresoMaterialMedico() {
             name: "responsable",
             placeholder: "Responsable de recepción de material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: usuarios.map(user => ({
+                value: user.rut.toString(),
+                label: user.nombre
+            })),
         },
         {
             name: "servicio",
             placeholder: "Servicio",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            // todo esto hace referencia a la tabla prestación? u otra?
+            options: prestaciones.map(prest => ({
+                value: prest.id.toString(),
+                label: prest.prestacion
+            })),
         },
         {
             name: "proveedor",
             placeholder: "Proveedor",
             type: "select",
+            // todo preguntar que es esto y a que valor apunta.
             options: [
                 { value: "1", label: "Opción 1" },
                 { value: "2", label: "Opción 2" },
                 { value: "3", label: "Opción 3" },
-            ]
+            ],
+            description: "(Hardcoded)"
         },
         {
             name: "cliente",
             placeholder: "Cliente",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: clientes.map(cliente => ({
+                value: cliente.id.toString(),
+                label: cliente.nombre
+            })),
         },
         {
             name: "cantidad",
@@ -74,31 +84,29 @@ function IngresoMaterialMedico() {
             name: "mesterilizacion",
             placeholder: "Método de esterilización",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: metEsterilizacion.map(met => ({
+                value: met.id.toString(),
+                label: met.metodo
+            })),
         },
         {
             name: "tipomaterial",
             placeholder: "Tipo de Material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: tiposMateriales.map(tiposMat => ({
+                value: tiposMat.id.toString(),
+                label: tiposMat.tipo_material
+            })),
         },
         {
             name: "nombrematerial",
             placeholder: "Nombre de Material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            // todo asegurarse que se refiere al nombre de un material ya existente (select) o se agrega aquí un nuevo material (text)
+            options: materiales.map(material => ({
+                value: material.id.toString(),
+                label: material.nombre
+            })),
         },
         {
             name: "observacion",

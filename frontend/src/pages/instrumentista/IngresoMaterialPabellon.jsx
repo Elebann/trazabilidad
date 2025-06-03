@@ -1,13 +1,20 @@
 /* Validador */
 import { z } from "zod";
 import React from 'react';
-/* Este main solo devuelve un <Main> estilizado */
 import Main from "@/components/Main.jsx";
-/* Este main solo devuelve un <h1> estilizado */
 import Title from "@/components/Title.jsx";
 import {FormModel} from "@/components/FormModel.jsx";
+import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
 
 function IngresoMaterialPabellon() {
+    const {
+        clientes,
+        metEsterilizacion,
+        usuarios,
+        prestaciones,
+        tiposMateriales,
+        materiales
+    } = useFetchSelectOptions();
 
     /* Este es para definir las validaciones, con https://zod.dev/ */
     const schema = z.object({
@@ -28,21 +35,19 @@ function IngresoMaterialPabellon() {
             name: "responsable",
             placeholder: "Responsable de recepción de material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: usuarios.map(user => ({
+                value: user.rut.toString(),
+                label: user.nombre
+            }))
         },
         {
             name: "servicio",
             placeholder: "Servicio",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: prestaciones.map(pres => ({
+                value: pres.id.toString(),
+                label: pres.prestacion
+            }))
         },
         {
             name: "Nfolio",
@@ -53,11 +58,10 @@ function IngresoMaterialPabellon() {
             name: "cliente",
             placeholder: "Cliente",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: clientes.map(cliente => ({
+                value: cliente.id.toString(),
+                label: cliente.nombre
+            }))
         },
         {
             name: "cantidad",
@@ -68,31 +72,29 @@ function IngresoMaterialPabellon() {
             name: "mesterilizacion",
             placeholder: "Método de esterilización",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: metEsterilizacion.map(met => ({
+                value: met.id.toString(),
+                label: met.metodo
+            }))
         },
         {
             name: "tipomaterial",
             placeholder: "Tipo de Material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            options: tiposMateriales.map(tiposMat => ({
+                value: tiposMat.id.toString(),
+                label: tiposMat.tipo_material
+            })),
         },
         {
             name: "nombrematerial",
             placeholder: "Nombre de Material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ]
+            // todo asegurarse que se refiere al nombre de un material ya existente (select) o se agrega aquí un nuevo material (text)
+            options: materiales.map(material => ({
+                value: material.id.toString(),
+                label: material.nombre
+            })),
         },
         {
             name: "observacion",
