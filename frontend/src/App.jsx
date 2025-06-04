@@ -9,7 +9,7 @@ import Clientes from "@/pages/Clientes.jsx"
 import SidebarLayout from "@/layouts/SidebarLayout.jsx";
 import GestionTiempo from '@/pages/GestionTiempo.jsx';
 import IngresoMaterialExterno from "@/pages/instrumentista/IngresoMaterialExterno.jsx";
-import PreparacionMaterial from "@/pages/instrumentista/PreparacionMaterial.jsx";
+import PreparacionMaterialExterno from "@/pages/instrumentista/PreparacionMaterialExterno.jsx";
 import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
 import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
 import { Toaster } from 'react-hot-toast';
@@ -18,6 +18,9 @@ import IngresoMaterialPabellon from "@/pages/instrumentista/IngresoMaterialPabel
 import {EditarUsuario} from "@/pages/enfermera/EditarUsuario.jsx";
 import IngresoMaterialMedico from "@/pages/instrumentista/IngresoMaterialMedico.jsx";
 import IngresoMaterialDental from "@/pages/instrumentista/IngresoMaterialDental.jsx";
+import PreparacionMaterialMedico from "@/pages/instrumentista/PreparacionMaterialMedico.jsx";
+import PreparacionMaterialPabellon from "@/pages/instrumentista/PreparacionMaterialPabellon.jsx";
+import PreparacionMaterialDental from "@/pages/instrumentista/PreparacionMaterialDental.jsx";
 
 function App() {
     return (
@@ -42,7 +45,7 @@ function App() {
                         <Route path="/editar-usuario/:rut" element={<EditarUsuario/>}/>
                         {/* Instrumentista routes */}
                         <Route path="/ingreso-externo" element={<IngresoMaterialExterno/>}/>
-                        <Route path="/preparacion-material" element={<PreparacionMaterial/>}/>
+                        <Route path="/preparacion-material-externo" element={<PreparacionMaterialExterno/>}/>
                         {/* Coordinador routes */}
                         <Route path="/modificacion-material" element={<ModificacionMaterial/>}/>
                         {/* Operador routes */}
@@ -51,6 +54,9 @@ function App() {
                         <Route path="/ingreso-pabellon" element={<IngresoMaterialPabellon/>}/>
                         <Route path="/ingreso-medico" element={<IngresoMaterialMedico/>}/>
                         <Route path="/ingreso-dental" element={<IngresoMaterialDental/>}/>
+                        <Route path="/preparacion-material-pabellon" element={<PreparacionMaterialPabellon/>}/>
+                        <Route path="/preparacion-material-medico" element={<PreparacionMaterialMedico/>}/>
+                        <Route path="/preparacion-material-dental" element={<PreparacionMaterialDental/>}/>
                     </Route>
 
                     {/* routes that does not use persistent sidebar */}
