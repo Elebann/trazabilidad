@@ -19,6 +19,7 @@ router.register(r'folio', views.FolioViewSet)
 router.register(r'num-carga', views.NumCargaViewSet)
 router.register(r'autoclave', views.AutoclaveViewSet)
 router.register(r'historial-modificacion', views.HistorialModificacionViewSet)
+router.register(r'tipo-ingreso', views.TipoIngresoViewSet)
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),

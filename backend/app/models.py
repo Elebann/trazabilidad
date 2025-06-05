@@ -2,8 +2,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.utils import timezone
 from django.db import models
 
-# Create your models here.
-
 # Models without relationships
 class TipoControlMaterial(models.Model):
     tipo_control_material = models.CharField(max_length=50, unique=True)
@@ -30,7 +28,6 @@ class EstadoMaterial(models.Model):
         return self.estado
 
 # Models with relationships
-
 class Rol(models.Model):
     rol = models.CharField(max_length=50, unique=True)
 
@@ -97,12 +94,6 @@ class TipoIngreso(models.Model):
     def __str__(self):
         return self.tipo_ingreso
 
-
-    def __str__(self):
-        return f"{self.nombre}"
-
-
-
 class Prestacion(models.Model):
     prestacion = models.CharField(max_length=50, unique=True)
 
@@ -132,7 +123,6 @@ class Folio(models.Model):
     def __str__(self):
         return f"Folio #{self.id}"
 
-
 class Material(models.Model):
     fecha_ingreso = models.DateField()
     nombre = models.CharField(max_length=50)
@@ -144,6 +134,9 @@ class Material(models.Model):
     tipo_control = models.ForeignKey(TipoControlMaterial, on_delete=models.CASCADE)
     tipo_ingreso = models.ForeignKey(TipoIngreso, on_delete=models.CASCADE, null=True, blank=True)
     folio = models.ForeignKey(Folio, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"#{self.id} - {self.tipo_ingreso}: {self.nombre} ({self.tipo}) con folio #{self.folio.id if self.folio else 'N/A'} - Estado: {self.estado}"
 
 class HistorialModificacion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -165,5 +158,3 @@ class Autoclave(models.Model):
 
     def __str__(self):
         return f"Autoclave {self.carga.fechahora} - {self.carga.material.nombre}"
-
-

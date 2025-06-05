@@ -113,12 +113,12 @@ export const folioColumns = [
         header: "Cliente"
     },
     {
-        accessorKey: "cliente.prestacion.prestacion",
-        header: "Prestación"
-    },
-    {
         accessorKey: "cliente.estado.estado",
         header: "Estado del cliente"
+    },
+    {
+        accessorKey: "cliente.prestacion.prestacion",
+        header: "Prestación"
     },
     {
         accessorKey: "usuario.rut",
@@ -127,32 +127,6 @@ export const folioColumns = [
     {
         accessorKey: "usuario.nombre",
         header: "Usuario"
-    },
-    {
-        accessorKey: "material.nombre",
-        header: "Material"
-    },
-    {
-        accessorKey: "material.tipo.tipo_material",
-        header: "Tipo de material"
-    },
-    {
-        accessorKey: "material.estado.estado",
-        header: "Estado",
-        cell: ({ row }) => {
-            const estadoConfig = {
-                1: { color: "text-yellow-600", icon: <PackageCheck />, label: row.original.material.estado.estado },
-                2: { color: "text-blue-500", icon: <Bubbles />, label: row.original.material.estado.estado },
-                3: { color: "text-green-600", icon: <Check />, label: row.original.material.estado.estado },
-                default: { color: "text-red-500", icon: <CircleHelp />, label: "Estado desconocido" },
-            };
-            const { color, icon, label } = estadoConfig[row.original.material.estado.id] || estadoConfig.default;
-            return (
-                <span className={`flex items-center gap-2 ${color}`}>
-                    {icon} <span>{label}</span>
-                </span>
-            );
-        }
     },
     {
         accessorKey: "fechahora_ingreso",
@@ -217,6 +191,14 @@ export const materialsColumns = [
     {
         accessorKey: "agregado_por.nombre",
         header: "Agregado por",
+    },
+    {
+        accessorKey: "tipo_ingreso.tipo_ingreso",
+        header: "Tipo de ingreso",
+    },
+    {
+        accessorKey: "folio",
+        header: "#Folio",
     },
     {
         accessorKey: "comentarios",

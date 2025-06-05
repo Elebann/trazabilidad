@@ -54,6 +54,11 @@ class AutoclaveSerializer(serializers.ModelSerializer):
         model = Autoclave
         fields = '__all__'
 
+class TipoIngresoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoIngreso
+        fields = '__all__'
+
 # ------------------------------------------------------------
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -86,6 +91,7 @@ class MaterialSerializer(serializers.ModelSerializer):
     metodo_esterilizacion = MetodoEsterilizacionSerializer(read_only=True)
     agregado_por = UsuarioSerializer(read_only=True)
     tipo_control = TipoControlMaterialSerializer(read_only=True)
+    tipo_ingreso = TipoIngresoSerializer(read_only=True)
 
     class Meta:
         model = Material

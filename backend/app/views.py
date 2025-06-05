@@ -42,6 +42,9 @@ class HistorialModificacionViewSet(viewsets.ModelViewSet):
     queryset = HistorialModificacion.objects.all()
     serializer_class = HistorialModificacionSerializer
 
+class TipoIngresoViewSet(viewsets.ModelViewSet):
+    queryset = TipoIngreso.objects.all()
+    serializer_class = TipoIngresoSerializer
 # ------------------------------------------------------------
 
 class UsuarioViewSet(viewsets.ModelViewSet):

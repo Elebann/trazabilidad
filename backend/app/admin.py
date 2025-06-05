@@ -13,7 +13,7 @@ from .models import (
     Rol,
     TipoControlMaterial,
     TipoMaterial,
-    Usuario,
+    Usuario, TipoIngreso,
 )
 
 # Register your models here.
@@ -32,4 +32,5 @@ admin.site.register([
     TipoControlMaterial,
     TipoMaterial,
     Usuario,
+    TipoIngreso
 ])
