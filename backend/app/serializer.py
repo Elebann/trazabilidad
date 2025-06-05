@@ -24,9 +24,9 @@ class TipoControlMaterialSerializer(serializers.ModelSerializer):
         model = TipoControlMaterial
         fields = '__all__'
 
-class PrestacionSerializer(serializers.ModelSerializer):
+class ServicioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Prestacion
+        model = Servicio
         fields = '__all__'
 
 class EstadoClienteSerializer(serializers.ModelSerializer):
@@ -99,7 +99,6 @@ class MaterialSerializer(serializers.ModelSerializer):
 
 class ClienteSerializer(serializers.ModelSerializer):
     estado = EstadoClienteSerializer(read_only=True)
-    prestacion = PrestacionSerializer(read_only=True)
 
     class Meta:
         model = Cliente
@@ -109,6 +108,7 @@ class FolioSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer(read_only=True)
     usuario = UsuarioSerializer(read_only=True)
     material = MaterialSerializer(read_only=True)
+    servicio = ServicioSerializer(read_only=True)
 
     class Meta:
         model = Folio

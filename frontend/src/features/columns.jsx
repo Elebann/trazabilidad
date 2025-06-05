@@ -1,13 +1,6 @@
 import React from "react";
-import {
-    DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {MoreHorizontal, Check, PackageCheck, CircleHelp, Bubbles, Paperclip, Pencil, Trash2} from "lucide-react";
-import toast from 'react-hot-toast';
+import {Check, PackageCheck, CircleHelp, Bubbles, Pencil, Trash2} from "lucide-react";
 import {useNavigate} from "react-router-dom";
 
 function EditUserButton({ rut }) {
@@ -53,50 +46,7 @@ export const userColumns = ({ handleDelete }) => [
                 <Trash2 className="h-4 w-4"/> Eliminar Usuario
             </Button>
         )
-    },
-    {
-        header: "Más",
-        id: "actions",
-        cell: ({row}) => {
-            const usuario = row.original
-            const notify = () => toast.success('Copiado.');
-            return (
-                <DropdownMenu>
-                    {/* Load Toast Component */}
-
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Abrir menú</span>
-                            <MoreHorizontal className="h-4 w-4"/>
-                        </Button>
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => {
-                                navigator.clipboard.writeText(usuario.rut).then(() => {
-                                    notify();
-                                });
-                            }}
-                        >
-                            <Paperclip /> Copiar rut del empleado
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => {
-                                navigator.clipboard.writeText(usuario.nombre).then(() => {
-                                    notify();
-                                });
-                            }}
-                        >
-                            <Paperclip /> Copiar nombre del empleado
-                        </DropdownMenuItem>
-
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        },
-    },
+    }
 ];
 
 export const folioColumns = [
@@ -117,8 +67,8 @@ export const folioColumns = [
         header: "Estado del cliente"
     },
     {
-        accessorKey: "cliente.prestacion.prestacion",
-        header: "Prestación"
+        accessorKey: "servicio.servicio",
+        header: "Servicio"
     },
     {
         accessorKey: "usuario.rut",
@@ -218,10 +168,6 @@ export const clientesColumns = [
     {
         accessorKey: "estado.estado",
         header: "Estado",
-    },
-    {
-        accessorKey: "prestacion.prestacion",
-        header: "Prestación"
     }
 ]
 

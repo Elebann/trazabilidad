@@ -14,7 +14,7 @@ function IngresoMaterialPabellon() {
         clientes,
         metEsterilizacion,
         usuarios,
-        prestaciones,
+        servicios,
     } = useFetchSelectOptions();
 
     /* Este es para definir las validaciones, con https://zod.dev/ */
@@ -50,10 +50,11 @@ function IngresoMaterialPabellon() {
             placeholder: "Servicio",
             label: "Servicio",
             type: "select",
-            options: prestaciones.map(pres => ({
-                value: pres.id.toString(),
-                label: pres.prestacion
-            }))
+            options: servicios.map(servicio => ({
+                value: servicio.id.toString(),
+                label: servicio.servicio
+            })),
+            description: "El servicio se guarda como parte del folio."
         },
         {
             name: "proveedor",

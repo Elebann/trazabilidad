@@ -13,7 +13,7 @@ function IngresoMaterialMedico() {
         clientes,
         metEsterilizacion,
         usuarios,
-        prestaciones,
+        servicios,
         tiposMateriales,
         materiales
     } = useFetchSelectOptions(); // custom hook para obtener las opciones del formulario
@@ -51,9 +51,9 @@ function IngresoMaterialMedico() {
             placeholder: "Servicio",
             type: "select",
             // todo esto hace referencia a la tabla prestación? u otra?
-            options: prestaciones.map(prest => ({
-                value: prest.id.toString(),
-                label: prest.prestacion
+            options: servicios.map(servicio => ({
+                value: servicio.id.toString(),
+                label: servicio.servicio
             })),
         },
         {

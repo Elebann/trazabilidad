@@ -8,7 +8,7 @@ import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
 export default function IngresoMaterialDental(){
     const {
         usuarios,
-        prestaciones,
+        servicios,
         clientes,
         metEsterilizacion,
         tiposMateriales,
@@ -43,9 +43,9 @@ export default function IngresoMaterialDental(){
             placeholder: "Servicio",
             label: "Servicio",
             type: "select",
-            options: prestaciones.map(pres => ({
-                value: pres.id.toString(),
-                label: pres.prestacion
+            options: servicios.map(servicio => ({
+                value: servicio.id.toString(),
+                label: servicio.servicio
             }))
         },
         {

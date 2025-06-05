@@ -12,6 +12,7 @@ export const deleteFolio = (id) => apiURL.delete(`folio/${id}/`)
 
 // Materiales
 export const getMaterials = () => apiURL.get('material/')
+export const createMaterial = (material) => apiURL.get(`material/${material}/`)
 
 // Usuarios
 export const createUser = (user) => apiURL.post('usuario/', user)
@@ -33,6 +34,6 @@ export const getTiposMateriales = () => apiURL.get('tipo-material/')
 export const getEstadosMateriales = () => apiURL.get('estado-material/')
 export const getMetodosEsterilizacion = () => apiURL.get('metodo-esterilizacion/')
 export const getTiposControlesMaterial = () => apiURL.get('tipo-control-material/')
-export const getPrestaciones = () => apiURL.get('prestacion/')
+export const getServicios = () => apiURL.get('servicio/')
 export const getEstadosClientes = () => apiURL.get('estado-cliente/')
 export const getRoles = () => apiURL.get('rol/')

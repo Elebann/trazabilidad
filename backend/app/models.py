@@ -94,11 +94,11 @@ class TipoIngreso(models.Model):
     def __str__(self):
         return self.tipo_ingreso
 
-class Prestacion(models.Model):
-    prestacion = models.CharField(max_length=50, unique=True)
+class Servicio(models.Model):
+    servicio = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.prestacion
+        return self.servicio
 
 class EstadoCliente(models.Model):
     estado = models.CharField(max_length=50, unique=True)
@@ -109,16 +109,15 @@ class EstadoCliente(models.Model):
 class Cliente(models.Model):
     nombre = models.CharField(max_length=50)
     estado = models.ForeignKey(EstadoCliente, on_delete=models.CASCADE)
-    prestacion = models.ForeignKey(Prestacion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} - Estado: {self.estado}"
 
-# todo URGENTE, un Folio puede tener varios materiales, pero un material solo puede estar en un folio a la vez. hacer la relación 1:N.
 class Folio(models.Model):
     fechahora_ingreso = models.DateTimeField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Folio #{self.id}"

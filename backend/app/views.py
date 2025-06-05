@@ -18,9 +18,9 @@ class TipoControlMaterialViewSet(viewsets.ModelViewSet):
     queryset = TipoControlMaterial.objects.all()
     serializer_class = TipoControlMaterialSerializer
 
-class PrestacionViewSet(viewsets.ModelViewSet):
-    queryset = Prestacion.objects.all()
-    serializer_class = PrestacionSerializer
+class ServicioViewSet(viewsets.ModelViewSet):
+    queryset = Servicio.objects.all()
+    serializer_class = ServicioSerializer
 
 class EstadoClienteViewSet(viewsets.ModelViewSet):
     queryset = EstadoCliente.objects.all()

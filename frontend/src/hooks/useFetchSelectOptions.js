@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
     getClientes, getMaterials,
     getMetodosEsterilizacion,
-    getPrestaciones, getRoles,
+    getServicios, getRoles,
     getTiposMateriales,
     getUsers
 } from "@/api/trazabilidad.api.js";
@@ -12,7 +12,7 @@ export function useFetchSelectOptions() {
     const [clientes, setClientes] = useState([]);
     const [metEsterilizacion, setMetEsterilizacion] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
-    const [prestaciones, setPrestaciones] = useState([]);
+    const [servicios, setServicios] = useState([]);
     const [tiposMateriales, setTiposMateriales] = useState([]);
     const [materiales, setMateriales] = useState([]);
     const [roles, setRoles] = useState([]);
@@ -24,7 +24,7 @@ export function useFetchSelectOptions() {
                     { data: clientesData }, // obtener todos los clientes
                     { data: metData }, // obtener todos los métodos de esterilización
                     { data: usuariosData }, // obtener todos los usuarios
-                    { data: prestacionesData }, // obtener todas las prestaciones
+                    { data: serviciosData }, // obtener todas las prestaciones
                     { data: tiposMaterialesData }, // obtener todos los tipos de materiales
                     { data: materialesData }, // obtener todos los materiales
                     { data: rolesData } // obtener todos los roles
@@ -32,7 +32,7 @@ export function useFetchSelectOptions() {
                     getClientes(),
                     getMetodosEsterilizacion(),
                     getUsers(),
-                    getPrestaciones(),
+                    getServicios(),
                     getTiposMateriales(),
                     getMaterials(),
                     getRoles()
@@ -40,7 +40,7 @@ export function useFetchSelectOptions() {
                 setClientes(clientesData);
                 setMetEsterilizacion(metData);
                 setUsuarios(usuariosData);
-                setPrestaciones(prestacionesData);
+                setServicios(serviciosData);
                 setTiposMateriales(tiposMaterialesData);
                 setMateriales(materialesData);
                 setRoles(rolesData);
@@ -52,5 +52,5 @@ export function useFetchSelectOptions() {
         fetchAll();
     }, []);
 
-    return { clientes, metEsterilizacion, usuarios, prestaciones, tiposMateriales, materiales, roles };
+    return { clientes, metEsterilizacion, usuarios, servicios, tiposMateriales, materiales, roles };
 }

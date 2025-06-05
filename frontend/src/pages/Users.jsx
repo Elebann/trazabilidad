@@ -47,7 +47,7 @@ function Users() {
     const columns = userColumns({ handleDelete });
 
     return (
-        <div className="flex">
+        <div>
             <Main>
                 <Title>Gestión de Usuarios</Title>
 

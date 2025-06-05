@@ -1,36 +1,37 @@
-/* Validador */
+import React, { useState } from "react";
 import { z } from "zod";
-import React from 'react';
 import Main from "@/components/Main.jsx";
 import Title from "@/components/Title.jsx";
-import {FormModel} from "@/components/FormModel.jsx";
-import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
+import { FormModel } from "@/components/FormModel.jsx";
+import { useFetchSelectOptions } from "@/hooks/useFetchSelectOptions.js";
+import toast from "react-hot-toast";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {Button} from "@/components/ui/button.jsx";
+import { createFolio, createMaterial } from "@/api/trazabilidad.api.js";
 
 function IngresoMaterialPabellon() {
     const {
         clientes,
         metEsterilizacion,
         usuarios,
-        prestaciones,
+        servicios,
         tiposMateriales,
         materiales
     } = useFetchSelectOptions();
 
-    /* Este es para definir las validaciones, con https://zod.dev/ */
-    const schema = z.object({
-        responsable: z.string({required_error:"Debe seleccionar una opción."}),
-        servicio: z.string({required_error:"Debe seleccionar una opción."}),
-        Nfolio: z.number({required_error:"Debe ingresar un número."}).int(),
-        cliente: z.string({required_error:"Debe seleccionar una opción."}),
-        cantidad: z.number({required_error:"Debe ingresar un número."}).int(),
-        mesterilizacion: z.string({required_error:"Debe seleccionar una opción."}),
-        tipomaterial: z.string({required_error:"Debe seleccionar una opción."}),
-        nombrematerial: z.string({required_error:"Debe seleccionar una opción."}),
-        observacion: z.string({required_error:"Debe realizar una obsevación."}).max(300, {message: "Exedió el límite de caracteres (300)"}),
-        });
+    // Estado para el folio creado y para los materiales agregados
+    const [folio, setFolio] = useState(null);
+    const [materialesAgregados, setMaterialesAgregados] = useState([]);
 
-    // Aquí se definen los campos del form. los KEY son atributos de HTML
-    const fields = [
+    // --- Formulario 1: Crear Folio ---
+    const folioSchema = z.object({
+        responsable: z.string({ required_error: "Debe seleccionar una opción." }),
+        cliente: z.string({ required_error: "Debe seleccionar una opción." }),
+        servicio: z.string({ required_error: "Debe seleccionar una opción." }),
+        Nfolio: z.number({ required_error: "Debe ingresar un número." }).int(),
+    });
+
+    const folioFields = [
         {
             name: "responsable",
             label: "Responsable",
@@ -42,22 +43,6 @@ function IngresoMaterialPabellon() {
             }))
         },
         {
-            name: "servicio",
-            label: "Servicio",
-            placeholder: "Servicio",
-            type: "select",
-            options: prestaciones.map(pres => ({
-                value: pres.id.toString(),
-                label: pres.prestacion
-            }))
-        },
-        {
-            name: "Nfolio",
-            label: "Número de Folio",
-            placeholder: "N°Folio",
-            type: "text",
-        },
-        {
             name: "cliente",
             label: "Cliente",
             placeholder: "Cliente",
@@ -67,6 +52,39 @@ function IngresoMaterialPabellon() {
                 label: cliente.nombre
             }))
         },
+        {
+            name: "servicio",
+            label: "Servicio",
+            placeholder: "Servicio",
+            type: "select",
+            options: servicios.map(pres => ({
+                value: pres.id.toString(),
+                label: pres.servicio
+            }))
+        },
+        {
+            name: "Nfolio",
+            label: "Número de Folio",
+            placeholder: "N°Folio",
+            type: "number",
+        },
+    ];
+
+    const onSubmitFolio = async (data) => {
+        setFolio({ ...data, id: Date.now() }); // Simulating todo make the api call
+        toast.success("Folio creado. Ahora puedes agregar materiales.");
+    };
+
+    // --- Formulario 2: Agregar Material ---
+    const materialSchema = z.object({
+        cantidad: z.number({ required_error: "Debe ingresar un número." }).int(),
+        mesterilizacion: z.string({ required_error: "Debe seleccionar una opción." }),
+        tipomaterial: z.string({ required_error: "Debe seleccionar una opción." }),
+        nombrematerial: z.string({ required_error: "Debe seleccionar una opción." }),
+        observacion: z.string({ required_error: "Debe realizar una observación." }).max(300, { message: "Excedió el límite de caracteres (300)" }),
+    });
+
+    const materialFields = [
         {
             name: "cantidad",
             label: "Cantidad",
@@ -110,27 +128,89 @@ function IngresoMaterialPabellon() {
             placeholder: "Observación",
             type: "text",
         },
+    ];
 
-    ]
+    const onSubmitMaterial = (data) => {
+        setMaterialesAgregados(prev => [...prev, data]);
+        toast.success("Material agregado.");
+    };
 
-    // función que se ejecuta al enviar el formulario
-    const onSubmit = (data) => {
-        console.log(data);
+    // --- Finalizar: Enviar todo a la base de datos ---
+    const finalizarIngreso = async () => {
+        // Aquí deberías enviar el folio y los materiales a la API
+        // await createFolioAndMaterials(folio, materialesAgregados);
+        toast.success("Ingreso finalizado y guardado.");
+        setFolio(null);
+        setMaterialesAgregados([]);
     };
 
     return (
-        <>
-            <Main>
-                <div className={"form-caja"}>
-                    <Title>Pabellón</Title>
-                    <FormModel
-                        schema={schema}
-                        fields={fields}
-                        onSubmit={onSubmit}
-                    />
+        <Main>
+            <Title>Ingreso de Material - Pabellón</Title>
+
+            {/* Formulario 1: Folio */}
+            <div className="mb-6 form-caja">
+                <h2 className="font-bold mb-2">1. Crear Folio</h2>
+                <FormModel
+                    schema={folioSchema}
+                    fields={folioFields}
+                    onSubmit={onSubmitFolio}
+                    disabled={!!folio}
+                />
+            </div>
+
+            {/* Formulario 2: Materiales */}
+            <div className="mb-6 form-caja">
+                <h2 className="font-bold mb-2">2. Agregar Materiales al Folio</h2>
+                <FormModel
+                    schema={materialSchema}
+                    fields={materialFields}
+                    onSubmit={onSubmitMaterial}
+                    disabled={!folio}
+                />
+            </div>
+
+            {/* Tabla de materiales agregados */}
+            {materialesAgregados.length > 0 && (
+                <div className="mb-6">
+                    <Table className="min-w-full border">
+                        <TableCaption className="font-semibold mb-2">Materiales agregados</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Servicio</TableHead>
+                                <TableHead>Cantidad</TableHead>
+                                <TableHead>Método</TableHead>
+                                <TableHead>Tipo</TableHead>
+                                <TableHead>Nombre</TableHead>
+                                <TableHead>Observación</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {materialesAgregados.map((mat, idx) => (
+                                <TableRow key={idx}>
+                                    <TableCell>{servicios.find(s => s.id.toString() === (mat.servicio || folio?.servicio))?.servicio}</TableCell>
+                                    <TableCell>{mat.cantidad}</TableCell>
+                                    <TableCell>{metEsterilizacion.find(m => m.id.toString() === mat.mesterilizacion)?.metodo}</TableCell>
+                                    <TableCell>{tiposMateriales.find(t => t.id.toString() === mat.tipomaterial)?.tipo_material}</TableCell>
+                                    <TableCell>{materiales.find(m => m.id.toString() === mat.nombrematerial)?.nombre}</TableCell>
+                                    <TableCell>{mat.observacion}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </div>
-            </Main>
-        </>
+            )}
+
+            {/* Botón finalizar */}
+            {folio && materialesAgregados.length > 0 && (
+                <Button
+                    className="btn btn-primary"
+                    onClick={finalizarIngreso}
+                >
+                    Finalizar ingreso
+                </Button>
+            )}
+        </Main>
     );
 }
 

@@ -19,7 +19,7 @@ import {
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 
-export function FormModel({schema, fields, onSubmit, defaultValues}) {
+export function FormModel({schema, fields, onSubmit, defaultValues, disabled}) {
     const form = useForm({
         ...(schema ? {resolver: zodResolver(schema)} : {}),
         defaultValues,
@@ -38,8 +38,12 @@ export function FormModel({schema, fields, onSubmit, defaultValues}) {
                                 <FormLabel>{field.label}</FormLabel>
                                 <FormControl>
                                     {field.type === "select" ? (
-                                        <Select onValueChange={f.onChange} defaultValue={f.value}>
-                                            <SelectTrigger>
+                                        <Select
+                                            onValueChange={f.onChange}
+                                            defaultValue={f.value}
+                                            disabled={disabled}
+                                        >
+                                            <SelectTrigger disabled={disabled}>
                                                 <SelectValue placeholder={field.placeholder}>
                                                     {f.value
                                                         ? field.options.find((opt) => opt.value === f.value)?.label
@@ -58,7 +62,7 @@ export function FormModel({schema, fields, onSubmit, defaultValues}) {
                                         <Input
                                             type={field.type || "text"}
                                             placeholder={field.placeholder}
-                                            disabled={field.disabled}
+                                            disabled={disabled || field.disabled}
                                             readOnly={field.readOnly}
                                             {...f}
                                             {...(field.type === "number" ? {
@@ -76,7 +80,7 @@ export function FormModel({schema, fields, onSubmit, defaultValues}) {
                         )}
                     />
                 ))}
-                <Button type="submit">Enviar</Button>
+                <Button type="submit" disabled={disabled}>Enviar</Button>
             </form>
         </Form>
     );
