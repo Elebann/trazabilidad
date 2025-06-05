@@ -37,6 +37,7 @@ function IngresoMaterialMedico() {
     const fields = [
         {
             name: "responsable",
+            label: "Responsable",
             placeholder: "Responsable de recepción de material",
             type: "select",
             options: usuarios.map(user => ({
@@ -46,6 +47,7 @@ function IngresoMaterialMedico() {
         },
         {
             name: "servicio",
+            label: "Servicio",
             placeholder: "Servicio",
             type: "select",
             // todo esto hace referencia a la tabla prestación? u otra?
@@ -56,6 +58,7 @@ function IngresoMaterialMedico() {
         },
         {
             name: "proveedor",
+            label: "Proveedor",
             placeholder: "Proveedor",
             type: "select",
             // todo preguntar que es esto y a que valor apunta.
@@ -68,6 +71,7 @@ function IngresoMaterialMedico() {
         },
         {
             name: "cliente",
+            label: "Cliente",
             placeholder: "Cliente",
             type: "select",
             options: clientes.map(cliente => ({
@@ -77,11 +81,13 @@ function IngresoMaterialMedico() {
         },
         {
             name: "cantidad",
+            label: "Cantidad",
             placeholder: "Cantidad",
             type: "number",
         },
         {
             name: "mesterilizacion",
+            label: "Método de Esterilización",
             placeholder: "Método de esterilización",
             type: "select",
             options: metEsterilizacion.map(met => ({
@@ -91,6 +97,7 @@ function IngresoMaterialMedico() {
         },
         {
             name: "tipomaterial",
+            label: "Tipo de Material",
             placeholder: "Tipo de Material",
             type: "select",
             options: tiposMateriales.map(tiposMat => ({
@@ -100,6 +107,7 @@ function IngresoMaterialMedico() {
         },
         {
             name: "nombrematerial",
+            label: "Nombre de Material",
             placeholder: "Nombre de Material",
             type: "select",
             // todo asegurarse que se refiere al nombre de un material ya existente (select) o se agrega aquí un nuevo material (text)
@@ -110,6 +118,7 @@ function IngresoMaterialMedico() {
         },
         {
             name: "observacion",
+            label: "Observación",
             placeholder: "Observación",
             type: "text",
         },

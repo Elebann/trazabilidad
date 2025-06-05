@@ -3,8 +3,18 @@ import Title from "@/components/Title.jsx";
 import {FormModel} from "@/components/FormModel.jsx";
 import React from "react";
 import {z} from "zod";
+import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
 
 export default function IngresoMaterialDental(){
+    const {
+        usuarios,
+        prestaciones,
+        clientes,
+        metEsterilizacion,
+        tiposMateriales,
+        materiales
+    }
+    = useFetchSelectOptions("responsables");
 
     const schema = z.object({
         responsable: z.string({required_error:"Debe seleccionar una opción."}), //ejemplo con input text
@@ -23,22 +33,20 @@ export default function IngresoMaterialDental(){
             placeholder: "Responsable de recepción de materiañ",
             label: "Número de Cajas",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ],
+            options: usuarios.map(user => ({
+                value: user.rut.toString(),
+                label: user.nombre
+            }))
         },
         {
             name: "servicio",
             placeholder: "Servicio",
             label: "Servicio",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ],
+            options: prestaciones.map(pres => ({
+                value: pres.id.toString(),
+                label: pres.prestacion
+            }))
         },
         {
             name: "nfolio",
@@ -51,11 +59,10 @@ export default function IngresoMaterialDental(){
             placeholder: "Cliente",
             label: "Cliente",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ],
+            options: clientes.map(clientes => ({
+                value: clientes.id.toString(),
+                label: clientes.nombre
+            }))
         },
         {
             name: "cantidad",
@@ -68,33 +75,30 @@ export default function IngresoMaterialDental(){
             placeholder: "Método de esterilización",
             label: "Método de esterilización",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ],
+            options: metEsterilizacion.map(met => ({
+                value: met.id.toString(),
+                label: met.metodo
+            })),
         },
         {
             name: "tipomaterial",
             placeholder: "Tipo de material",
             label: "Tipo de material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ],
+            options: tiposMateriales.map(tipo => ({
+                value: tipo.id.toString(),
+                label: tipo.tipo_material
+            }))
         },
         {
             name: "nombrematerial",
             placeholder: "Nombre de material",
             label: "Nombre de material",
             type: "select",
-            options: [
-                { value: "1", label: "Opción 1" },
-                { value: "2", label: "Opción 2" },
-                { value: "3", label: "Opción 3" },
-            ],
+            options: materiales.map(material => ({
+                value: material.id.toString(),
+                label: material.nombre
+            }))
         },
         {
             name: "observacion",

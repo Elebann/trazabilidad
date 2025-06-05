@@ -33,6 +33,7 @@ function IngresoMaterialPabellon() {
     const fields = [
         {
             name: "responsable",
+            label: "Responsable",
             placeholder: "Responsable de recepción de material",
             type: "select",
             options: usuarios.map(user => ({
@@ -42,6 +43,7 @@ function IngresoMaterialPabellon() {
         },
         {
             name: "servicio",
+            label: "Servicio",
             placeholder: "Servicio",
             type: "select",
             options: prestaciones.map(pres => ({
@@ -51,11 +53,13 @@ function IngresoMaterialPabellon() {
         },
         {
             name: "Nfolio",
+            label: "Número de Folio",
             placeholder: "N°Folio",
             type: "text",
         },
         {
             name: "cliente",
+            label: "Cliente",
             placeholder: "Cliente",
             type: "select",
             options: clientes.map(cliente => ({
@@ -65,11 +69,13 @@ function IngresoMaterialPabellon() {
         },
         {
             name: "cantidad",
+            label: "Cantidad",
             placeholder: "Cantidad",
             type: "number",
         },
         {
             name: "mesterilizacion",
+            label: "Método de Esterilización",
             placeholder: "Método de esterilización",
             type: "select",
             options: metEsterilizacion.map(met => ({
@@ -79,6 +85,7 @@ function IngresoMaterialPabellon() {
         },
         {
             name: "tipomaterial",
+            label: "Tipo de Material",
             placeholder: "Tipo de Material",
             type: "select",
             options: tiposMateriales.map(tiposMat => ({
@@ -88,6 +95,7 @@ function IngresoMaterialPabellon() {
         },
         {
             name: "nombrematerial",
+            label: "Nombre de Material",
             placeholder: "Nombre de Material",
             type: "select",
             // todo asegurarse que se refiere al nombre de un material ya existente (select) o se agrega aquí un nuevo material (text)
@@ -98,6 +106,7 @@ function IngresoMaterialPabellon() {
         },
         {
             name: "observacion",
+            label: "Observación",
             placeholder: "Observación",
             type: "text",
         },

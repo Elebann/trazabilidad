@@ -145,6 +145,7 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nombre
 
+# todo URGENTE, un Folio puede tener varios materiales, pero un material solo puede estar en un folio a la vez. hacer la relación 1:N.
 class Folio(models.Model):
     fechahora_ingreso = models.DateTimeField()
     material = models.ForeignKey(Material, on_delete=models.CASCADE)

@@ -47,10 +47,15 @@ const menuGroups = [
                     {title: "Dental", url: "/ingreso-dental", icon: Box},
                 ],
             },
-            {title: "Preparación de Material Externo", url: "/preparacion-material-externo", icon: PackageOpen},
-            {title: "Preparación de Material Pabellón", url: "/preparacion-material-pabellon", icon: PackageOpen},
-            {title: "Preparación de Material Médico", url: "/preparacion-material-medico", icon: PackageOpen},
-            {title: "Preparación de Material Dental", url: "/preparacion-material-dental", icon: PackageOpen},
+            {
+                title: "Preparación de Material", icon: PackageOpen,
+                children:[
+                    {title: "Externo", url: "/preparacion-material-externo", icon: PackageOpen},
+                    {title: "Pabellón", url: "/preparacion-material-pabellon", icon: PackageOpen},
+                    {title: "Médico", url: "/preparacion-material-medico", icon: PackageOpen},
+                    {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},
+                ]
+            }
         ],
     },
     {
