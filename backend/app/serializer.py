@@ -63,6 +63,7 @@ class TipoIngresoSerializer(serializers.ModelSerializer):
 
 class UsuarioSerializer(serializers.ModelSerializer):
     rol = RolSerializer(read_only=True)
+    password = serializers.CharField(write_only=True, required=True)
     rol_id = serializers.PrimaryKeyRelatedField(
         queryset=Rol.objects.all(),
         write_only=True,
@@ -71,8 +72,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuario
-        # todo search id showing the role id could be a security vulnerability, and if the id is being used to display data.
-        fields = ['rut', 'nombre', 'rol', 'rol_id']
+        fields = ['rut', 'nombre', 'rol', 'rol_id', 'password']
         extra_kwargs = {
             'password': {'write_only': True},
         }
