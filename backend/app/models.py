@@ -126,6 +126,7 @@ class Material(models.Model):
     fecha_ingreso = models.DateField()
     nombre = models.CharField(max_length=50)
     comentarios = models.TextField(blank=True, null=True, max_length=200)
+    cantidad = models.IntegerField(default=1, blank=True, null=True)
     estado = models.ForeignKey(EstadoMaterial, on_delete=models.CASCADE)
     tipo = models.ForeignKey(TipoMaterial, on_delete=models.CASCADE)
     agregado_por = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True)
