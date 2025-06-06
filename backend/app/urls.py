@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', views.MyTokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/folio/crear-con-materiales/', views.FolioViewSet.as_view({'post': 'crear_con_materiales'}), name='crear-folio-con-materiales'),
 ]

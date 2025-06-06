@@ -92,6 +92,44 @@ class MaterialSerializer(serializers.ModelSerializer):
     agregado_por = UsuarioSerializer(read_only=True)
     tipo_control = TipoControlMaterialSerializer(read_only=True)
     tipo_ingreso = TipoIngresoSerializer(read_only=True)
+    
+    # Campos de escritura para relaciones foráneas
+    tipo_id = serializers.PrimaryKeyRelatedField(
+        queryset=TipoMaterial.objects.all(),
+        source='tipo',
+        write_only=True
+    )
+    estado_id = serializers.PrimaryKeyRelatedField(
+        queryset=EstadoMaterial.objects.all(),
+        source='estado',
+        write_only=True
+    )
+    metodo_esterilizacion_id = serializers.PrimaryKeyRelatedField(
+        queryset=MetodoEsterilizacion.objects.all(),
+        source='metodo_esterilizacion',
+        write_only=True
+    )
+    agregado_por_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(),
+        source='agregado_por',
+        write_only=True
+    )
+    tipo_control_id = serializers.PrimaryKeyRelatedField(
+        queryset=TipoControlMaterial.objects.all(),
+        source='tipo_control',
+        write_only=True
+    )
+    tipo_ingreso_id = serializers.PrimaryKeyRelatedField(
+        queryset=TipoIngreso.objects.all(),
+        source='tipo_ingreso',
+        write_only=True
+    )
+    folio_id = serializers.PrimaryKeyRelatedField(
+        queryset=Folio.objects.all(),
+        source='folio',
+        write_only=True,
+        required=False
+    )
 
     class Meta:
         model = Material
@@ -107,8 +145,25 @@ class ClienteSerializer(serializers.ModelSerializer):
 class FolioSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer(read_only=True)
     usuario = UsuarioSerializer(read_only=True)
-    material = MaterialSerializer(read_only=True)
     servicio = ServicioSerializer(read_only=True)
+    
+    # Campos de escritura para relaciones foráneas
+    cliente_id = serializers.PrimaryKeyRelatedField(
+        queryset=Cliente.objects.all(),
+        source='cliente',
+        write_only=True
+    )
+    usuario_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(),
+        source='usuario',
+        write_only=True
+    )
+    servicio_id = serializers.PrimaryKeyRelatedField(
+        queryset=Servicio.objects.all(),
+        source='servicio',
+        write_only=True,
+        required=False
+    )
 
     class Meta:
         model = Folio
