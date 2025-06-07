@@ -51,13 +51,13 @@ export const userColumns = ({ handleDelete }) => [
 
 export const folioColumns = [
     {
-        accessorKey: "id",
-        header: "#"
+        accessorKey: "nfolio",
+        header: "Núm. Folio"
     },
-    {
+    /*{
         accessorKey: "cliente.id",
         header: "ID Cliente"
-    },
+    },*/
     {
         accessorKey: "cliente.nombre",
         header: "Cliente"
@@ -71,12 +71,12 @@ export const folioColumns = [
         header: "Servicio"
     },
     {
-        accessorKey: "usuario.rut",
-        header: "Rut de usuario"
+        accessorKey: "ingresado.nombre",
+        header: "Ingresado por"
     },
     {
-        accessorKey: "usuario.nombre",
-        header: "Usuario"
+        accessorKey: "recepcionado.nombre",
+        header: "Recepcionado por"
     },
     {
         accessorKey: "fechahora_ingreso",
@@ -96,10 +96,10 @@ export const folioColumns = [
 ]
 
 export const materialsColumns = [
-    {
+    /*{
         accessorKey: "id",
         header: "#"
-    },
+    },*/
     {
         accessorKey: "nombre",
         header: "Nombre del material"
@@ -147,8 +147,8 @@ export const materialsColumns = [
         header: "Tipo de ingreso",
     },
     {
-        accessorKey: "folio",
-        header: "#Folio",
+        accessorKey: "folio.nfolio",
+        header: "Núm. Folio",
     },
     {
         accessorKey: "comentarios",

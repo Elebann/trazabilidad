@@ -65,6 +65,7 @@ export function EditarUsuario() {
             toast.success(`Usuario "${userData.nombre}" actualizado exitosamente`);
             navigate("/usuarios");
         } catch (error) {
+            // todo está pidiendo una contraseña, pero no se está enviando en el formulario: arreglar
             console.error("Error al actualizar el usuario:", error.response?.data || error);
             toast.error("Error al actualizar el usuario. Inténtelo nuevamente");
             navigate("/usuarios");
@@ -125,7 +126,7 @@ export function EditarUsuario() {
                         defaultValues={{
                             rut: user.rut,
                             nombre: user.nombre,
-                            rol: user.rol?.id?.toString() || "4",
+                            rol: user.rol?.id?.toString() || "4", // Default to "4" (Instrumentista) if no role is set
                             /*password: "",*/
                         }}
                     />

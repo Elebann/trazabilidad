@@ -12,19 +12,19 @@ import Subtitle from "@/components/Subtitle.jsx";
 import { Trash2 } from "lucide-react";
 
 function IngresoMaterialPabellon() {
-    const { clientes, metEsterilizacion, usuarios,
-            servicios, tiposMateriales, materiales,
-            estadosMaterial, tiposControl, tiposIngreso }
-        = useFetchSelectOptions();
-
+    // Obtener las opciones de selección desde el hook personalizado
+    const { clientes, metEsterilizacion, usuarios, servicios, tiposMateriales, materiales,
+            estadosMaterial, tiposControl, tiposIngreso } = useFetchSelectOptions();
     // Estado para el folio creado y para los materiales agregados
     const [folio, setFolio] = useState(null);
     const [materialesAgregados, setMaterialesAgregados] = useState([]);
+    // Estado para el loading del botón de finalizar ingreso
     const [isLoading, setIsLoading] = useState(false);
-    
     // Constantes para los valores predeterminados
     const [tipoIngresoPabellon, setTipoIngresoPabellon] = useState(null);
     const [estadoRecepcionado, setEstadoRecepcionado] = useState(null);
+    // Obtener el RUT del usuario logueado
+    const [userRut, setUserRut] = useState(null);
     
     // Buscar los IDs necesarios para el tipo de ingreso y estado
     useEffect(() => {
@@ -37,48 +37,22 @@ function IngresoMaterialPabellon() {
             const recepcionado = estadosMaterial.find(e => e.estado === "Recepcionado");
             if (recepcionado) setEstadoRecepcionado(recepcionado.id);
         }
+
+        // obtener el usuario logueado con LS como responsable por defecto
+        const LoggedUser = JSON.parse(localStorage.getItem("user_data"));
+        if (LoggedUser && LoggedUser.rut) {
+            setUserRut(LoggedUser.rut.toString());
+        }
     }, [tiposIngreso, estadosMaterial]);
 
     // --- Formulario 1: Crear Folio ---
     const folioSchema = z.object({
         responsable: z.string({ required_error: "Debe seleccionar una opción." }),
+        recepcionista: z.string({ required_error: "Debe seleccionar una opción." }),
         cliente: z.string({ required_error: "Debe seleccionar una opción." }),
         servicio: z.string({ required_error: "Debe seleccionar una opción." }),
+        nfolio: z.number({ required_error: "Debe seleccionar un número." }) //todo que no sea negativo
     });
-
-    const folioFields = [
-        {
-            name: "responsable", label: "Responsable", placeholder: "Responsable de recepción de material",
-            type: "select",
-            options: usuarios.map(user => ({
-                value: user.rut.toString(),
-                label: user.nombre
-            }))
-        },
-        {
-            name: "cliente", label: "Cliente", placeholder: "Cliente",
-            type: "select",
-            options: clientes.map(cliente => ({
-                value: cliente.id.toString(),
-                label: cliente.nombre
-            }))
-        },
-        {
-            name: "servicio", label: "Servicio", placeholder: "Servicio",
-            type: "select",
-            options: servicios.map(pres => ({
-                value: pres.id.toString(),
-                label: pres.servicio
-            }))
-        }
-    ];
-
-    const onSubmitFolio = (data) => {
-        setFolio(data);
-        console.log("Folio creado:", data);
-        toast.success("Datos de folio guardados. Ahora puedes agregar materiales.");
-    };
-
     // --- Formulario 2: Agregar Material ---
     const materialSchema = z.object({
         cantidad: z.number({ required_error: "Debe ingresar un número." }).int().positive(),
@@ -89,6 +63,50 @@ function IngresoMaterialPabellon() {
         observacion: z.string().optional(),
     });
 
+    // --- Campos del formulario de folio ---
+    const folioFields = [
+        {
+            name: "responsable", label: "Responsable de ingreso", placeholder: "No se pudo detectar automáticamente. Seleccione un usuario.",
+            type: "select",
+            options: usuarios.map(user => ({
+                value: user.rut.toString(),
+                label: user.nombre
+            })),
+            description: "Detectado automáticamente si hay sesión iniciada."
+        },
+        {
+            name: "recepcionista", label: "Responsable de recepción", placeholder: "Seleccione una opción.",
+            type: "select",
+            options: usuarios.map(user => ({
+                value: user.rut.toString(),
+                label: user.nombre
+            })),
+            description: "¿Quién fue a buscar el material?"
+        },
+        {
+            name: "cliente", label: "Cliente", placeholder: "Seleccione una opción.",
+            type: "select",
+            options: clientes.map(cliente => ({
+                value: cliente.id.toString(),
+                label: cliente.nombre
+            }))
+        },
+        {
+            name: "servicio", label: "Servicio", placeholder: "Seleccione una opción.",
+            type: "select",
+            options: servicios.map(pres => ({
+                value: pres.id.toString(),
+                label: pres.servicio
+            }))
+        },
+        {
+            name: "nfolio", label: "Número de Folio", placeholder: "Ingrese el número de folio/guía",
+            type: "number",
+            description: "Número de folio único para este ingreso. No lo podrá editar después."
+        }
+    ];
+
+    // --- Campos del formulario de materiales ---
     const materialFields = [
         {
             name: "cantidad", label: "Cantidad", placeholder: "Cantidad", type: "number"
@@ -102,9 +120,7 @@ function IngresoMaterialPabellon() {
             options: tiposMateriales.map(tiposMat => ({ value: tiposMat.id.toString(), label: tiposMat.tipo_material })),
         },
         {
-            name: "nombrematerial", label: "Nombre de Material", placeholder: "Nombre de Material", type: "select",
-            // todo asegurarse que se refiere al nombre de un material ya existente (select) o se agrega aquí un nuevo material (text)
-            options: materiales.map(material => ({ value: material.id.toString(), label: material.nombre })),
+            name: "nombrematerial", label: "Nombre de Material", placeholder: "Nombre de Material", type: "text"
         },
         {
             name: "tipocontrol", label: "Tipo de Control", placeholder: "Tipo de Control", type: "select",
@@ -114,6 +130,12 @@ function IngresoMaterialPabellon() {
             name: "observacion", label: "Observación", placeholder: "Observación (opcional)", type: "text",
         },
     ];
+
+    const onSubmitFolio = (data) => {
+        setFolio(data);
+        console.log("Folio creado:", data);
+        toast.success("Datos de folio guardados. Ahora puedes agregar materiales.");
+    };
 
     const onSubmitMaterial = (data) => {
         setMaterialesAgregados(prev => [...prev, data]);
@@ -138,23 +160,26 @@ function IngresoMaterialPabellon() {
         try {
             // Formatear el folio para la API - No necesitamos cambiar esto
             const folioData = {
-                usuario: folio.responsable,
+                ingresado: folio.responsable,
+                recepcionado: folio.recepcionista,
                 cliente: folio.cliente,
                 servicio: folio.servicio,
+                nfolio: folio.nfolio,
                 fechahora_ingreso: new Date().toISOString()
             };
 
             // Formatear los materiales para la API
             const materialesData = materialesAgregados.map(material => ({
-                fecha_ingreso: new Date().toISOString().split('T')[0], // Solo la fecha YYYY-MM-DD
-                nombre: materiales.find(m => m.id.toString() === material.nombrematerial)?.nombre || "",
-                comentarios: material.observacion || "",
                 cantidad: material.cantidad,
-                estado: estadoRecepcionado,
-                tipo: material.tipomaterial,
-                agregado_por: folio.responsable,
                 metodo_esterilizacion: material.mesterilizacion,
+                tipo: material.tipomaterial,
+                nombre: material.nombrematerial,
                 tipo_control: material.tipocontrol,
+                comentarios: material.observacion || "",
+                // datos no ingresados por el usuario pero necesarios
+                fecha_ingreso: new Date().toISOString().split('T')[0], // Solo la fecha YYYY-MM-DD
+                estado: estadoRecepcionado,
+                agregado_por: folio.responsable,
                 tipo_ingreso: tipoIngresoPabellon
                 // folio se agrega automáticamente en la función createFolioWithMaterials
             }));
@@ -186,10 +211,15 @@ function IngresoMaterialPabellon() {
             <div className="mb-6 form-caja">
                 <Subtitle>Datos del Folio</Subtitle>
                 <FormModel
+                    id = "folio-form"
                     schema={folioSchema}
                     fields={folioFields}
                     onSubmit={onSubmitFolio}
                     disabled={!!folio}
+                    key={userRut}
+                    defaultValues={
+                        userRut ? { responsable: userRut } : {}
+                    }
                 />
                 {folio && (
                     <Button 
@@ -235,7 +265,7 @@ function IngresoMaterialPabellon() {
                                         <TableCell>{mat.cantidad}</TableCell>
                                         <TableCell>{metEsterilizacion.find(m => m.id.toString() === mat.mesterilizacion)?.metodo}</TableCell>
                                         <TableCell>{tiposMateriales.find(t => t.id.toString() === mat.tipomaterial)?.tipo_material}</TableCell>
-                                        <TableCell>{materiales.find(m => m.id.toString() === mat.nombrematerial)?.nombre}</TableCell>
+                                        <TableCell>{mat.nombrematerial}</TableCell>
                                         <TableCell>{tiposControl.find(tc => tc.id.toString() === mat.tipocontrol)?.tipo_control_material}</TableCell>
                                         <TableCell>{mat.observacion || "-"}</TableCell>
                                         <TableCell>
@@ -261,13 +291,16 @@ function IngresoMaterialPabellon() {
             </div>
 
             {folio && materialesAgregados.length > 0 && (
-                <Button
-                    className="btn btn-primary"
-                    onClick={finalizarIngreso}
-                    disabled={isLoading}
-                >
-                    {isLoading ? "Guardando..." : "Finalizar ingreso"}
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button
+                        className="btn btn-primary"
+                        onClick={finalizarIngreso}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? "Guardando..." : "Finalizar ingreso"}
+                    </Button>
+                    <p className="text-neutral-400">Se ingresará automáticamente la fecha y la hora, y el estado del material Recepcionado</p>
+                </div>
             )}
         </Main>
     );

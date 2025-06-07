@@ -7,7 +7,6 @@ import Folios from "@/pages/Folios.jsx"
 import Material from "@/pages/Material.jsx"
 import Clientes from "@/pages/Clientes.jsx"
 import SidebarLayout from "@/layouts/SidebarLayout.jsx";
-import GestionTiempo from '@/pages/GestionTiempo.jsx';
 import IngresoMaterialExterno from "@/pages/instrumentista/IngresoMaterialExterno.jsx";
 import PreparacionMaterialExterno from "@/pages/instrumentista/PreparacionMaterialExterno.jsx";
 import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
@@ -40,7 +39,6 @@ function App() {
                         <Route path="/folios" element={<Folios/>}/>
                         {/* administrative/Enfermera views: todo hide this to non-permission users when roles has been implemented */}
                         <Route path="/usuarios" element={<Users/>}/>
-                        <Route path="/gestion-de-tiempo" element={<GestionTiempo/>}/>
                         <Route path="/nuevo-usuario" element={<NuevoUsuario/>}/>
                         <Route path="/editar-usuario/:rut" element={<EditarUsuario/>}/>
                         {/* Instrumentista routes */}

@@ -21,15 +21,17 @@ export const createFolioWithMaterials = async (folioData, materialsData) => {
         // Adaptar el formato del folio para que coincida con el esperado por el backend
         const folioToSend = {
             cliente_id: folioData.cliente,
-            usuario_id: folioData.usuario,
+            ingresado_id: folioData.ingresado,
+            recepcionado_id: folioData.recepcionado,
             servicio_id: folioData.servicio,
+            nfolio: folioData.nfolio,
             fechahora_ingreso: folioData.fechahora_ingreso
         };
 
         // Primero creamos el folio
         const folioResponse = await createFolio(folioToSend);
         const folioId = folioResponse.data.id;
-        
+
         // Adaptar el formato de cada material para que coincida con el esperado por el backend
         const materialsToSend = materialsData.map(material => ({
             fecha_ingreso: material.fecha_ingreso,

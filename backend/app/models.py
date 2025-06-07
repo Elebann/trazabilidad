@@ -116,8 +116,10 @@ class Cliente(models.Model):
 class Folio(models.Model):
     fechahora_ingreso = models.DateTimeField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    ingresado = models.ForeignKey(Usuario, on_delete=models.CASCADE) # Quién ingresó el folio
+    recepcionado = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='recepcionista', null=True, blank=True) # Quién va fisicamente a recibir las cosas
     servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, null=True, blank=True)
+    nfolio = models.IntegerField(unique=True, null=True, blank=True) # Número del folio, es diferente al id de la base de datos
 
     def __str__(self):
         return f"Folio #{self.id}"
@@ -134,6 +136,7 @@ class Material(models.Model):
     tipo_control = models.ForeignKey(TipoControlMaterial, on_delete=models.CASCADE)
     tipo_ingreso = models.ForeignKey(TipoIngreso, on_delete=models.CASCADE, null=True, blank=True)
     folio = models.ForeignKey(Folio, on_delete=models.CASCADE, null=True, blank=True)
+    # todo agregar las columnas que corresponden al material externo
 
     def __str__(self):
         return f"#{self.id} - {self.tipo_ingreso}: {self.nombre} ({self.tipo}) con folio #{self.folio.id if self.folio else 'N/A'} - Estado: {self.estado}"

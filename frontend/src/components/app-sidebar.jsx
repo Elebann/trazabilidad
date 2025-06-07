@@ -31,7 +31,6 @@ const menuGroups = [
         label: "Enfermera",
         items: [
             {title: "Gestión de Usuarios", url: "/usuarios", icon: UserCog},
-            {title: "Gestión de tiempo", url: "/gestion-de-tiempo", icon: ClockFading},
         ],
     },
     {

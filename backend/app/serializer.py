@@ -85,6 +85,49 @@ class UsuarioSerializer(serializers.ModelSerializer):
         usuario.save()
         return usuario
 
+
+class ClienteSerializer(serializers.ModelSerializer):
+    estado = EstadoClienteSerializer(read_only=True)
+
+    class Meta:
+        model = Cliente
+        fields = '__all__'
+
+class FolioSerializer(serializers.ModelSerializer):
+    cliente = ClienteSerializer(read_only=True)
+    ingresado = UsuarioSerializer(read_only=True)
+    recepcionado = UsuarioSerializer(read_only=True, required=False)
+    servicio = ServicioSerializer(read_only=True)
+    
+    # Campos de escritura para relaciones foráneas
+    cliente_id = serializers.PrimaryKeyRelatedField(
+        queryset=Cliente.objects.all(),
+        source='cliente',
+        write_only=True
+    )
+    ingresado_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(),
+        source='ingresado',
+        write_only=True
+    )
+    recepcionado_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(),
+        source='recepcionado',
+        write_only=True,
+        required=False
+    )
+    servicio_id = serializers.PrimaryKeyRelatedField(
+        queryset=Servicio.objects.all(),
+        source='servicio',
+        write_only=True,
+        required=False
+    )
+
+    class Meta:
+        model = Folio
+        fields = '__all__'
+
+
 class MaterialSerializer(serializers.ModelSerializer):
     tipo = TipoMaterialSerializer(read_only=True)
     estado = EstadoMaterialSerializer(read_only=True)
@@ -92,7 +135,8 @@ class MaterialSerializer(serializers.ModelSerializer):
     agregado_por = UsuarioSerializer(read_only=True)
     tipo_control = TipoControlMaterialSerializer(read_only=True)
     tipo_ingreso = TipoIngresoSerializer(read_only=True)
-    
+    folio = FolioSerializer(read_only=True, required=False)
+
     # Campos de escritura para relaciones foráneas
     tipo_id = serializers.PrimaryKeyRelatedField(
         queryset=TipoMaterial.objects.all(),
@@ -133,40 +177,6 @@ class MaterialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Material
-        fields = '__all__'
-
-class ClienteSerializer(serializers.ModelSerializer):
-    estado = EstadoClienteSerializer(read_only=True)
-
-    class Meta:
-        model = Cliente
-        fields = '__all__'
-
-class FolioSerializer(serializers.ModelSerializer):
-    cliente = ClienteSerializer(read_only=True)
-    usuario = UsuarioSerializer(read_only=True)
-    servicio = ServicioSerializer(read_only=True)
-    
-    # Campos de escritura para relaciones foráneas
-    cliente_id = serializers.PrimaryKeyRelatedField(
-        queryset=Cliente.objects.all(),
-        source='cliente',
-        write_only=True
-    )
-    usuario_id = serializers.PrimaryKeyRelatedField(
-        queryset=Usuario.objects.all(),
-        source='usuario',
-        write_only=True
-    )
-    servicio_id = serializers.PrimaryKeyRelatedField(
-        queryset=Servicio.objects.all(),
-        source='servicio',
-        write_only=True,
-        required=False
-    )
-
-    class Meta:
-        model = Folio
         fields = '__all__'
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
