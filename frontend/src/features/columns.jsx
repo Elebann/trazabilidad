@@ -83,7 +83,6 @@ export const folioColumns = [
         header: "Ingreso",
         cell: ({row}) => {
             const date = new Date(row.original.fechahora_ingreso);
-            console.log(date);
             return date.toLocaleDateString("es-CL", {
                 year: "numeric",
                 month: "2-digit",

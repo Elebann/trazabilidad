@@ -1,20 +1,16 @@
 import {
-    Home, UserCog, Package, FileSpreadsheet, Briefcase, ChevronUp, LogOut, User, ClockFading,
+    Home, UserCog, Package, FileSpreadsheet, Briefcase, ChevronUp, LogOut, LogIn, User, ClockFading,
     PackagePlus, PackageOpen, FileBox, Box, ChevronRight
 } from "lucide-react";
 import {
     Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
     SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubItem
 } from "@/components/ui/sidebar";
+import {DropdownMenu, DropdownMenuContent,
+    DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu.jsx";
 import {Link, useNavigate} from "react-router-dom";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu.jsx";
-import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
 
 const menuGroups = [
@@ -73,24 +69,8 @@ const menuGroups = [
 
 // todo: permitir que ciertos enlaces puedan expandirse para mostrar subenlaces, no es indispensable pero otorgaría mayor comodidad al usuario final.
 export function AppSidebar() {
-
-    const [userName, setUserName] = useState('Usuario') // <- name by default
     const navigate = useNavigate();
-
-    // display username from localStorage
-    useEffect(() => {
-        const storedUserData = localStorage.getItem('user_data')
-        if (storedUserData) {
-            try {
-                const userData = JSON.parse(storedUserData);
-                if (userData && userData.nombre) {
-                    setUserName(userData.nombre)
-                }
-            } catch (error) {
-                console.error("Error al parsear user_data de localStorage:", error)
-            }
-        }
-    }, []);
+    const { isLoggedIn, userName } = useCurrentUser()
 
     const handleLogout = async () => {
         // todo send the refresh token to the backend to invalidate it using an endpoint (not implemented yet)
@@ -165,20 +145,29 @@ export function AppSidebar() {
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="group">
                                     <User className="h-5 w-5"/>
-                                    <span className="truncate">{userName}</span>
+                                    <span className="truncate">{ isLoggedIn ? `${userName}` : "Iniciar Sesión"}</span>
                                     <ChevronRight
                                         className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:-rotate-90"/>
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
-                                <DropdownMenuItem>
-                                    <User/>
-                                    <span>Ver Perfil</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={handleLogout}>
-                                    <LogOut/>
-                                    <span>Cerrar sesión</span>
-                                </DropdownMenuItem>
+                                {isLoggedIn ? (
+                                    <>
+                                        <DropdownMenuItem>
+                                            <User/>
+                                            <span>Ver Perfil</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={handleLogout}>
+                                            <LogOut/>
+                                            <span>Cerrar sesión</span>
+                                        </DropdownMenuItem>
+                                    </>
+                                ) : (
+                                    <DropdownMenuItem onClick={() => navigate('/login')}>
+                                        <LogIn />
+                                        <span>Iniciar sesión</span>
+                                    </DropdownMenuItem>
+                                )}
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
