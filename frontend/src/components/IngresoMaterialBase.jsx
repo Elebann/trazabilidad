@@ -25,7 +25,6 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
         servicios, 
         tiposMateriales,
         estadosMaterial, 
-        tiposControl, 
         tiposIngreso 
     } = useFetchSelectOptions();
     
@@ -71,7 +70,6 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
         mesterilizacion: z.string({ required_error: "Debe seleccionar una opción." }),
         tipomaterial: z.string({ required_error: "Debe seleccionar una opción." }),
         nombrematerial: z.string({ required_error: "Debe seleccionar una opción." }),
-        tipocontrol: z.string({ required_error: "Debe seleccionar una opción." }),
         observacion: z.string().optional(),
     });
 
@@ -135,11 +133,6 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
             name: "nombrematerial", label: "Nombre de Material", placeholder: "Nombre de Material", type: "text"
         },
         {
-            // todo deben ser checkboxes, ya que pueden ser seleccionado ambos
-            name: "tipocontrol", label: "Tipo de Control", placeholder: "Tipo de Control", type: "select",
-            options: tiposControl.map(tc => ({ value: tc.id.toString(), label: tc.tipo_control_material })),
-        },
-        {
             name: "observacion", label: "Observación", placeholder: "Observación (opcional)", type: "text",
         },
     ];
@@ -187,7 +180,6 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
                 metodo_esterilizacion: material.mesterilizacion,
                 tipo: material.tipomaterial,
                 nombre: material.nombrematerial,
-                tipo_control: material.tipocontrol,
                 comentarios: material.observacion || "",
                 // datos no ingresados por el usuario pero necesarios
                 fecha_ingreso: new Date().toISOString().split('T')[0], // Solo la fecha YYYY-MM-DD
@@ -265,7 +257,6 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
                                 <TableHead>Método</TableHead>
                                 <TableHead>Tipo</TableHead>
                                 <TableHead>Nombre</TableHead>
-                                <TableHead>Tipo Control</TableHead>
                                 <TableHead>Observación</TableHead>
                                 <TableHead>Acción</TableHead>
                             </TableRow>
@@ -278,7 +269,6 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
                                         <TableCell>{metEsterilizacion.find(m => m.id.toString() === mat.mesterilizacion)?.metodo}</TableCell>
                                         <TableCell>{tiposMateriales.find(t => t.id.toString() === mat.tipomaterial)?.tipo_material}</TableCell>
                                         <TableCell>{mat.nombrematerial}</TableCell>
-                                        <TableCell>{tiposControl.find(tc => tc.id.toString() === mat.tipocontrol)?.tipo_control_material}</TableCell>
                                         <TableCell>{mat.observacion || "-"}</TableCell>
                                         <TableCell>
                                             <Button
