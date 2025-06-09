@@ -133,7 +133,9 @@ class Material(models.Model):
     tipo = models.ForeignKey(TipoMaterial, on_delete=models.CASCADE)
     agregado_por = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True)
     metodo_esterilizacion = models.ForeignKey(MetodoEsterilizacion, on_delete=models.CASCADE)
-    tipo_control = models.ForeignKey(TipoControlMaterial, on_delete=models.CASCADE)
+    # tipo_control = models.ForeignKey(TipoControlMaterial, on_delete=models.CASCADE)
+    control_biologico = models.BooleanField(default=False)
+    control_priones = models.BooleanField(default=False)
     tipo_ingreso = models.ForeignKey(TipoIngreso, on_delete=models.CASCADE, null=True, blank=True)
     folio = models.ForeignKey(Folio, on_delete=models.CASCADE, null=True, blank=True)
     # todo agregar las columnas que corresponden al material externo
