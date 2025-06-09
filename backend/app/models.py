@@ -122,7 +122,7 @@ class Folio(models.Model):
     nfolio = models.IntegerField(unique=True, null=True, blank=True) # Número del folio, es diferente al id de la base de datos
 
     def __str__(self):
-        return f"Folio #{self.id}"
+        return f"#{self.id} Folio - Número: {self.nfolio}"
 
 class Material(models.Model):
     fecha_ingreso = models.DateField()

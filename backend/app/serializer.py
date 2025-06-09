@@ -158,11 +158,11 @@ class MaterialSerializer(serializers.ModelSerializer):
         source='agregado_por',
         write_only=True
     )
-    tipo_control_id = serializers.PrimaryKeyRelatedField(
-        queryset=TipoControlMaterial.objects.all(),
-        source='tipo_control',
-        write_only=True
-    )
+    # tipo_control_id = serializers.PrimaryKeyRelatedField(
+    #     queryset=TipoControlMaterial.objects.all(),
+    #     source='tipo_control',
+    #     write_only=True
+    # )
     tipo_ingreso_id = serializers.PrimaryKeyRelatedField(
         queryset=TipoIngreso.objects.all(),
         source='tipo_ingreso',

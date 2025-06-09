@@ -42,7 +42,7 @@ export const createFolioWithMaterials = async (folioData, materialsData) => {
             tipo_id: material.tipo,
             agregado_por_id: material.agregado_por,
             metodo_esterilizacion_id: material.metodo_esterilizacion,
-            tipo_control_id: material.tipo_control,
+            // tipo_control_id: material.tipo_control,
             tipo_ingreso_id: material.tipo_ingreso,
             folio_id: folioId
         }));

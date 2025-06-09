@@ -130,8 +130,27 @@ export const materialsColumns = [
         header: "Método de esterilización"
     },
     {
-        accessorKey: "tipo_control.tipo_control_material",
-        header: "Tipo de control",
+        accessorKey: "control_biologico",
+        header: "¿Control biológico?",
+        cell: ({ row }) => {
+            // Si el estado es Recepcionado (estado con ID 1) mostrar que aún no se ha preparado como para saber este dato
+            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
+            // En otro caso, mostrar si tiene control biológico o no
+            return row.original.control_biologico
+                ? <span className="text-green-600">Sí</span>
+                : <span className="text-red-500">No</span>;
+        }
+    },
+    {
+        accessorKey: "control_priones",
+        header: "¿Control priones?",
+        cell: ({ row }) => {
+            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
+
+            return row.original.control_priones
+                ? <span className="text-green-600">Sí</span>
+                : <span className="text-red-500">No</span>;
+        }
     },
     {
         accessorKey: "fecha_ingreso",
