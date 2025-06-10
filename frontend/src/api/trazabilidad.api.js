@@ -19,8 +19,6 @@ export const getMaterialsByIngreso = (tipoIngresoId, estadoId) =>
     apiURL.get(`material/?tipo_ingreso=${tipoIngresoId}${estadoId ? `&estado=${estadoId}` : ''}`);
 // crear un lote de preparación
 export const createLotePreparacion = (data) => {
-    console.log("URL completa:", apiURL.defaults.baseURL + 'lote-preparacion/crear-lote-preparacion/');
-    console.log("Datos a enviar:", data);
     return apiURL.post('lote-preparacion/crear-lote-preparacion/', data);
 };
 
