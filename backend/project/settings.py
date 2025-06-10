@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework', # Django REST framework for building APIs
     'rest_framework_simplejwt', # Simple JWT for token-based authentication
     'rest_framework_simplejwt.token_blacklist', # Token blacklist for JWT authentication
+    'django_filters', # Django filters for filtering API results
 ]
 
 # Custom user model
@@ -65,6 +66,9 @@ REST_FRAMEWORK = {
      'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
      ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
 }
 
 SIMPLE_JWT = {

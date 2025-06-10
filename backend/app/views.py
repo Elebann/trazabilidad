@@ -1,4 +1,7 @@
 from datetime import datetime
+import uuid
+from django.db import transaction
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -59,6 +62,8 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 class MaterialViewSet(viewsets.ModelViewSet):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['folio', 'tipo_ingreso', 'estado']
 
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
@@ -123,3 +128,69 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 class MyTokenRefreshView(TokenRefreshView):
     serializer_class = MyTokenRefreshSerializer
+
+class LotePreparacionViewSet(viewsets.ModelViewSet):
+    queryset = LotePreparacion.objects.all()
+    serializer_class = LotePreparacionSerializer
+
+    @action(detail=False, methods=['post'], url_path='crear-lote-preparacion')
+    def crear_lote_preparacion(self, request):
+        """
+        Crea un lote de preparación y actualiza el estado de los materiales a 'Preparado'
+        """
+        try:
+            with transaction.atomic():
+                # Obtener datos del request
+                materiales_ids = request.data.get('materiales_ids', [])
+                control_biologico = request.data.get('control_biologico', False)
+                control_priones = request.data.get('control_priones', False)
+                preparado_por_id = request.data.get('preparado_por_id')
+                
+                print(f"Datos recibidos: {request.data}")
+
+                if not materiales_ids or not preparado_por_id:
+                    return Response(
+                        {'error': 'Se requieren materiales y usuario responsable'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                # Generar código único para el lote con el formato PREP-(code) 4 dígitos
+                codigo = f"PREP-{uuid.uuid4().hex[:4].upper()}"
+
+                # Crear el lote
+                lote_data = {
+                    'codigo': codigo,
+                    'preparado_por_id': preparado_por_id,
+                    'control_biologico': control_biologico,
+                    'control_priones': control_priones,
+                    'materiales_ids': materiales_ids
+                }
+
+                serializer = LotePreparacionSerializer(data=lote_data)
+                if not serializer.is_valid():
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+                lote = serializer.save()
+
+                # Buscar el estado "Preparado"
+                try:
+                    estado_preparado = EstadoMaterial.objects.get(estado='Preparado')
+                except EstadoMaterial.DoesNotExist:
+                    estado_preparado = EstadoMaterial.objects.create(estado='Preparado')
+
+                # Actualizar el estado de todos los materiales a "Preparado"
+                # Actualizar los controles biológicos y de priones
+                Material.objects.filter(id__in=materiales_ids).update(
+                    estado=estado_preparado,
+                    control_biologico=control_biologico,
+                    control_priones=control_priones
+                )
+
+                # Obtener el lote actualizado con sus materiales
+                lote_actualizado = LotePreparacion.objects.get(id=lote.id)
+                result = LotePreparacionSerializer(lote_actualizado).data
+
+                return Response(result, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

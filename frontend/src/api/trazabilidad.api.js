@@ -14,6 +14,15 @@ export const deleteFolio = (id) => apiURL.delete(`folio/${id}/`)
 export const getMaterials = () => apiURL.get('material/')
 export const getMaterial = (id) => apiURL.get(`material/${id}/`)
 export const createMaterial = (material) => apiURL.post('material/', material)
+// obtener los materiales de tipo específico y estado específico, se usa para la preparacion de material
+export const getMaterialsByIngreso = (tipoIngresoId, estadoId) =>
+    apiURL.get(`material/?tipo_ingreso=${tipoIngresoId}${estadoId ? `&estado=${estadoId}` : ''}`);
+// crear un lote de preparación
+export const createLotePreparacion = (data) => {
+    console.log("URL completa:", apiURL.defaults.baseURL + 'lote-preparacion/crear-lote-preparacion/');
+    console.log("Datos a enviar:", data);
+    return apiURL.post('lote-preparacion/crear-lote-preparacion/', data);
+};
 
 // Función para crear folio con materiales en secuencia
 export const createFolioWithMaterials = async (folioData, materialsData) => {

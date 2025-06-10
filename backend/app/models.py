@@ -25,7 +25,7 @@ class EstadoMaterial(models.Model):
     estado = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.estado
+        return f"ID {self.id} - {self.estado}"
 
 # Models with relationships
 class Rol(models.Model):
@@ -92,7 +92,7 @@ class TipoIngreso(models.Model):
     tipo_ingreso = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return self.tipo_ingreso
+        return f"#{self.id} {self.tipo_ingreso}"
 
 class Servicio(models.Model):
     servicio = models.CharField(max_length=50, unique=True)
@@ -141,7 +141,19 @@ class Material(models.Model):
     # todo agregar las columnas que corresponden al material externo
 
     def __str__(self):
-        return f"#{self.id} - {self.tipo_ingreso}: {self.nombre} ({self.tipo}) con folio #{self.folio.id if self.folio else 'N/A'} - Estado: {self.estado}"
+        return f"{self.nombre} ({self.tipo_ingreso})"
+
+# Nuevo modelo para agrupar materiales preparados
+class LotePreparacion(models.Model):
+    fecha_preparacion = models.DateTimeField(auto_now_add=True)
+    preparado_por = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    codigo = models.CharField(max_length=50, unique=True)
+    control_biologico = models.BooleanField(default=False)
+    control_priones = models.BooleanField(default=False)
+    materiales = models.ManyToManyField(Material, related_name='lotes_preparacion')
+
+    def __str__(self):
+        return f"Lote #{self.id} - {self.codigo} ({self.fecha_preparacion.strftime('%Y-%m-%d %H:%M')})"
 
 class HistorialModificacion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)

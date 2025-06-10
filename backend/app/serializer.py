@@ -128,6 +128,12 @@ class FolioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class LotePreparacionInfoSerializer(serializers.ModelSerializer):
+    """Serializer reducido para incluir el lote asignado al material preparado"""
+    class Meta:
+        model = LotePreparacion
+        fields = ['id', 'codigo', 'fecha_preparacion']
+
 class MaterialSerializer(serializers.ModelSerializer):
     tipo = TipoMaterialSerializer(read_only=True)
     estado = EstadoMaterialSerializer(read_only=True)
@@ -136,6 +142,7 @@ class MaterialSerializer(serializers.ModelSerializer):
     tipo_control = TipoControlMaterialSerializer(read_only=True)
     tipo_ingreso = TipoIngresoSerializer(read_only=True)
     folio = FolioSerializer(read_only=True, required=False)
+    ultimo_lote = serializers.SerializerMethodField()
 
     # Campos de escritura para relaciones foráneas
     tipo_id = serializers.PrimaryKeyRelatedField(
@@ -178,6 +185,15 @@ class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Material
         fields = '__all__'
+        
+    def get_ultimo_lote(self, obj):
+        try:
+            lote = obj.lotes_preparacion.order_by('-fecha_preparacion').first()
+            if lote:
+                return LotePreparacionInfoSerializer(lote).data
+            return None
+        except:
+            return None
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -198,3 +214,23 @@ class MyTokenRefreshSerializer(TokenRefreshSerializer):
         if 'refresh' in attrs:
             data['refresh'] = attrs['refresh']
         return data
+
+class LotePreparacionSerializer(serializers.ModelSerializer):
+    preparado_por = UsuarioSerializer(read_only=True)
+    preparado_por_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(),
+        source='preparado_por',
+        write_only=True
+    )
+    materiales_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Material.objects.all(),
+        many=True,
+        write_only=True,
+        source='materiales'
+    )
+    materiales = MaterialSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = LotePreparacion
+        fields = ['id', 'fecha_preparacion', 'codigo', 'preparado_por', 'preparado_por_id',
+                 'control_biologico', 'control_priones', 'materiales', 'materiales_ids']

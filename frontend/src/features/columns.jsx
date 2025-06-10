@@ -111,18 +111,29 @@ export const materialsColumns = [
         accessorKey: "estado.estado",
         header: "Estado del material",
         cell: ({ row }) => {
+            const materialData = row.original;
             const estadoConfig = {
                 1: { color: "text-yellow-600", icon: <PackageCheck />, label: row.original.estado.estado },
                 2: { color: "text-blue-500", icon: <Bubbles />, label: row.original.estado.estado },
                 3: { color: "text-green-600", icon: <Check />, label: row.original.estado.estado },
                 default: { color: "text-red-500", icon: <CircleHelp />, label: "Estado desconocido" },
             };
-            const { color, icon, label } = estadoConfig[row.original.estado.id] || estadoConfig.default;
+            const { color, icon, label } = estadoConfig[materialData.estado.id] || estadoConfig.default;
+            const labelContent = typeof label === 'function' ? label() : label;
             return (
                 <span className={`flex items-center gap-2 ${color}`}>
-                    {icon} <span>{label}</span>
+                    {icon} <span>{labelContent}</span>
                 </span>
             );
+        }
+    },
+    {
+        accessorKey: "ultimo_lote.codigo",
+        header: "Lote preparado",
+        cell: ({ row }) => {
+            // Si el estado es Recepcionado (estado con ID 1) mostrar que aún no se ha preparado como para saber este dato
+            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
+            return <span className="font-bold">{row.original.ultimo_lote?.codigo}</span> || "Sin lote preparado";
         }
     },
     {
@@ -131,7 +142,7 @@ export const materialsColumns = [
     },
     {
         accessorKey: "control_biologico",
-        header: "¿Control biológico?",
+        header: "Control biológico",
         cell: ({ row }) => {
             // Si el estado es Recepcionado (estado con ID 1) mostrar que aún no se ha preparado como para saber este dato
             if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
@@ -143,10 +154,9 @@ export const materialsColumns = [
     },
     {
         accessorKey: "control_priones",
-        header: "¿Control priones?",
+        header: "Control priones",
         cell: ({ row }) => {
             if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
-
             return row.original.control_priones
                 ? <span className="text-green-600">Sí</span>
                 : <span className="text-red-500">No</span>;

@@ -14,6 +14,7 @@ from .models import (
     TipoControlMaterial,
     TipoMaterial,
     Usuario, TipoIngreso,
+    LotePreparacion
 )
 
 # Register your models here.
@@ -32,5 +33,6 @@ admin.site.register([
     TipoControlMaterial,
     TipoMaterial,
     Usuario,
-    TipoIngreso
+    TipoIngreso,
+    LotePreparacion,
 ])

@@ -20,10 +20,14 @@ router.register(r'num-carga', views.NumCargaViewSet)
 router.register(r'autoclave', views.AutoclaveViewSet)
 router.register(r'historial-modificacion', views.HistorialModificacionViewSet)
 router.register(r'tipo-ingreso', views.TipoIngresoViewSet)
+router.register(r'lote-preparacion', views.LotePreparacionViewSet)
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', views.MyTokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/folio/crear-con-materiales/', views.FolioViewSet.as_view({'post': 'crear_con_materiales'}), name='crear-folio-con-materiales'),
+    path('api/v1/lote-preparacion/crear-lote-preparacion/', 
+         views.LotePreparacionViewSet.as_view({'post': 'crear_lote_preparacion'}), 
+         name='crear-lote-preparacion'),
 ]
