@@ -9,7 +9,10 @@ import Clientes from "@/pages/Clientes.jsx"
 import SidebarLayout from "@/layouts/SidebarLayout.jsx";
 import IngresoMaterialExterno from "@/pages/instrumentista/IngresoMaterialExterno.jsx";
 import PreparacionMaterialExterno from "@/pages/instrumentista/PreparacionMaterialExterno.jsx";
-import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
+import ModificacionMaterialPabellon from "@/pages/coordinador/ModificacionMaterialPabellon.jsx";
+import ModificacionMaterialDental from "@/pages/coordinador/ModificacionMaterialDental.jsx";
+import ModificacionMaterialExterno from "@/pages/coordinador/ModificacionMaterialExterno.jsx";
+import ModificacionMaterialMedico from "@/pages/coordinador/ModificacionMateriaMedico.jsx";
 import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
 import { Toaster } from 'react-hot-toast';
 import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
@@ -20,6 +23,8 @@ import IngresoMaterialDental from "@/pages/instrumentista/IngresoMaterialDental.
 import PreparacionMaterialMedico from "@/pages/instrumentista/PreparacionMaterialMedico.jsx";
 import PreparacionMaterialPabellon from "@/pages/instrumentista/PreparacionMaterialPabellon.jsx";
 import PreparacionMaterialDental from "@/pages/instrumentista/PreparacionMaterialDental.jsx";
+import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
+
 
 function App() {
     return (
@@ -45,7 +50,11 @@ function App() {
                         <Route path="/ingreso-externo" element={<IngresoMaterialExterno/>}/>
                         <Route path="/preparacion-material-externo" element={<PreparacionMaterialExterno/>}/>
                         {/* Coordinador routes */}
-                        <Route path="/modificacion-material" element={<ModificacionMaterial/>}/>
+                        <Route path="/modificacion-material-pabellon" element={<ModificacionMaterialPabellon/>}/>
+                        <Route path="/modificacion-material-externo" element={<ModificacionMaterialExterno/>}/>
+                        <Route path="/modificacion-material-dental" element={<ModificacionMaterialDental/>}/>
+                        <Route path="/modificacion-material-medico" element={<ModificacionMaterialMedico/>}/>
+                        <Route path="/ModificacionMaterial/:id" element={<ModificacionMaterial/>}/>
                         {/* Operador routes */}
                         <Route path="/ingreso-carga" element={<IngresoCarga/>}/>"
 

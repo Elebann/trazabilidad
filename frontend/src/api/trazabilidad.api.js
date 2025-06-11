@@ -15,6 +15,7 @@ export const getMaterials = () => apiURL.get('material/')
 export const getMaterial = (id) => apiURL.get(`material/${id}/`)
 export const createMaterial = (material) => apiURL.post('material/', material)
 // obtener los materiales de tipo específico y estado específico, se usa para la preparacion de material
+export const updateMaterial = (id, material) => apiURL.put(`material/${id}/`, material)
 export const getMaterialsByIngreso = (tipoIngresoId, estadoId) =>
     apiURL.get(`material/?tipo_ingreso=${tipoIngresoId}${estadoId ? `&estado=${estadoId}` : ''}`);
 // crear un lote de preparación

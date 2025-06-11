@@ -56,7 +56,15 @@ const menuGroups = [
     {
         label: "Coordinador",
         items: [
-            {title: "Modificación de material", url: "/modificacion-material", icon: FileBox},
+            {
+                title: "Modificación de material", icon: FileBox,
+                children: [
+                    {title: "Externo", url: "/modificacion-material-externo", icon: FileBox},
+                    {title: "Pabellon", url: "/modificacion-material-pabellon", icon: FileBox},
+                    {title: "Medico", url: "/modificacion-material-medico", icon: FileBox},
+                    {title: "Dental", url: "/modificacion-material-dental", icon: FileBox},
+                ],
+            },
         ],
     },
     {
