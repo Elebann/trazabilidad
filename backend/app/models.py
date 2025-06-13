@@ -153,7 +153,7 @@ class LotePreparacion(models.Model):
     materiales = models.ManyToManyField(Material, related_name='lotes_preparacion')
 
     def __str__(self):
-        return f"Lote #{self.id} - {self.codigo} ({self.fecha_preparacion.strftime('%Y-%m-%d %H:%M')})"
+        return f"Lote #{self.id} - {self.codigo}"
 
 class HistorialModificacion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -165,13 +165,14 @@ class HistorialModificacion(models.Model):
 
 class NumCarga(models.Model):
     fechahora = models.DateTimeField()
-    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    # se cambió la relación a LotePreparacion para que involucre todos los materiales preparados que irán al autoclave
+    materiales = models.ForeignKey(LotePreparacion, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.fechahora} - {self.material.nombre}"
+        return f"{self.fechahora} - {self.materiales.codigo}"
 
 class Autoclave(models.Model):
     carga = models.ForeignKey(NumCarga, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Autoclave {self.carga.fechahora} - {self.carga.material.nombre}"
+        return f"Autoclave {self.carga.fechahora}"

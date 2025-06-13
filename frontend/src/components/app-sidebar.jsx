@@ -1,6 +1,6 @@
 import {
     Home, UserCog, Package, FileSpreadsheet, Briefcase, ChevronUp, LogOut, LogIn, User, ClockFading,
-    PackagePlus, PackageOpen, FileBox, Box, ChevronRight
+    PackagePlus, PackageOpen, FileBox, Box, ChevronRight, Bubbles, Boxes
 } from "lucide-react";
 import {
     Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -70,7 +70,8 @@ const menuGroups = [
     {
         label: "Operador",
         items: [
-            {title: "Ingreso de carga", url: "/ingreso-carga", icon: FileBox},
+            {title: "Carga de materiales", url: "/ingreso-carga", icon: Bubbles},
+            {title: "Cargas activas", url: "/cargas", icon: Boxes},
         ],
     }
 ];
@@ -161,10 +162,10 @@ export function AppSidebar() {
                             <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
                                 {isLoggedIn ? (
                                     <>
-                                        <DropdownMenuItem>
+                                        {/*<DropdownMenuItem>
                                             <User/>
                                             <span>Ver Perfil</span>
-                                        </DropdownMenuItem>
+                                        </DropdownMenuItem>*/}
                                         <DropdownMenuItem onClick={handleLogout}>
                                             <LogOut/>
                                             <span>Cerrar sesión</span>

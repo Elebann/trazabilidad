@@ -14,6 +14,7 @@ import ModificacionMaterialDental from "@/pages/coordinador/ModificacionMaterial
 import ModificacionMaterialExterno from "@/pages/coordinador/ModificacionMaterialExterno.jsx";
 import ModificacionMaterialMedico from "@/pages/coordinador/ModificacionMateriaMedico.jsx";
 import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
+import Cargas from "@/pages/operador/Cargas.jsx";
 import { Toaster } from 'react-hot-toast';
 import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
 import IngresoMaterialPabellon from "@/pages/instrumentista/IngresoMaterialPabellon.jsx";
@@ -56,7 +57,8 @@ function App() {
                         <Route path="/modificacion-material-medico" element={<ModificacionMaterialMedico/>}/>
                         <Route path="/ModificacionMaterial/:id" element={<ModificacionMaterial/>}/>
                         {/* Operador routes */}
-                        <Route path="/ingreso-carga" element={<IngresoCarga/>}/>"
+                        <Route path="/ingreso-carga" element={<IngresoCarga/>}/>
+                        <Route path="/cargas" element={<Cargas/>}/>
 
                         <Route path="/ingreso-pabellon" element={<IngresoMaterialPabellon/>}/>
                         <Route path="/ingreso-medico" element={<IngresoMaterialMedico/>}/>

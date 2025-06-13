@@ -1,6 +1,6 @@
 import React from "react";
 import {Button} from "@/components/ui/button.jsx";
-import {Check, PackageCheck, CircleHelp, Bubbles, Pencil, Trash2} from "lucide-react";
+import {Check, PackageCheck, CircleHelp, Bubbles, Pencil, Trash2, PackagePlus, PackageOpen} from "lucide-react";
 import {useNavigate} from "react-router-dom";
 
 function EditUserButton({ rut }) {
@@ -113,9 +113,10 @@ export const materialsColumns = [
         cell: ({ row }) => {
             const materialData = row.original;
             const estadoConfig = {
-                1: { color: "text-yellow-600", icon: <PackageCheck />, label: row.original.estado.estado },
-                2: { color: "text-blue-500", icon: <Bubbles />, label: row.original.estado.estado },
-                3: { color: "text-green-600", icon: <Check />, label: row.original.estado.estado },
+                1: { color: "text-yellow-600", icon: <PackagePlus />, label: row.original.estado.estado },
+                2: { color: "text-blue-500", icon: <PackageOpen />, label: row.original.estado.estado },
+                3: { color: "text-purple-500", icon: <Bubbles />, label: row.original.estado.estado },
+                4: { color: "text-green-600", icon: <Check />, label: row.original.estado.estado },
                 default: { color: "text-red-500", icon: <CircleHelp />, label: "Estado desconocido" },
             };
             const { color, icon, label } = estadoConfig[materialData.estado.id] || estadoConfig.default;

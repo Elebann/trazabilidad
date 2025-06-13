@@ -22,6 +22,12 @@ export const getMaterialsByIngreso = (tipoIngresoId, estadoId) =>
 export const createLotePreparacion = (data) => {
     return apiURL.post('lote-preparacion/crear-lote-preparacion/', data);
 };
+export const getLotesPreparacion = () => apiURL.get('lote-preparacion/')
+export const getLotePreparacion = (codigo) =>
+    apiURL.get(`lote-preparacion/?codigo=${codigo}`);
+
+export const createNumCarga = (data) => apiURL.post('num-carga/', data)
+// export const getAutoclaves = () => apiURL.get('autoclave/')
 
 // Función para crear folio con materiales en secuencia
 export const createFolioWithMaterials = async (folioData, materialsData) => {

@@ -132,6 +132,8 @@ class MyTokenRefreshView(TokenRefreshView):
 class LotePreparacionViewSet(viewsets.ModelViewSet):
     queryset = LotePreparacion.objects.all()
     serializer_class = LotePreparacionSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['codigo']
 
     @action(detail=False, methods=['post'], url_path='crear-lote-preparacion')
     def crear_lote_preparacion(self, request):
