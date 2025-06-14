@@ -41,6 +41,8 @@ class RolViewSet(viewsets.ModelViewSet):
 class NumCargaViewSet(viewsets.ModelViewSet):
     queryset = NumCarga.objects.all()
     serializer_class = NumCargaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['finished']
 
 class AutoclaveViewSet(viewsets.ModelViewSet):
     queryset = Autoclave.objects.all()

@@ -44,11 +44,6 @@ class HistorialModificacionSerializer(serializers.ModelSerializer):
         model = HistorialModificacion
         fields = '__all__'
 
-class NumCargaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NumCarga
-        fields = '__all__'
-
 class AutoclaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Autoclave
@@ -234,3 +229,16 @@ class LotePreparacionSerializer(serializers.ModelSerializer):
         model = LotePreparacion
         fields = ['id', 'fecha_preparacion', 'codigo', 'preparado_por', 'preparado_por_id',
                  'control_biologico', 'control_priones', 'materiales', 'materiales_ids']
+
+class NumCargaSerializer(serializers.ModelSerializer):
+    materiales = LotePreparacionSerializer(read_only=True)
+    materiales_id = serializers.PrimaryKeyRelatedField(
+        queryset=LotePreparacion.objects.all(),
+        source='materiales',
+        write_only=True,
+        required=False
+    )
+
+    class Meta:
+        model = NumCarga
+        fields = ['id', 'fechahora', 'materiales', 'materiales_id', 'finished']

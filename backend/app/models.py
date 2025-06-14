@@ -167,6 +167,7 @@ class NumCarga(models.Model):
     fechahora = models.DateTimeField()
     # se cambió la relación a LotePreparacion para que involucre todos los materiales preparados que irán al autoclave
     materiales = models.ForeignKey(LotePreparacion, on_delete=models.CASCADE, null=True, blank=True)
+    finished = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.fechahora} - {self.materiales.codigo}"

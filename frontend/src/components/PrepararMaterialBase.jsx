@@ -70,11 +70,16 @@ export function PrepararMaterialBase({Name, tipoIngreso, estado = 1}) {
             console.log("Enviando datos:", data);
 
             // Usar toast.promise para mejor feedback
-            const response = await toast.promise(
-                createLotePreparacion(data),
+            await toast.promise(
+                createLotePreparacion(data).then(res => {
+                    if (res?.data?.codigo) {
+                        navigator.clipboard.writeText(res.data.codigo);
+                    }
+                    return res;
+                }),
                 {
                     loading: 'Preparando materiales...',
-                    success: (res) => `Lote creado: ${res.data.codigo}`,
+                    success: (res) => (`Lote creado: ${res.data.codigo} (copiado al portapapeles)`),
                     error: (err) => {
                         console.error("Error detallado:", err);
                         return `Error: ${err.response?.data?.error || err.message || 'Inténtelo nuevamente'}`;

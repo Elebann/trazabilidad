@@ -1,7 +1,18 @@
 import React from "react";
 import {Button} from "@/components/ui/button.jsx";
-import {Check, PackageCheck, CircleHelp, Bubbles, Pencil, Trash2, PackagePlus, PackageOpen} from "lucide-react";
+import {
+    Check,
+    PackageCheck,
+    CircleHelp,
+    Bubbles,
+    Pencil,
+    Trash2,
+    PackagePlus,
+    PackageOpen,
+    ChevronRight
+} from "lucide-react";
 import {useNavigate} from "react-router-dom";
+import toast from "react-hot-toast";
 
 function EditUserButton({ rut }) {
     const navigate = useNavigate();
@@ -134,7 +145,24 @@ export const materialsColumns = [
         cell: ({ row }) => {
             // Si el estado es Recepcionado (estado con ID 1) mostrar que aún no se ha preparado como para saber este dato
             if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
-            return <span className="font-bold">{row.original.ultimo_lote?.codigo}</span> || "Sin lote preparado";
+            const codigo = row.original.ultimo_lote?.codigo;
+            const handleCopy = (e) => {
+                e.stopPropagation();
+                if (codigo){
+                    navigator.clipboard.writeText(codigo);
+                    toast.success(`Cód. de preparación ${codigo} copiado al portapapeles`);
+                }
+
+            };
+            return (
+                <span
+                    className="font-bold cursor-pointer hover:underline"
+                    title="Copiar al portapapeles"
+                    onClick={handleCopy}
+                >
+                    {codigo || "Sin lote preparado"}
+                </span>
+            );
         }
     },
     {
@@ -214,5 +242,53 @@ export const userEditColumns = [
         accessorKey: "rol.rol",
         header: "Rol del empleado",
         cell: ({ row }) => row.original.rol?.rol || "Sin rol"
+    }
+]
+
+export const activeCargas = [
+    {
+        accessorKey: "materiales.codigo",
+        header: "Cód. Preparación"
+    },
+    {
+        accessorKey: "materiales.preparado_por.nombre",
+        header: "Preparado por",
+    },
+    {
+        accessorKey: "materiales.materiales",
+        header: "Núm. Materiales cargados",
+        cell: ({ row }) => {
+            const materialesObj = row.original.materiales;
+            // Verifica si está el objeto y si contiene array de mats
+            if (!materialesObj || !Array.isArray(materialesObj.materiales)) return 0;
+            return materialesObj.materiales.length;
+        }
+    },
+    {
+        accessorKey: "fechahora",
+        header: "Fecha de carga",
+        cell: ({ row }) => {
+            const date = new Date(row.original.fechahora);
+            return date.toLocaleDateString("es-CL", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    },
+    {
+        acceessorKey: "finished",
+        header: "Finalizada",
+        cell: ({ row }) => {
+            const isFinished = row.original.finished;
+            return (
+                <span className={`flex items-center gap-2 ${isFinished ? 'text-green-600' : 'text-red-500'}`}>
+                    {isFinished ? <Check className="h-4 w-4" /> : <CircleHelp className="h-4 w-4" />}
+                    {isFinished ? "Sí" : "No"}
+                </span>
+            );
+        }
     }
 ]

@@ -65,11 +65,10 @@ export default function IngresoCarga(){
             // montar los datos que se esperan
             const cargaData = {
                 fechahora: new Date().toISOString(),
-                materiales: loteId
+                materiales_id: loteId
             };
 
             const response = await createNumCarga(cargaData);
-
 
             const actualizacionesMateriales = materiales.map(material => {
                 // el backend necesita que se envíe todo por separado
@@ -89,7 +88,6 @@ export default function IngresoCarga(){
             });
 
             await Promise.all(actualizacionesMateriales);
-            console.log("Materiales actualizados a estado En Carga");
             toast.success("Carga ingresada correctamente");
 
             // Limpiar
