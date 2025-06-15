@@ -4,6 +4,7 @@ import Title from "@/components/Title.jsx";
 import {DataTable} from "@/components/DataTable.jsx";
 import {clientesColumns} from "@/features/columns.jsx";
 import {getClientes} from "@/api/trazabilidad.api.js";
+import {Description} from "@/components/Description.jsx";
 
 function Clientes() {
     const [clientes, setClientes] = useState([]);
@@ -30,6 +31,7 @@ function Clientes() {
         <div>
             <Main>
                 <Title>Clientes</Title>
+                <Description>Lista de clientes ingresados en el sistema.</Description>
 
                 { isLoading ? (
                     <p>Cargando clientes...</p>

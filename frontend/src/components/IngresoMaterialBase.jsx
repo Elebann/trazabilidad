@@ -14,6 +14,7 @@ import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 import { DataTable } from "@/components/DataTable.jsx";
 import { materialesAgregadosColumns } from "@/features/columns.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area.jsx";
+import {Description} from "@/components/Description.jsx";
 
 
 function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
@@ -241,6 +242,7 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
     return (
         <Main>
             <Title>Ingreso Material {tipoTitulo}</Title>
+            <Description>Para ingresar material, primero deberá crear el folio que contendrá todos los materiales que han llegado. Primero rellene el formulario de folio y luego podrá rellenar el formulario de ingreso de material todas las veces que sea necesario. A medida que va agregando materiales, el resumen será visible en la tabla de al lado</Description>
 
             {/* Formulario 1: Folio */}
             <div className="mb-6 form-caja">

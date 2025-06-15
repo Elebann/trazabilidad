@@ -8,6 +8,7 @@ import {Button} from "@/components/ui/button.jsx";
 import { UserPlus } from "lucide-react";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
+import {Description} from "@/components/Description.jsx";
 
 function Users() {
     const [users, setUsers] = useState([]);
@@ -34,7 +35,7 @@ function Users() {
         try {
             await deleteUser(rut);
             setUsers((prevUsers) => prevUsers.filter(user => user.rut !== rut));
-            toast.success(`Usuario ${rut} eliminado.`);
+            toast.success(`Usuario eliminado.`);
         } catch (error) {
             console.error("Error al eliminar el usuario:", error);
             toast.error("Error al eliminar el usuario.");
@@ -47,6 +48,7 @@ function Users() {
         <div>
             <Main>
                 <Title>Gestión de Usuarios</Title>
+                <Description>Crear, modificar o eliminar usuarios fácilmente.</Description>
 
                 <Button onClick={() => navigate('/nuevo-usuario')} className="bg-esteril-blue text-white hover:bg-esteril-blue-light">
                     <UserPlus /> Agregar nuevo Usuario

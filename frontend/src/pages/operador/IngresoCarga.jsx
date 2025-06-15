@@ -143,7 +143,7 @@ export default function IngresoCarga(){
 
                     <div className="mt-4 md:mt-0 flex-1 flex items-center justify-center md:justify-end">
                         <h1 className="text-2xl md:text-3xl font-bold text-center md:text-right">
-                            Preparación: {loteEncontrado ? loteEncontrado.codigo : "(Ninguno)"}
+                            Preparación: {loteEncontrado ? <span className="text-esteril-blue">{loteEncontrado.codigo}</span> : <span className="text-gray-400">Ingrese un código</span>}
                         </h1>
                     </div>
                 </div>

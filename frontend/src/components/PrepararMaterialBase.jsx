@@ -11,6 +11,7 @@ import { getMaterialsByIngreso, createLotePreparacion } from "@/api/trazabilidad
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {prepareMaterialColumns, selectedMaterials} from "@/features/columns.jsx";
 import {DataTable} from "@/components/DataTable.jsx";
+import {Description} from "@/components/Description.jsx";
 
 // ID de tipos de material
 // 1: Externo   2: Pabellón
@@ -104,6 +105,8 @@ export function PrepararMaterialBase({Name, tipoIngreso, estado = 1}) {
         <div>
             <Main>
                 <Title>Preparación de material {Name}</Title>
+                <Description>Para preparar material, se muestra una lista de materiales con estado "Recepcionado". El usuario puede seleccionar los materiales deseados, asignar controles biológico y de priones si es necesario, y al pulsar "Preparar" se genera un código que identifica los materiales seleccionados para la siguiente etapa del proceso.</Description>
+
                 {loading
                     ? (
                         <p>Cargando materiales...</p>
