@@ -7,6 +7,9 @@ import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
 import {Button} from "@/components/ui/button.jsx";
 import {Pencil} from "lucide-react";
+import {Input} from "@/components/ui/input.jsx";
+import {modificarMaterialBase} from "@/features/columns.jsx";
+import {DataTable} from "@/components/DataTable.jsx";
 
 export default function ModificarMaterialBase({Name, tipoIngreso, estado = 1}) {
     const [loading, setLoading] = useState(true);
@@ -60,7 +63,7 @@ export default function ModificarMaterialBase({Name, tipoIngreso, estado = 1}) {
             <Main>
                 <Title>Modificación del Material {Name}</Title>
                 <div style={{ marginBottom: "1rem" }}>
-                    <input
+                    <Input
                         type="text"
                         placeholder="Buscar por N° Folio"
                         value={filtroFolio}
@@ -71,41 +74,13 @@ export default function ModificarMaterialBase({Name, tipoIngreso, estado = 1}) {
                 {loading
                     ? (<p>Cargando materiales...</p>)
                     : (
-                <div className="rounded-md border mb-4">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Nombre Material</TableHead>
-                                <TableHead>Cantidad</TableHead>
-                                <TableHead>Cliente</TableHead>
-                                <TableHead>N°Folio</TableHead>
-                                <TableHead>Observación</TableHead>
+                <div className="mb-4">
+                    <DataTable
+                        columns={modificarMaterialBase}
+                        data={materialesFiltrados}
+                        noDataText="No hay materiales disponibles"
+                    />
 
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {materialesFiltrados.length > 0
-                                    ? (
-                                        materialesFiltrados.map((material) => (
-                                            <TableRow key={material.id}>
-                                                <TableCell>{material.nombre}</TableCell>
-                                                <TableCell>{material.cantidad}</TableCell>
-                                                <TableCell>{material.folio?.cliente?.nombre || "Sin cliente"}</TableCell>
-                                                <TableCell>{material.folio?.nfolio || "N/A"}</TableCell>
-                                                <TableCell>{material.comentarios || "-"}</TableCell>
-                                                <TableCell>
-                                                    <EditMaterialButton id={material.id} />
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
-                                    )
-                                    : (
-                                        <TableRow>
-                                            <TableCell colSpan={6} className="text-center">No hay materiales disponibles</TableCell>
-                                        </TableRow>
-                                    )}
-                        </TableBody>
-                    </Table>
                 </div>
                     )}
             </Main>

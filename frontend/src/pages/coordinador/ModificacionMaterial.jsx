@@ -9,6 +9,9 @@ import {z} from "zod";
 import Subtitle from "@/components/Subtitle.jsx";
 import Main from "@/components/Main.jsx";
 import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
+import {DataTable} from "@/components/DataTable.jsx";
+import {modificacionMaterial} from "@/features/columns.jsx";
+import Title from "@/components/Title.jsx";
 
 export default function ModificacionMaterial() {
     const {id} = useParams();
@@ -100,28 +103,12 @@ export default function ModificacionMaterial() {
 
     return (
         <Main>
-            <Subtitle>Editando Material</Subtitle>
-            <div className="rounded-md border mb-4">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Nombre</TableHead>
-                            <TableHead>Cantidad</TableHead>
-                            <TableHead>Cliente</TableHead>
-                            <TableHead>N° Folio</TableHead>
-                            <TableHead>Observación</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>{material.nombre}</TableCell>
-                            <TableCell>{material.cantidad}</TableCell>
-                            <TableCell>{material.folio?.cliente?.nombre || "Sin cliente"}</TableCell>
-                            <TableCell>{material.folio?.nfolio || "N/A"}</TableCell>
-                            <TableCell>{material.comentarios || "-"}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+            <Title>Editando Material</Title>
+            <div className="mb-4">
+                <DataTable
+                    data={[material]}
+                    columns={modificacionMaterial}
+                />
             </div>
 
 

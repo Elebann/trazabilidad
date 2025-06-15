@@ -449,3 +449,73 @@ export const insertCarga = [
         cell: ({ row }) => row.original.comentarios || "-"
     }
 ];
+
+export const modificacionMaterial = [
+    {
+        accessorKey: "nombre",
+        header: "Nombre"
+    },
+    {
+        accessorKey: "cantidad",
+        header: "Cantidad"
+    },
+    {
+        accessorKey: "folio.cliente.nombre",
+        header: "Cliente",
+        cell: ({ row }) => row.original.folio?.cliente?.nombre || "Sin cliente"
+    },
+    {
+        accessorKey: "folio.nfolio",
+        header: "N° Folio",
+        cell: ({ row }) => row.original.folio?.nfolio || "N/A"
+    },
+    {
+        accessorKey: "comentarios",
+        header: "Comentarios",
+        cell: ({ row }) => row.original.comentarios || "-"
+    }
+]
+
+function EditMaterialButton({ id }) {
+        const navigate = useNavigate();
+        return (
+            <Button
+                variant="outline"
+                onClick={() => navigate(`/ModificacionMaterial/${id}`)}
+                className="hover:bg-esteril-blue-light hover:text-white"
+            >
+                <Pencil className="h-4 w-4" /> Modificar
+            </Button>
+        );
+    }
+
+export const modificarMaterialBase = [
+    {
+        accessorKey: "nombre",
+        header: "Nombre Material"
+    },
+    {
+        accessorKey: "cantidad",
+        header: "Cantidad"
+    },
+    {
+        accessorKey: "folio.cliente.nombre",
+        header: "Cliente",
+        cell: ({ row }) => row.original.folio?.cliente?.nombre || "Sin cliente"
+    },
+    {
+        accessorKey: "folio.nfolio",
+        header: "N° Folio",
+        cell: ({ row }) => row.original.folio?.nfolio || "N/A"
+    },
+    {
+        accessorKey: "comentarios",
+        header: "Observación",
+        cell: ({ row }) => row.original.comentarios || "-"
+    },
+    {
+        id: "acciones",
+        header: "Acciones",
+        cell: ({ row }) => <EditMaterialButton id={row.original.id} />
+    }
+]
