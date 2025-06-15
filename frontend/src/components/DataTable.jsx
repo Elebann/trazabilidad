@@ -21,13 +21,13 @@ export function DataTable({columns, data}) {
     })
 
     return (
-        <div className="rounded-md border">
+        <div className="rounded-md border overflow-hidden">
             <Table>
-                <TableHeader>
+                <TableHeader className="bg-esteril-blue [&_tr:hover]:bg-esteril-blue">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (
-                                <TableHead key={header.id}>
+                                <TableHead key={header.id} className="text-white">
                                     {header.isPlaceholder
                                         ? null
                                         : flexRender(
@@ -55,8 +55,8 @@ export function DataTable({columns, data}) {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No hay resultados.
+                            <TableCell colSpan={columns.length} className="h-12 text-center">
+                                Sin información.
                             </TableCell>
                         </TableRow>
                     )}

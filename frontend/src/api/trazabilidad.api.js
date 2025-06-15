@@ -13,6 +13,7 @@ export const deleteFolio = (id) => apiURL.delete(`folio/${id}/`)
 // Materiales
 export const getMaterials = () => apiURL.get('material/')
 export const getMaterial = (id) => apiURL.get(`material/${id}/`)
+export const getMaterialByFolio = (nFolio) => apiURL.get(`material/?folio=${nFolio}`)
 export const createMaterial = (material) => apiURL.post('material/', material)
 // obtener los materiales de tipo específico y estado específico, se usa para la preparacion de material
 export const updateMaterial = (id, material) => apiURL.put(`material/${id}/`, material)

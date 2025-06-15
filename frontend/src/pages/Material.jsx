@@ -4,6 +4,7 @@ import Title from "@/components/Title.jsx";
 import {getMaterials} from "@/api/trazabilidad.api.js";
 import {DataTable} from "@/components/DataTable.jsx";
 import {materialsColumns} from "@/features/columns.jsx";
+import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.jsx";
 
 function Material() {
 
@@ -28,16 +29,21 @@ function Material() {
     }, []);
 
     return (
-        <div>
-            <Main>
-                <Title>Materiales</Title>
-                { isLoading ? (
-                    <p>Cargando materiales...</p>
-                ) : (
-                    <DataTable data={materials} columns={materialsColumns} />
-                )}
-            </Main>
-        </div>
+
+        <Main>
+            <Title>Materiales</Title>
+            { isLoading ? (
+                <p>Cargando materiales...</p>
+            ) : (
+                <ScrollArea className="w-full" scrollHide={false} type="always" scrollbarVisibility="auto">
+                    <div className="h-[calc(100vh-200px)]">
+                        <DataTable data={materials} columns={materialsColumns} />
+                    </div>
+                    <ScrollBar orientation="horizontal"/>
+                </ScrollArea>
+            )}
+        </Main>
+
     );
 }
 

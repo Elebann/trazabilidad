@@ -36,7 +36,7 @@ const menuGroups = [
             {
                 title: "Ingreso de Material", icon: PackagePlus,
                 children: [
-                    {title: "Externo", url: "/ingreso-externo", icon: Box},
+                    // {title: "Externo", url: "/ingreso-externo", icon: Box},
                     {title: "Pabellón", url: "/ingreso-pabellon", icon: Box},
                     {title: "Médico", url: "/ingreso-medico", icon: Box},
                     {title: "Dental", url: "/ingreso-dental", icon: Box},
@@ -45,7 +45,7 @@ const menuGroups = [
             {
                 title: "Preparación de Material", icon: PackageOpen,
                 children:[
-                    {title: "Externo", url: "/preparacion-material-externo", icon: PackageOpen},
+                    // {title: "Externo", url: "/preparacion-material-externo", icon: PackageOpen},
                     {title: "Pabellón", url: "/preparacion-material-pabellon", icon: PackageOpen},
                     {title: "Médico", url: "/preparacion-material-medico", icon: PackageOpen},
                     {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},

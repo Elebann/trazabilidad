@@ -3,17 +3,18 @@ import Main from "@/components/Main.jsx";
 import {useEffect, useState} from "react";
 import {getActiveCargas} from "@/api/trazabilidad.api.js";
 import {ExpandableDataTable} from "@/components/ExpandedDataTable.jsx";
-import {activeCargas} from "@/features/columns.jsx";
+import {activeCargas, detailCarga} from "@/features/columns.jsx";
 import Subtitle from "@/components/Subtitle.jsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+import {AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
     AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import {PackageCheck} from "lucide-react";
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import {Description} from "@/components/Description.jsx";
+import {DataTable} from "@/components/DataTable"
 
 const handleDelete = async (rowData, refreshCargas) => {
     if (!rowData || !rowData.id || !rowData.materiales) {
@@ -80,34 +81,10 @@ const CargaDetail = ({ rowData, refreshCargas }) => {
 
             <h4 className="text-md font-medium mb-2">Materiales en esta carga ({materiales.length})</h4>
             <div>
-                <Table className="min-w-full border border-gray-200 rounded shadow-sm bg-white">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Nombre</TableHead>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Comentarios</TableHead>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Tipo</TableHead>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Cantidad</TableHead>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Estado</TableHead>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Método</TableHead>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Ingreso</TableHead>
-                            <TableHead className="px-3 py-2 border-b font-medium text-left">Cliente</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {materiales.map((material) => (
-                            <TableRow key={material.id} className="hover:bg-gray-50">
-                                <TableCell className="px-3 py-2 border-b">{material.nombre}</TableCell>
-                                <TableCell className="px-3 py-2 border-b">{material.comentarios}</TableCell>
-                                <TableCell className="px-3 py-2 border-b">{material.tipo.tipo_material}</TableCell>
-                                <TableCell className="px-3 py-2 border-b">{material.cantidad}</TableCell>
-                                <TableCell className="px-3 py-2 border-b">{material.estado.estado}</TableCell>
-                                <TableCell className="px-3 py-2 border-b">{material.metodo_esterilizacion.metodo}</TableCell>
-                                <TableCell className="px-3 py-2 border-b">{material.tipo_ingreso.tipo_ingreso}</TableCell>
-                                <TableCell className="px-3 py-2 border-b">{material.folio.cliente.nombre}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                <DataTable
+                    data={materiales}
+                    columns={detailCarga}
+                />
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -120,7 +97,7 @@ const CargaDetail = ({ rowData, refreshCargas }) => {
                                 <span className="inline-flex items-center text-green-600"><PackageCheck className="w-6 h-6 mx-1"/>Esterilizada</span>
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                                Esto finalizará el proceso de trazabilidad para esta carga, y pasará al despacho para entregarlo al cliente. Cualquier cambio posterior solo podrá ser realizado por un Administrador.
+                                Esto finalizará el proceso de trazabilidad, quedando en manos de los encargados de despacho. Cualquier cambio posterior solo podrá ser realizado por un Administrador.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -158,7 +135,7 @@ export default function Cargas() {
         <>
             <Main>
                 <Title>Cargas Activas</Title>
-                <p className="mb-3 font-medium text-muted-foreground">Para ver los detalles de las cargas activas, haga clic en alguna fila disponible</p>
+                <Description>Para ver los detalles de las cargas activas, haga clic en alguna fila disponible</Description>
 
                 <ExpandableDataTable
                     data={cargas}

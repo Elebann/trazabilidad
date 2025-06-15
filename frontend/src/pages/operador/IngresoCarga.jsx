@@ -4,10 +4,12 @@ import Title from "@/components/Title.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Switch} from "@/components/ui/switch.jsx";
-import {Bubbles, PackageSearch} from "lucide-react";
+import {Bubbles, PackageSearch, ClipboardPaste} from "lucide-react";
 import {createNumCarga, getLotePreparacion, updateMaterial} from "@/api/trazabilidad.api.js";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.jsx";
 import toast from "react-hot-toast";
+import {DataTable} from "@/components/DataTable.jsx";
+import {insertCarga} from "@/features/columns.jsx";
 
 export default function IngresoCarga(){
     const [codigoLote, setCodigoLote] = useState("");
@@ -69,6 +71,7 @@ export default function IngresoCarga(){
             };
 
             const response = await createNumCarga(cargaData);
+            console.log("DEBUG: respuesta backend al crear carga:", response);
 
             const actualizacionesMateriales = materiales.map(material => {
                 // el backend necesita que se envíe todo por separado
@@ -116,6 +119,19 @@ export default function IngresoCarga(){
                             maxLength={9}
                         />
                         <Button
+                            variant="outline"
+                            onClick={async () => {
+                                try {
+                                    const text = await navigator.clipboard.readText();
+                                    setCodigoLote(text);
+                                } catch (err) {
+                                    toast.error("No se pudo leer el portapapeles");
+                                }
+                            }}
+                        >
+                            <ClipboardPaste />
+                        </Button>
+                        <Button
                             type="submit"
                             onClick={() => buscarLotePorCodigo(codigoLote)}
                         >
@@ -130,45 +146,18 @@ export default function IngresoCarga(){
                     </div>
                 </div>
 
-                <div className="border rounded">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Nombre del material</TableHead>
-                                <TableHead>Tipo de material</TableHead>
-                                <TableHead>Cantidad</TableHead>
-                                <TableHead>Método de esterilización</TableHead>
-                                <TableHead>Núm. Folio</TableHead>
-                                <TableHead>Observación</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {materiales.length > 0 ? (
-                                materiales.map((material, index) => (
-                                    <TableRow key={material.id || index}>
-                                        <TableCell>{material.nombre || "Sin nombre"}</TableCell>
-                                        <TableCell>{material.tipo?.tipo_material || "Sin tipo"}</TableCell>
-                                        <TableCell>{material.cantidad || 0}</TableCell>
-                                        <TableCell>{material.metodo_esterilizacion?.metodo || "No especificado"}</TableCell>
-                                        <TableCell>{material.folio?.nfolio || "Sin folio"}</TableCell>
-                                        <TableCell>{material.comentarios || "-"}</TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={6} className="text-center py-4">
-                                        No se encontraron materiales para este lote
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+                <div>
+                    <DataTable
+                        data={materiales}
+                        columns={insertCarga}
+                    />
+
                 </div>
 
                 <div className="flex flex-col md:flex-row justify-between items-center mt-8 gap-8">
                     <div className="flex flex-col sm:flex-row gap-8 md:gap-12 w-full md:w-auto justify-center">
                         <div className="text-center flex-1">
-                            <h2 className="mb-4 whitespace-nowrap">Control Biologico</h2>
+                            <h2 className="mb-4 whitespace-nowrap">Control Biológico</h2>
                             <div className="scale-150 inline-block">
                                 <Switch disabled checked={loteEncontrado?.control_biologico || false}/>
                             </div>

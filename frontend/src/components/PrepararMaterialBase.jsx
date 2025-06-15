@@ -9,6 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useCurrentUser } from "@/hooks/useCurrentUser.js";
 import { getMaterialsByIngreso, createLotePreparacion } from "@/api/trazabilidad.api.js";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {prepareMaterialColumns, selectedMaterials} from "@/features/columns.jsx";
+import {DataTable} from "@/components/DataTable.jsx";
 
 // ID de tipos de material
 // 1: Externo   2: Pabellón
@@ -103,85 +105,30 @@ export function PrepararMaterialBase({Name, tipoIngreso, estado = 1}) {
             <Main>
                 <Title>Preparación de material {Name}</Title>
                 {loading
-                    ? (<p>Cargando materiales...</p>)
-                    : (
-                        <div className="rounded-md border mb-4">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-12">Seleccionar</TableHead>
-                                        <TableHead>Nombre</TableHead>
-                                        <TableHead>Cantidad</TableHead>
-                                        <TableHead>Cliente</TableHead>
-                                        <TableHead>Núm. Folio</TableHead>
-                                        <TableHead>Observación</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {materiales.length > 0
-                                    ? (
-                                        materiales.map((material) => (
-                                            <TableRow key={material.id}>
-                                                <TableCell>
-                                                    <Checkbox
-                                                        checked={seleccionados.some(m => m.id === material.id)}
-                                                        onCheckedChange={() => seleccionarMaterial(material)}
-                                                    />
-                                                </TableCell>
-                                                <TableCell>{material.nombre}</TableCell>
-                                                <TableCell>{material.cantidad}</TableCell>
-                                                <TableCell>{material.folio?.cliente?.nombre || "Sin cliente"}</TableCell>
-                                                <TableCell>{material.folio?.nfolio || "N/A"}</TableCell>
-                                                <TableCell>{material.comentarios || "-"}</TableCell>
-                                            </TableRow>
-                                        ))
-                                    )
-                                    : (
-                                        <TableRow>
-                                            <TableCell colSpan={6} className="text-center">No hay materiales disponibles</TableCell>
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
+                    ? (
+                        <p>Cargando materiales...</p>
+                    ) : (
+                        <div className="mb-4">
+                            <DataTable
+                                data={materiales}
+                                columns={prepareMaterialColumns(seleccionados, seleccionarMaterial)}
+                            />
                         </div>
-                    )}
+                )}
 
                 <Subtitle className="mt-4">Seleccionados ({seleccionados.length})</Subtitle>
-                <div className="rounded-md border mb-4">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Nombre</TableHead>
-                                <TableHead>Cantidad</TableHead>
-                                <TableHead>Cliente</TableHead>
-                                <TableHead>Observación</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {seleccionados.length > 0 ? (
-                                seleccionados.map((material) => (
-                                    <TableRow key={material.id}>
-                                        <TableCell>{material.nombre}</TableCell>
-                                        <TableCell>{material.cantidad}</TableCell>
-                                        <TableCell>{material.folio?.cliente?.nombre || "Sin cliente"}</TableCell>
-                                        <TableCell>{material.comentarios || "-"}</TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={4} className="text-center">No hay materiales
-                                        seleccionados</TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+                <div className="mb-4">
+                    <DataTable
+                        data={seleccionados}
+                        columns={selectedMaterials}
+                    />
                 </div>
 
                 <div
                     style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "2rem"}}>
                     <div style={{display: "flex", gap: "3rem"}}>
                         <div style={{textAlign: "center"}}>
-                            <h2 style={{marginBottom: "1rem"}}>Control Biologico</h2>
+                            <h2 style={{marginBottom: "1rem"}}>Control Biológico</h2>
                             <div style={{transform: "scale(1.5)"}}>
                                 <Switch
                                     checked={controlBiologico}

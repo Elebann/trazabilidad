@@ -31,9 +31,6 @@ function Users() {
     }, []);
 
     const handleDelete = async (rut) => {
-        const confirmDelete = window.confirm(`¿Estás seguro de eliminar al usuario con RUT: ${rut}?`);
-        if (!confirmDelete) return;
-
         try {
             await deleteUser(rut);
             setUsers((prevUsers) => prevUsers.filter(user => user.rut !== rut));

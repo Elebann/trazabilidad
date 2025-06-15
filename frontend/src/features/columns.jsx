@@ -1,18 +1,24 @@
 import React from "react";
 import {Button} from "@/components/ui/button.jsx";
 import {
-    Check,
-    PackageCheck,
-    CircleHelp,
-    Bubbles,
-    Pencil,
-    Trash2,
-    PackagePlus,
-    PackageOpen,
-    ChevronRight
+    Check, PackageCheck, CircleHelp, Bubbles, Pencil,
+    Trash2, PackagePlus, PackageOpen, ChevronRight,
+    ToggleLeft, ToggleRight
 } from "lucide-react";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
+import {Checkbox} from "@/components/ui/checkbox.jsx";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 function EditUserButton({ rut }) {
     const navigate = useNavigate();
@@ -49,13 +55,42 @@ export const userColumns = ({ handleDelete }) => [
     {
         header: "Eliminar",
         cell: ({row}) => (
-            <Button
-                variant="destructive"
-                className="hover:text-white hover:bg-red-800"
-                onClick={() => handleDelete(row.original.rut)}
-            >
-                <Trash2 className="h-4 w-4"/> Eliminar Usuario
-            </Button>
+            <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    <Button
+                        variant="destructive"
+                        className="hover:text-white hover:bg-red-800"
+                    >
+                        <Trash2 className="h-4 w-4"/> Eliminar Usuario
+                    </Button>
+                </AlertDialogTrigger>
+
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle className="text-red-800 font-bold">¿Eliminar este usuario ({row.original.nombre})?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            <span className="text-red-500">
+                                Esta acción no es reversible.
+                                <br/>
+                                <br />
+                                Cuidado: Eliminar este usuario también eliminará TODOS los datos que tengan relación con el empleado. Esto incluye los folios que ingresó, materiales ingresados y recibidos... Todo.
+                                <br />
+                                <br />
+                                <span className="font-medium">¿DESEA CONTINUAR?</span>
+                            </span>
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            className='bg-red-500 hover:bg-red-800'
+                            onClick={() => handleDelete(row.original.rut)}
+                        >
+                            <Trash2 className="h-4 w-4"/> Eliminar
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         )
     }
 ];
@@ -144,7 +179,7 @@ export const materialsColumns = [
         header: "Lote preparado",
         cell: ({ row }) => {
             // Si el estado es Recepcionado (estado con ID 1) mostrar que aún no se ha preparado como para saber este dato
-            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
+            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2 text-neutral-400 font-medium"}><CircleHelp className="h-4 w-4" /> Falta preparar</span>;
             const codigo = row.original.ultimo_lote?.codigo;
             const handleCopy = (e) => {
                 e.stopPropagation();
@@ -167,33 +202,47 @@ export const materialsColumns = [
     },
     {
         accessorKey: "metodo_esterilizacion.metodo",
-        header: "Método de esterilización"
+        header: "Mét. Esterilización"
     },
     {
         accessorKey: "control_biologico",
         header: "Control biológico",
         cell: ({ row }) => {
-            // Si el estado es Recepcionado (estado con ID 1) mostrar que aún no se ha preparado como para saber este dato
-            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
-            // En otro caso, mostrar si tiene control biológico o no
-            return row.original.control_biologico
-                ? <span className="text-green-600">Sí</span>
-                : <span className="text-red-500">No</span>;
-        }
+                const { id } = row.original.estado;
+                const isRecepcionado = id === 1;
+
+                if (isRecepcionado) {
+                    return (
+                        <span className="flex items-center gap-2 text-neutral-400 font-medium">
+                            <CircleHelp className="h-4 w-4" /> Falta preparar
+                        </span>
+                    );
+                }
+
+                return row.original.control_biologico ? (
+                    <span className="text-green-600 flex items-center gap-2">
+                        <ToggleRight /> Sí
+                    </span>
+                ) : (
+                    <span className="text-red-500 flex items-center gap-2">
+                        <ToggleLeft /> No
+                    </span>
+                );
+            }
     },
     {
         accessorKey: "control_priones",
         header: "Control priones",
         cell: ({ row }) => {
-            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2"}>Falta preparar</span>;
+            if (row.original.estado.id === 1) return <span className={"flex items-center gap-2 text-neutral-400 font-medium"}><CircleHelp className="h-4 w-4" /> Falta preparar</span>;
             return row.original.control_priones
-                ? <span className="text-green-600">Sí</span>
-                : <span className="text-red-500">No</span>;
+                ? <span className="text-green-600 flex items-center gap-2"><ToggleRight /> Sí</span>
+                : <span className="text-red-500 flex items-center gap-2"><ToggleLeft /> No</span>;
         }
     },
     {
         accessorKey: "fecha_ingreso",
-        header: "Fecha del ingreso"
+        header: "Ingreso"
     },
     {
         accessorKey: "agregado_por.nombre",
@@ -203,10 +252,10 @@ export const materialsColumns = [
         accessorKey: "tipo_ingreso.tipo_ingreso",
         header: "Tipo de ingreso",
     },
-    {
+    /*{
         accessorKey: "folio.nfolio",
         header: "Núm. Folio",
-    },
+    },*/
     {
         accessorKey: "comentarios",
         header: "Comentarios"
@@ -292,3 +341,111 @@ export const activeCargas = [
         }
     }
 ]
+
+export const prepareMaterialColumns = (seleccionados, seleccionarMaterial) => [
+    {
+        id: "select",
+        header: "Seleccionar",
+        cell: ({ row }) => (
+            <Checkbox
+                checked={seleccionados.some(m => m.id === row.original.id)}
+                onCheckedChange={() => seleccionarMaterial(row.original)}
+            />
+        )
+    },
+    { accessorKey: "nombre", header: "Nombre" },
+    { accessorKey: "cantidad", header: "Cantidad" },
+    {
+        accessorKey: "folio.cliente.nombre",
+        header: "Cliente",
+        cell: ({ row }) => row.original.folio?.cliente?.nombre || "Sin cliente"
+    },
+    {
+        accessorKey: "folio.nfolio",
+        header: "Núm. Folio",
+        cell: ({ row }) => row.original.folio?.nfolio || "N/A"
+    },
+    {
+        accessorKey: "comentarios",
+        header: "Observación",
+        cell: ({ row }) => row.original.comentarios || "-"
+    }
+];
+
+export const selectedMaterials = [
+    { accessorKey: "nombre", header: "Nombre" },
+    { accessorKey: "cantidad", header: "Cantidad" },
+    {
+        accessorKey: "folio.cliente.nombre",
+        header: "Cliente",
+        cell: ({ row }) => row.original.folio?.cliente?.nombre || "Sin cliente"
+    },
+    {
+        accessorKey: "comentarios",
+        header: "Observación",
+        cell: ({ row }) => row.original.comentarios || "-"
+    }
+]
+
+export const detailCarga = [
+    { accessorKey: "nombre", header: "Nombre" },
+    { accessorKey: "comentarios", header: "Comentarios" },
+    {
+        accessorKey: "tipo.tipo_material",
+        header: "Tipo",
+        cell: ({ row }) => row.original.tipo?.tipo_material || "-"
+    },
+    { accessorKey: "cantidad", header: "Cantidad" },
+    {
+        accessorKey: "estado.estado",
+        header: "Estado",
+        cell: ({ row }) => row.original.estado?.estado || "-"
+    },
+    {
+        accessorKey: "metodo_esterilizacion.metodo",
+        header: "Método",
+        cell: ({ row }) => row.original.metodo_esterilizacion?.metodo || "-"
+    },
+    {
+        accessorKey: "tipo_ingreso.tipo_ingreso",
+        header: "Ingreso",
+        cell: ({ row }) => row.original.tipo_ingreso?.tipo_ingreso || "-"
+    },
+    {
+        accessorKey: "folio.cliente.nombre",
+        header: "Cliente",
+    }
+]
+
+export const insertCarga = [
+    {
+        accessorKey: "nombre",
+        header: "Nombre del material",
+        cell: ({ row }) => row.original.nombre || "Sin nombre"
+    },
+    {
+        accessorKey: "tipo.tipo_material",
+        header: "Tipo de material",
+        cell: ({ row }) => row.original.tipo?.tipo_material || "Sin tipo"
+    },
+    {
+        accessorKey: "cantidad",
+        header: "Cantidad",
+        cell: ({ row }) => row.original.cantidad || 0
+    },
+    {
+        accessorKey: "metodo_esterilizacion.metodo",
+        header: "Método de esterilización",
+        cell: ({ row }) => row.original.metodo_esterilizacion?.metodo || "No especificado"
+    },
+    {
+        accessorKey: "folio.nfolio",
+        header: "Núm. Folio",
+        cell: ({ row }) => row.original.folio?.nfolio || "Sin folio"
+    },
+    {
+        accessorKey: "comentarios",
+        header: "Observación",
+        cell: ({ row }) => row.original.comentarios || "-"
+    }
+];
