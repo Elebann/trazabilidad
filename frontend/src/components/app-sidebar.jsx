@@ -19,8 +19,8 @@ const menuGroups = [
         items: [
             {title: "Inicio", url: "/index", icon: Home},
             {title: "Clientes", url: "/clientes", icon: Briefcase},
-            {title: "Material", url: "/material", icon: Package},
-            {title: "Folios", url: "/folios", icon: FileSpreadsheet},
+            //{title: "Material", url: "/material", icon: Package},
+            {title: "Folio y Materiales", url: "/folios", icon: FileSpreadsheet},
         ],
     },
     {
@@ -32,7 +32,6 @@ const menuGroups = [
     {
         label: "Instrumentista",
         items: [
-            // this is collapsable, it has sublinks thanks to the children array
             {
                 title: "Ingreso de Material", icon: PackagePlus,
                 children: [
@@ -76,14 +75,12 @@ const menuGroups = [
     }
 ];
 
-// todo: permitir que ciertos enlaces puedan expandirse para mostrar subenlaces, no es indispensable pero otorgaría mayor comodidad al usuario final.
 export function AppSidebar() {
     const navigate = useNavigate();
     const { isLoggedIn, userName } = useCurrentUser()
 
     const handleLogout = async () => {
         // todo send the refresh token to the backend to invalidate it using an endpoint (not implemented yet)
-
         // clean localStorage
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');

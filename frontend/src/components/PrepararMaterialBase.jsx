@@ -152,7 +152,7 @@ export function PrepararMaterialBase({Name, tipoIngreso, estado = 1}) {
                             onClick={handleImprimir}
                             disabled={seleccionados.length === 0 || enviando}
                         >
-                            {enviando ? "Procesando..." : "Imprimir"}
+                            {enviando ? "Procesando..." : "Preparar"}
                         </Button>
                     </div>
                 </div>

@@ -67,7 +67,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = ['rut', 'nombre', 'rol', 'rol_id', 'password']
+        fields = ['rut', 'nombre', 'rol', 'rol_id', 'password', 'date_joined']
         extra_kwargs = {
             'password': {'write_only': True},
         }

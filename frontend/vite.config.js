@@ -17,3 +17,9 @@ export default defineConfig({
     },
   },
 })
+
+/*export const server = {
+  hmr: {
+    overlay: false,
+  },
+}*/

@@ -49,6 +49,20 @@ export const userColumns = ({ handleDelete }) => [
         header: "Rol"
     },
     {
+        accessorKey: "date_joined",
+        header: "Fecha de creación",
+        cell: ({ row }) => {
+            const date = new Date(row.original.date_joined);
+            return date.toLocaleDateString("es-CL", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    },
+    {
         header: "Modificar",
         cell: ({ row }) => <EditUserButton rut={row.original.rut} />
     },
@@ -155,7 +169,7 @@ export const materialsColumns = [
     },
     {
         accessorKey: "estado.estado",
-        header: "Estado del material",
+        header: "Estado",
         cell: ({ row }) => {
             const materialData = row.original;
             const estadoConfig = {
@@ -176,7 +190,7 @@ export const materialsColumns = [
     },
     {
         accessorKey: "ultimo_lote.codigo",
-        header: "Lote preparado",
+        header: "Cód. Preparación",
         cell: ({ row }) => {
             // Si el estado es Recepcionado (estado con ID 1) mostrar que aún no se ha preparado como para saber este dato
             if (row.original.estado.id === 1) return <span className={"flex items-center gap-2 text-neutral-400 font-medium"}><CircleHelp className="h-4 w-4" /> Falta preparar</span>;
