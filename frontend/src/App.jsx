@@ -15,7 +15,7 @@ import ModificacionMaterialExterno from "@/pages/coordinador/ModificacionMateria
 import ModificacionMaterialMedico from "@/pages/coordinador/ModificacionMateriaMedico.jsx";
 import IngresoCarga from "@/pages/operador/IngresoCarga.jsx";
 import Cargas from "@/pages/operador/Cargas.jsx";
-import { Toaster } from 'react-hot-toast';
+import {Toaster} from 'react-hot-toast';
 import {NuevoUsuario} from "@/pages/enfermera/NuevoUsuario.jsx";
 import IngresoMaterialPabellon from "@/pages/instrumentista/IngresoMaterialPabellon.jsx";
 import {EditarUsuario} from "@/pages/enfermera/EditarUsuario.jsx";
@@ -25,6 +25,7 @@ import PreparacionMaterialMedico from "@/pages/instrumentista/PreparacionMateria
 import PreparacionMaterialPabellon from "@/pages/instrumentista/PreparacionMaterialPabellon.jsx";
 import PreparacionMaterialDental from "@/pages/instrumentista/PreparacionMaterialDental.jsx";
 import ModificacionMaterial from "@/pages/coordinador/ModificacionMaterial.jsx";
+import {GestionClientes} from "@/pages/enfermera/GestionClientes.jsx";
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
                         <Route path="/usuarios" element={<Users/>}/>
                         <Route path="/nuevo-usuario" element={<NuevoUsuario/>}/>
                         <Route path="/editar-usuario/:rut" element={<EditarUsuario/>}/>
+                        <Route path="gestion-clientes/" element={<GestionClientes />} />
                         {/* Instrumentista routes */}
                         <Route path="/ingreso-externo" element={<IngresoMaterialExterno/>}/>
                         <Route path="/preparacion-material-externo" element={<PreparacionMaterialExterno/>}/>

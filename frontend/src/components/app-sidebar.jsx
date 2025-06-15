@@ -1,10 +1,10 @@
 import {
-    Home, UserCog, Package, FileSpreadsheet, Briefcase, ChevronUp, LogOut, LogIn, User, ClockFading,
+    Home, UserCog, FileSpreadsheet, Briefcase, LogOut, LogIn, User,
     PackagePlus, PackageOpen, FileBox, Box, ChevronRight, Bubbles, Boxes
 } from "lucide-react";
 import {
     Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-    SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubItem
+    SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubItem, SidebarSeparator
 } from "@/components/ui/sidebar";
 import {DropdownMenu, DropdownMenuContent,
     DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu.jsx";
@@ -12,6 +12,7 @@ import {Link, useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
 import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
+import {Spacer} from "@/components/Spacer.jsx";
 
 const menuGroups = [
     {
@@ -19,14 +20,8 @@ const menuGroups = [
         items: [
             {title: "Inicio", url: "/index", icon: Home},
             {title: "Clientes", url: "/clientes", icon: Briefcase},
-            //{title: "Material", url: "/material", icon: Package},
+            // {title: "Materiales", url: "/material", icon: Package},
             {title: "Folio y Materiales", url: "/folios", icon: FileSpreadsheet},
-        ],
-    },
-    {
-        label: "Enfermera",
-        items: [
-            {title: "Gestión de Usuarios", url: "/usuarios", icon: UserCog},
         ],
     },
     {
@@ -56,6 +51,25 @@ const menuGroups = [
         label: "Coordinador",
         items: [
             {
+                title: "Ingreso de Material", icon: PackagePlus,
+                children: [
+                    // {title: "Externo", url: "/ingreso-externo", icon: Box},
+                    {title: "Pabellón", url: "/ingreso-pabellon", icon: Box},
+                    {title: "Médico", url: "/ingreso-medico", icon: Box},
+                    {title: "Dental", url: "/ingreso-dental", icon: Box},
+                ],
+            },
+            {
+                title: "Preparación de Material", icon: PackageOpen,
+                children:[
+                    // {title: "Externo", url: "/preparacion-material-externo", icon: PackageOpen},
+                    {title: "Pabellón", url: "/preparacion-material-pabellon", icon: PackageOpen},
+                    {title: "Médico", url: "/preparacion-material-medico", icon: PackageOpen},
+                    {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},
+                ]
+            },
+            {type: "separator", id: "coordinador-sep-1"},
+            {
                 title: "Modificación de material", icon: FileBox,
                 children: [
                     // {title: "Externo", url: "/modificacion-material-externo", icon: FileBox},
@@ -69,10 +83,81 @@ const menuGroups = [
     {
         label: "Operador",
         items: [
+            {
+                title: "Ingreso de Material", icon: PackagePlus,
+                children: [
+                    // {title: "Externo", url: "/ingreso-externo", icon: Box},
+                    {title: "Pabellón", url: "/ingreso-pabellon", icon: Box},
+                    {title: "Médico", url: "/ingreso-medico", icon: Box},
+                    {title: "Dental", url: "/ingreso-dental", icon: Box},
+                ],
+            },
+            {
+                title: "Preparación de Material", icon: PackageOpen,
+                children:[
+                    // {title: "Externo", url: "/preparacion-material-externo", icon: PackageOpen},
+                    {title: "Pabellón", url: "/preparacion-material-pabellon", icon: PackageOpen},
+                    {title: "Médico", url: "/preparacion-material-medico", icon: PackageOpen},
+                    {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},
+                ]
+            },
+            {type: "separator", id: "operador-sep-1"},
+            {
+                title: "Modificación de material", icon: FileBox,
+                children: [
+                    // {title: "Externo", url: "/modificacion-material-externo", icon: FileBox},
+                    {title: "Pabellon", url: "/modificacion-material-pabellon", icon: FileBox},
+                    {title: "Medico", url: "/modificacion-material-medico", icon: FileBox},
+                    {title: "Dental", url: "/modificacion-material-dental", icon: FileBox},
+                ],
+            },
+            {type: "separator", id: "operador-sep-2"},
             {title: "Carga de materiales", url: "/ingreso-carga", icon: Bubbles},
             {title: "Cargas activas", url: "/cargas", icon: Boxes},
         ],
-    }
+    },
+    {
+        label: "Administrador",
+        items: [
+            {
+                title: "Ingreso de Material", icon: PackagePlus,
+                children: [
+                    // {title: "Externo", url: "/ingreso-externo", icon: Box},
+                    {title: "Pabellón", url: "/ingreso-pabellon", icon: Box},
+                    {title: "Médico", url: "/ingreso-medico", icon: Box},
+                    {title: "Dental", url: "/ingreso-dental", icon: Box},
+                ],
+            },
+            {
+                title: "Preparación de Material", icon: PackageOpen,
+                children:[
+                    // {title: "Externo", url: "/preparacion-material-externo", icon: PackageOpen},
+                    {title: "Pabellón", url: "/preparacion-material-pabellon", icon: PackageOpen},
+                    {title: "Médico", url: "/preparacion-material-medico", icon: PackageOpen},
+                    {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},
+                ]
+            },
+            {type: "separator", id: "enfermera-sep-2", label: "Acciones de Coordinador"},
+            {
+                title: "Modificación de material", icon: FileBox,
+                children: [
+                    // {title: "Externo", url: "/modificacion-material-externo", icon: FileBox},
+                    {title: "Pabellon", url: "/modificacion-material-pabellon", icon: FileBox},
+                    {title: "Medico", url: "/modificacion-material-medico", icon: FileBox},
+                    {title: "Dental", url: "/modificacion-material-dental", icon: FileBox},
+                ],
+            },
+            {type: "separator", id: "enfermera-sep-2", label: "Acciones de Operador"},
+
+            {title: "Carga de materiales", url: "/ingreso-carga", icon: Bubbles},
+            {title: "Cargas activas", url: "/cargas", icon: Boxes},
+
+            {type: "separator", id: "enfermera-sep-3", label: "Gestión de Sistema"},
+
+            {title: "Gestión de Usuarios", url: "/usuarios", icon: UserCog},
+            {title: "Gestión de Clientes (En Construcción)", url: "/gestion-clientes", icon: UserCog},
+        ],
+    },
 ];
 
 export function AppSidebar() {
@@ -98,8 +183,14 @@ export function AppSidebar() {
                         <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
-                                {group.items.map((item) =>
-                                    item.children ? (
+                                {group.items.map((item) => {
+                                    if (item.type === "separator") {
+                                        return <Spacer
+                                            key={`separator-${item.id || Math.random()}`}
+                                            label={item.label}
+                                        />;
+                                    }
+                                    return item.children ? (
                                         <Collapsible key={item.title}>
                                             <SidebarMenuItem>
                                                 <CollapsibleTrigger asChild>
@@ -135,8 +226,8 @@ export function AppSidebar() {
                                                 </Link>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
-                                    )
-                                )}
+                                    );
+                                })}
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>

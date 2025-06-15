@@ -116,20 +116,22 @@ export function EditarUsuario() {
                 <>
                     <DataTable data={[user]} columns={userEditColumns}/>
 
-                    <h2 className="text-2xl font-bold my-4">Nuevos Datos</h2>
+                    <div className="form-caja mt-4">
+                        <h2 className="text-2xl font-bold mb-7">Nuevos Datos</h2>
 
-                    <FormModel
-                        key={user.rut}
-                        schema={schema}
-                        onSubmit={onSubmit}
-                        fields={fields}
-                        defaultValues={{
-                            rut: user.rut,
-                            nombre: user.nombre,
-                            rol: user.rol?.id?.toString() || "4", // Default to "4" (Instrumentista) if no role is set
-                            /*password: "",*/
-                        }}
-                    />
+                        <FormModel
+                            key={user.rut}
+                            schema={schema}
+                            onSubmit={onSubmit}
+                            fields={fields}
+                            defaultValues={{
+                                rut: user.rut,
+                                nombre: user.nombre,
+                                rol: user.rol?.id?.toString() || "4", // Default to "4" (Instrumentista) if no role is set
+                                /*password: "",*/
+                            }}
+                        />
+                    </div>
                 </>
             )}
         </Main>

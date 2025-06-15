@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { z } from "zod";
 import Main from "@/components/Main.jsx";
 import Title from "@/components/Title.jsx";
 import { FormModel } from "@/components/FormModel.jsx";
 import { useFetchSelectOptions } from "@/hooks/useFetchSelectOptions.js";
 import toast from "react-hot-toast";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button.jsx";
-import { createFolioWithMaterials } from "@/api/trazabilidad.api.js";
+import { createFolioWithMaterials, getFolios } from "@/api/trazabilidad.api.js";
 import Subtitle from "@/components/Subtitle.jsx";
 import { Trash2 } from "lucide-react";
 import {useCurrentUser} from "@/hooks/useCurrentUser.js";
@@ -42,6 +41,8 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
     const [estadoRecepcionado, setEstadoRecepcionado] = useState(null);
     // Obtener el RUT del usuario logueado
     const { userRut } = useCurrentUser();
+    // para ir reseteando el formulario de materiales
+    const formRef = useRef(null);
     
     // Buscar los IDs necesarios para el tipo de ingreso y estado
     useEffect(() => {
@@ -170,14 +171,48 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
     }, [metEsterilizacion, tiposMateriales, isLoading]);
 
     const onSubmitFolio = (data) => {
-        setFolio(data);
-        console.log("Folio creado:", data);
-        toast.success("Datos de folio guardados. Ahora puedes agregar materiales.");
+        toast.promise(
+            (async () => {
+                try {
+                    const response = await getFolios();
+                    const foliosExistentes = response.data;
+                    const folioExistente = foliosExistentes.some(f => f.nfolio === parseInt(data.nfolio));
+
+                    if (folioExistente) {
+                        throw new Error("El número de folio ya existe");
+                    }
+
+                    setFolio(data);
+                    return data;
+                } catch (error) {
+                    if (error.message === "El número de folio ya existe") {
+                        throw error;
+                    }
+                    throw new Error("Error al verificar el folio");
+                }
+            })(),
+            {
+                loading: 'Verificando si ese número de folio existe...',
+                success: 'Datos de folio guardados. Ahora puedes agregar materiales.',
+                error: (err) => `${err.message}. Por favor, ingrese otro número de folio.`
+            }
+        );
     };
 
     const onSubmitMaterial = (data) => {
         setMaterialesAgregados(prev => [...prev, data]);
         console.log("Material agregado:", data);
+
+        formRef.current?.reset({
+            cantidad: "",
+            mesterilizacion: data.mesterilizacion,
+            tipomaterial: data.tipomaterial,
+            nombrematerial: "",
+            observacion: ""
+        });
+
+        formRef.current?.setFocus("cantidad");
+
         toast.success("Material agregado a la lista.");
     };
 
@@ -274,9 +309,11 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
                 <div className="mb-6 form-caja flex-1 md:w-1/2">
                     <Subtitle>Agregar Materiales</Subtitle>
                     <FormModel
+                        id="material-form"
                         schema={materialSchema}
                         fields={materialFields}
                         onSubmit={onSubmitMaterial}
+                        ref={formRef}
                         disabled={!folio || isLoading}
                     />
                 </div>

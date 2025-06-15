@@ -84,7 +84,7 @@ export const createFolioWithMaterials = async (folioData, materialsData) => {
 export const createUser = (user) => apiURL.post('usuario/', user)
 export const getUsers = () => apiURL.get('usuario/')
 export const getUser = (id) => apiURL.get(`usuario/${id}/`)
-export const updateUser = (id, user) => apiURL.put(`usuario/${id}/`, user)
+export const updateUser = (id, user) => apiURL.patch(`usuario/${id}/`, user)
 export const deleteUser = (id) => apiURL.delete(`usuario/${id}/`)
 // todo make an endpoint to invalidate a refresh token from a user
 

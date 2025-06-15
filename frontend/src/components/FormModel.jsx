@@ -18,12 +18,22 @@ import {
 } from "@/components/ui/select"
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
+import {forwardRef, useImperativeHandle} from "react";
 
-export function FormModel({schema, fields, onSubmit, defaultValues, disabled}) {
+export const FormModel = forwardRef(function FormModel({schema, fields, onSubmit, defaultValues = {}, disabled = false}, ref) {
+// export function FormModel({schema, fields, onSubmit, defaultValues, disabled}) {
     const form = useForm({
         ...(schema ? {resolver: zodResolver(schema)} : {}),
         defaultValues,
     });
+
+    useImperativeHandle(ref, () => ({
+        reset: form.reset,
+        setValue: form.setValue,
+        getValues: form.getValues,
+        clearErrors: form.clearErrors,
+        setFocus: form.setFocus
+    }));
 
     return (
         <Form {...form}>
@@ -84,4 +94,4 @@ export function FormModel({schema, fields, onSubmit, defaultValues, disabled}) {
             </form>
         </Form>
     );
-}
+});

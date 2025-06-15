@@ -95,7 +95,7 @@ export const userColumns = ({ handleDelete }) => [
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
                         <AlertDialogAction
                             className='bg-red-500 hover:bg-red-800'
                             onClick={() => handleDelete(row.original.rut)}
@@ -199,7 +199,7 @@ export const materialsColumns = [
                 e.stopPropagation();
                 if (codigo){
                     navigator.clipboard.writeText(codigo);
-                    toast.success(`Cód. de preparación ${codigo} copiado al portapapeles`);
+                    toast.success(`Código de preparación ${codigo} copiado al portapapeles`);
                 }
 
             };
