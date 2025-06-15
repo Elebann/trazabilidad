@@ -10,6 +10,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import toast from "react-hot-toast";
 import {DataTable} from "@/components/DataTable.jsx";
 import {insertCarga} from "@/features/columns.jsx";
+import {Description} from "@/components/Description.jsx"
 
 export default function IngresoCarga(){
     const [codigoLote, setCodigoLote] = useState("");
@@ -108,6 +109,7 @@ export default function IngresoCarga(){
         <div>
             <Main>
                 <Title>Ingreso de Carga</Title>
+                <Description>Se debe ingresar el código de preparación generado automáticamente al preparar material.</Description>
 
                 <div className="flex flex-col md:flex-row gap-4 mb-4 md:justify-between">
                     <div className="flex w-full max-w-sm items-center gap-2">
