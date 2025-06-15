@@ -36,9 +36,9 @@ function Material() {
                 <p>Cargando materiales...</p>
             ) : (
                 <ScrollArea className="w-full" scrollHide={false} type="always" scrollbarVisibility="auto">
-                    <div className="h-[calc(100vh-200px)]">
-                        <DataTable data={materials} columns={materialsColumns} />
-                    </div>
+
+                    <DataTable data={materials} columns={materialsColumns} />
+
                     <ScrollBar orientation="horizontal"/>
                 </ScrollArea>
             )}

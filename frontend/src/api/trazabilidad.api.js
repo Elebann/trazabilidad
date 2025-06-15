@@ -9,6 +9,7 @@ export const getFolios = () => apiURL.get('folio/')
 export const getFolio = (id) => apiURL.get(`folio/${id}/`)
 export const createFolio = (folio) => apiURL.post('folio/', folio)
 export const deleteFolio = (id) => apiURL.delete(`folio/${id}/`)
+export const updateFolio = (id, folio) => apiURL.patch(`folio/${id}/`, folio)
 
 // Materiales
 export const getMaterials = () => apiURL.get('material/')
@@ -16,7 +17,7 @@ export const getMaterial = (id) => apiURL.get(`material/${id}/`)
 export const getMaterialByFolio = (nFolio) => apiURL.get(`material/?folio=${nFolio}`)
 export const createMaterial = (material) => apiURL.post('material/', material)
 // obtener los materiales de tipo específico y estado específico, se usa para la preparacion de material
-export const updateMaterial = (id, material) => apiURL.put(`material/${id}/`, material)
+export const updateMaterial = (id, material) => apiURL.patch(`material/${id}/`, material)
 export const getMaterialsByIngreso = (tipoIngresoId, estadoId) =>
     apiURL.get(`material/?tipo_ingreso=${tipoIngresoId}${estadoId ? `&estado=${estadoId}` : ''}`);
 // crear un lote de preparación

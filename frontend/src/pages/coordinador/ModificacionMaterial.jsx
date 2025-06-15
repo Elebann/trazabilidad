@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import {getMaterial, updateMaterial} from "@/api/trazabilidad.api.js";
-import { Button } from "@/components/ui/button.jsx";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.jsx";
+import React, {useEffect, useState} from "react";
+import {useParams, useNavigate} from "react-router-dom";
+import {getMaterial, updateMaterial, updateFolio} from "@/api/trazabilidad.api.js";
+import {Button} from "@/components/ui/button.jsx";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.jsx";
 import toast from "react-hot-toast";
 import {FormModel} from "@/components/FormModel.jsx";
 import {z} from "zod";
 import Subtitle from "@/components/Subtitle.jsx";
 import Main from "@/components/Main.jsx";
+import {useFetchSelectOptions} from "@/hooks/useFetchSelectOptions.js";
 
 export default function ModificacionMaterial() {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
     const [material, setMaterial] = useState(null);
     const [loading, setLoading] = useState(true);
+    const {clientes} = useFetchSelectOptions()
 
     useEffect(() => {
         const fetchMaterial = async () => {
@@ -21,6 +23,7 @@ export default function ModificacionMaterial() {
             try {
                 const response = await getMaterial(id);
                 setMaterial(response.data);
+                console.log("Material cargado:", response.data);
             } catch {
                 toast.error("Error al cargar el material");
             } finally {
@@ -30,26 +33,34 @@ export default function ModificacionMaterial() {
         fetchMaterial();
     }, [id]);
 
-   const schema = z.object({
+    /*const schema = z.object({
 
-    });
+     });*/
 
-   const onSubmit = async (data) => {
-        const material = {
-            nombre: data.nombre,
-            cantidad: data.cantidad,
-            observacion: data.comentarios,
-        };
-
-        console.log(material)
-
+    const onSubmit = async (data) => {
         try {
-            const response = await updateMaterial(id, material);
-            console.log("Material modificado exitosamente: ", response);
-            toast.success(`Material "${material.nombre}" actualizado exitosamente`);
+            // 1. Actualizar los datos del material
+            const materialActualizado = {
+                nombre: data.nombre,
+                cantidad: data.cantidad,
+                comentarios: data.observacion
+            };
+
+            await updateMaterial(id, materialActualizado);
+
+            // 2. Si el cliente ha cambiado, actualizar el folio
+            if (data.cliente && material.folio?.cliente?.id.toString() !== data.cliente) {
+                const folioActualizado = {
+                    cliente_id: parseInt(data.cliente)
+                };
+                await updateFolio(material.folio.id, folioActualizado);
+            }
+
+            toast.success(`Material "${data.nombre}" actualizado exitosamente`);
+            navigate('/material')
         } catch (error) {
-            console.error("Error al actualizar el material:", error.response?.data || error);
-            toast.error("Error al actualizar el material. Inténtelo nuevamente");
+            console.error("Error al actualizar:", error.response?.data || error);
+            toast.error("Error al actualizar. Inténtelo nuevamente");
         }
     };
 
@@ -67,13 +78,17 @@ export default function ModificacionMaterial() {
             label: "Cantidad",
             placeholder: "Ingrese nueva cantidad",
             type: "number",
-
         },
         {
             name: "cliente",
             label: "Cliente",
             placeholder: "Ingrese el cliente",
-            type: "text",
+            type: "select",
+            options: clientes.map(cliente => ({
+                value: cliente.id.toString(),
+                label: cliente.nombre
+            })),
+            description: "Cambiar el cliente involucrará a los demás materiales asociados al folio",
         },
         {
             name: "observacion",
@@ -113,17 +128,17 @@ export default function ModificacionMaterial() {
             <div className="mb-6 form-caja">
                 <Subtitle>Editar Material</Subtitle>
                 <FormModel
-                        key={material.id}
-                        schema={schema}
-                        onSubmit={onSubmit}
-                        fields={fields}
-                        defaultValues={{
-                            nombre: material.nombre,
-                            cantidad: material.cantidad,
-                            cliente: material.folio?.cliente?.nombre,
-                            observacion: material.comentarios,
-                        }}
-                    />
+                    key={material.id}
+                    // schema={schema}
+                    onSubmit={onSubmit}
+                    fields={fields}
+                    defaultValues={{
+                        nombre: material.nombre,
+                        cantidad: material.cantidad,
+                        cliente: material.folio?.cliente?.id.toString() || "",
+                        observacion: material.comentarios,
+                    }}
+                />
             </div>
         </Main>
     );
