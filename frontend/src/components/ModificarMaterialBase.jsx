@@ -4,12 +4,11 @@ import React, {useEffect, useState} from "react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.jsx";
 import {getMaterialsByIngreso} from "@/api/trazabilidad.api.js";
 import toast from "react-hot-toast";
-import {useNavigate} from "react-router-dom";
-import {Button} from "@/components/ui/button.jsx";
-import {Pencil} from "lucide-react";
+import {PackagePlus, Pencil} from "lucide-react";
 import {Input} from "@/components/ui/input.jsx";
 import {modificarMaterialBase} from "@/features/columns.jsx";
 import {DataTable} from "@/components/DataTable.jsx";
+import {Description} from "@/components/Description.jsx";
 
 export default function ModificarMaterialBase({Name, tipoIngreso, estado = 1}) {
     const [loading, setLoading] = useState(true);
@@ -44,25 +43,17 @@ export default function ModificarMaterialBase({Name, tipoIngreso, estado = 1}) {
         (material.folio?.nfolio && material.folio.nfolio.toString().includes(filtroFolio))
     );
 
-    function EditMaterialButton({ id }) {
-        const navigate = useNavigate();
-        return (
-            <Button
-                variant="outline"
-                onClick={() => navigate(`/ModificacionMaterial/${id}`)}
-                className="hover:bg-esteril-blue-light hover:text-white"
-            >
-                <Pencil className="h-4 w-4" /> Modificar
-            </Button>
-        );
-    }
-
-
     return (
         <div>
             <Main>
                 <Title>Modificación del Material {Name}</Title>
-                <div style={{ marginBottom: "1rem" }}>
+                    <Description className="flex items-center">
+                        Solo se pueden modificar los materiales con el estado
+                        <span className="text-yellow-600 inline-flex items-center gap-2 mx-1 my-auto">
+                            <PackagePlus /> Recepcionado
+                        </span>
+                    </Description>
+                <div className="mb-4">
                     <Input
                         type="text"
                         placeholder="Buscar por N° Folio"

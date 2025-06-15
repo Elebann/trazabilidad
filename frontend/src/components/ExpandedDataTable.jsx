@@ -86,8 +86,8 @@ export function ExpandableDataTable({ columns, data, renderExpandedRow }) {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={columns.length + 1} className="h-24 text-center">
-                                No hay resultados.
+                            <TableCell colSpan={columns.length + 1} className="h-12 text-center">
+                                Sin Información.
                             </TableCell>
                         </TableRow>
                     )}

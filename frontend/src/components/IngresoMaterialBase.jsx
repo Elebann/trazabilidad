@@ -11,6 +11,9 @@ import { createFolioWithMaterials } from "@/api/trazabilidad.api.js";
 import Subtitle from "@/components/Subtitle.jsx";
 import { Trash2 } from "lucide-react";
 import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+import { DataTable } from "@/components/DataTable.jsx";
+import { materialesAgregadosColumns } from "@/features/columns.jsx";
+import {ScrollArea} from "@/components/ui/scroll-area.jsx";
 
 
 function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
@@ -137,6 +140,34 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
         },
     ];
 
+    const columns = React.useMemo(() => {
+        // Obtener las columnas base pasando los arreglos como parámetros
+        const baseColumns = materialesAgregadosColumns(metEsterilizacion, tiposMateriales);
+
+        // Modificar la columna de acciones para acceder al estado del componente
+        return baseColumns.map(col => {
+            if (col.id === "acciones") {
+                return {
+                    ...col,
+                    cell: ({row}) => (
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setMaterialesAgregados(prev => prev.filter((_, i) => i !== row.index));
+                            }}
+                            disabled={isLoading}
+                        >
+                            <Trash2/>
+                        </Button>
+                    )
+                };
+            }
+            return col;
+        });
+    }, [metEsterilizacion, tiposMateriales, isLoading]);
+
     const onSubmitFolio = (data) => {
         setFolio(data);
         console.log("Folio creado:", data);
@@ -249,46 +280,15 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
                 </div>
                 {/* Tabla de materiales agregados */}
                 <div className="mb-6 form-caja flex-1 md:w-1/2">
+
                     <Subtitle>Lista de Materiales</Subtitle>
-                    <Table className="border rounded-2xl">
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Cantidad</TableHead>
-                                <TableHead>Método</TableHead>
-                                <TableHead>Tipo</TableHead>
-                                <TableHead>Nombre</TableHead>
-                                <TableHead>Observación</TableHead>
-                                <TableHead>Acción</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {materialesAgregados.length > 0 ? (
-                                materialesAgregados.map((mat, idx) => (
-                                    <TableRow key={idx}>
-                                        <TableCell>{mat.cantidad}</TableCell>
-                                        <TableCell>{metEsterilizacion.find(m => m.id.toString() === mat.mesterilizacion)?.metodo}</TableCell>
-                                        <TableCell>{tiposMateriales.find(t => t.id.toString() === mat.tipomaterial)?.tipo_material}</TableCell>
-                                        <TableCell>{mat.nombrematerial}</TableCell>
-                                        <TableCell>{mat.observacion || "-"}</TableCell>
-                                        <TableCell>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => setMaterialesAgregados(prev => prev.filter((_, i) => i !== idx))}
-                                                disabled={isLoading}
-                                            >
-                                                <Trash2 />
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={7} className="text-center">No hay materiales agregados</TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+
+                    <ScrollArea>
+                        <DataTable
+                            columns={columns}
+                            data={materialesAgregados}
+                        />
+                    </ScrollArea>
                 </div>
             </div>
 

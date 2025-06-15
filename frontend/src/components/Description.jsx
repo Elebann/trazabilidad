@@ -1,3 +1,5 @@
-export const Description = ({children}) => <p className="mb-3 font-medium text-muted-foreground">{children}</p>
-
-
+export const Description = ({ children, className = "" }) => (
+  <p className={`mb-3 font-medium text-muted-foreground ${className}`}>
+    {children}
+  </p>
+);

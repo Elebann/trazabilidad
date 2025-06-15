@@ -519,3 +519,53 @@ export const modificarMaterialBase = [
         cell: ({ row }) => <EditMaterialButton id={row.original.id} />
     }
 ]
+
+export const materialesAgregadosColumns = (metEsterilizacion = [], tiposMateriales = []) => [
+    {
+        accessorKey: "cantidad",
+        header: "Cantidad"
+    },
+    {
+        accessorKey: "mesterilizacion",
+        header: "Método",
+        cell: ({ row }) => {
+            const metodo = metEsterilizacion.find(m => m.id.toString() === row.original.mesterilizacion)?.metodo;
+            return metodo || "-";
+        }
+    },
+    {
+        accessorKey: "tipomaterial",
+        header: "Tipo",
+        cell: ({ row }) => {
+            const tipo = tiposMateriales.find(t => t.id.toString() === row.original.tipomaterial)?.tipo_material;
+            return tipo || "-";
+        }
+    },
+    {
+        accessorKey: "nombrematerial",
+        header: "Nombre"
+    },
+    {
+        accessorKey: "observacion",
+        header: "Observación",
+        cell: ({ row }) => row.original.observacion || "-"
+    },
+    {
+        id: "acciones",
+        header: "Acción",
+        cell: ({ row }) => (
+            <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    const idx = materialesAgregados.findIndex((_, i) => i === row.index);
+                    setMaterialesAgregados(prev => prev.filter((_, i) => i !== idx));
+                }}
+                disabled={isLoading}
+            >
+                <Trash2 />
+            </Button>
+        )
+    }
+];
