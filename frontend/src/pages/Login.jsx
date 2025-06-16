@@ -1,12 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Logo_EsterilMed from '@/assets/Logo_EsterilMed.jpeg';
 import {userLogin} from "@/api/trazabilidad.api.js";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 
 function Login() {
     const navigate = useNavigate();
+    const { isLoggedIn } = useCurrentUser();
+
+    // comprobar si ya hay una sesión activa
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/index', { replace: true });
+        }
+    }, [isLoggedIn, navigate]);
 
     const [credentials, setCredentials] = useState({
         rut: '',
@@ -47,6 +56,9 @@ function Login() {
                 rol: decodedToken.rol,
             };
             localStorage.setItem('user_data', JSON.stringify(userData));
+
+            // Notificar que la sesión cambió
+            window.dispatchEvent(new Event("userSessionChanged"));
 
             toast.success(`Hola ${userData.nombre}. Autenticado Correctamente.`);
             navigate('/index');

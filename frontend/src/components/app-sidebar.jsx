@@ -68,7 +68,7 @@ const menuGroups = [
                     {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},
                 ]
             },
-            {type: "separator", id: "coordinador-sep-1"},
+            // {type: "separator", id: "coordinador-sep-1"},
             {
                 title: "Modificación de material", icon: FileBox,
                 children: [
@@ -101,7 +101,7 @@ const menuGroups = [
                     {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},
                 ]
             },
-            {type: "separator", id: "operador-sep-1"},
+            // {type: "separator", id: "operador-sep-1"},
             {
                 title: "Modificación de material", icon: FileBox,
                 children: [
@@ -111,7 +111,7 @@ const menuGroups = [
                     {title: "Dental", url: "/modificacion-material-dental", icon: FileBox},
                 ],
             },
-            {type: "separator", id: "operador-sep-2"},
+            // {type: "separator", id: "operador-sep-2"},
             {title: "Carga de materiales", url: "/ingreso-carga", icon: Bubbles},
             {title: "Cargas activas", url: "/cargas", icon: Boxes},
         ],
@@ -137,7 +137,7 @@ const menuGroups = [
                     {title: "Dental", url: "/preparacion-material-dental", icon: PackageOpen},
                 ]
             },
-            {type: "separator", id: "enfermera-sep-2", label: "Acciones de Coordinador"},
+            // {type: "separator", id: "enfermera-sep-1", label: "Acciones de Coordinador"},
             {
                 title: "Modificación de material", icon: FileBox,
                 children: [
@@ -147,12 +147,12 @@ const menuGroups = [
                     {title: "Dental", url: "/modificacion-material-dental", icon: FileBox},
                 ],
             },
-            {type: "separator", id: "enfermera-sep-2", label: "Acciones de Operador"},
+            // {type: "separator", id: "enfermera-sep-2", label: "Acciones de Operador"},
 
             {title: "Carga de materiales", url: "/ingreso-carga", icon: Bubbles},
             {title: "Cargas activas", url: "/cargas", icon: Boxes},
 
-            {type: "separator", id: "enfermera-sep-3", label: "Gestión de Sistema"},
+            // {type: "separator", id: "enfermera-sep-3", label: "Gestión de Sistema"},
 
             {title: "Gestión de Usuarios", url: "/usuarios", icon: UserCog},
             {title: "Gestión de Clientes (En Construcción)", url: "/gestion-clientes", icon: UserCog},
@@ -160,9 +160,28 @@ const menuGroups = [
     },
 ];
 
+// Relación de roles con los labels de los menús
+const ROLES = {
+    Instrumentista: "Instrumentista",
+    Coordinador: "Coordinador",
+    Operador: "Operador",
+    Administrador: "Administrador"
+};
+
+function getVisibleMenuGroups(userRol) {
+    // Siempre mostrar la categoría EsterilMed
+    if (!userRol) return ["EsterilMed"];
+    const visibles = ["EsterilMed"];
+    if (userRol === ROLES.Instrumentista) visibles.push("Instrumentista");
+    if (userRol === ROLES.Coordinador) visibles.push("Coordinador");
+    if (userRol === ROLES.Operador) visibles.push("Operador");
+    if (userRol === ROLES.Administrador) visibles.push("Administrador");
+    return visibles;
+}
+
 export function AppSidebar() {
     const navigate = useNavigate();
-    const { isLoggedIn, userName } = useCurrentUser()
+    const { isLoggedIn, userName, userRol } = useCurrentUser()
 
     const handleLogout = async () => {
         // todo send the refresh token to the backend to invalidate it using an endpoint (not implemented yet)
@@ -175,10 +194,15 @@ export function AppSidebar() {
         navigate('/login');
     };
 
+    // Solo mostrar los grupos permitidos según el rol
+    const visibleGroups = getVisibleMenuGroups(userRol);
+
     return (
         <Sidebar>
             <SidebarContent>
-                {menuGroups.map((group) => (
+                {menuGroups
+                    .filter(group => visibleGroups.includes(group.label))
+                    .map((group) => (
                     <SidebarGroup key={group.label}>
                         <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
                         <SidebarGroupContent>
