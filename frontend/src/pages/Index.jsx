@@ -15,6 +15,7 @@ import Shadcn from "@/components/icons/Shadcn.jsx";
 import Python from "@/components/icons/Python.jsx";
 import JavaScript from "@/components/icons/JavaScript.jsx";
 import Notion from "@/components/icons/Notion.jsx";
+import {GraduationCap} from "lucide-react";
 
 function Index() {
     const {userName, userRol, isLoggedIn} = useCurrentUser()
@@ -71,7 +72,8 @@ function Index() {
                             <Lucide />
                         </span>
 
-                        <p className="text-gray-600">Josefa Aravena, Brian Puente y Evan Reyes</p>
+                        <p className="text-gray-600 font-medium">Josefa Aravena, Brian Puente & Evan Reyes</p>
+                        <span className="text-gray-600 mt-1 mx-auto flex items-center"><GraduationCap className="mr-2"/>José Martínez Opazo</span>
 
                     </div>
                 </section>

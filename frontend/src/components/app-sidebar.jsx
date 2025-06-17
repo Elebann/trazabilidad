@@ -3,8 +3,19 @@ import {
     PackagePlus, PackageOpen, FileBox, Box, ChevronRight, Bubbles, Boxes
 } from "lucide-react";
 import {
-    Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-    SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubItem, SidebarSeparator
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarMenu,
+    SidebarMenuBadge,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubItem,
+    SidebarSeparator
 } from "@/components/ui/sidebar";
 import {DropdownMenu, DropdownMenuContent,
     DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu.jsx";

@@ -87,7 +87,7 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
                 value: user.rut.toString(),
                 label: user.nombre
             })),
-            description: "Detectado automáticamente si hay sesión iniciada."
+            description: "Detectado automáticamente."
         },
         {
             name: "recepcionista", label: "Responsable de recepción", placeholder: "Seleccione una opción.",
@@ -117,7 +117,7 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
             description: "¿Qué servicio se está prestando?"
         },
         {
-            name: "nfolio", label: "Número de Folio", placeholder: "Ingrese el número de folio/guía",
+            name: "nfolio", label: "Número de Folio", placeholder: "Ingrese el número de folio/guía.",
             type: "number",
             description: "Número de folio único para este ingreso. No lo podrá editar después."
         }
@@ -127,7 +127,7 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
     const materialFields = [
         {
             name: "cantidad", label: "Cantidad", placeholder: "Cantidad", type: "number",
-            description: "Cantidad de material que se está ingresando. Debe ser un número entero positivo."
+            description: "Debe ser un número entero positivo."
         },
         {
             name: "mesterilizacion", label: "Método de Esterilización", placeholder: "Método de esterilización",
@@ -137,15 +137,15 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
         {
             name: "tipomaterial", label: "Tipo de Material", placeholder: "Tipo de Material", type: "select",
             options: tiposMateriales.map(tiposMat => ({ value: tiposMat.id.toString(), label: tiposMat.tipo_material })),
-            description: "¿Individual o Plasma?"
+            description: "¿Individual o Caja?"
         },
         {
             name: "nombrematerial", label: "Nombre de Material", placeholder: "Nombre de Material", type: "text",
-            description: "Nombre del material específico"
+            description: ""
         },
         {
             name: "observacion", label: "Observación", placeholder: "Observación", type: "text",
-            description: "Observaciones adicionales sobre el material. Es opcional"
+            description: "Observaciones adicionales sobre el material. Es opcional."
         },
     ];
 
