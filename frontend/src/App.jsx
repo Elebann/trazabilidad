@@ -29,31 +29,36 @@ import {GestionClientes} from "@/pages/enfermera/GestionClientes.jsx";
 import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 import toast from "react-hot-toast";
 
-
 const routeRoles = {
+    // acceso para todos
     "/": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
     "/index": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
     "/clientes": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
     "/material": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
     "/folios": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    // Ingreso de materiales (Todos también)
+    "/ingreso-externo": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    "/ingreso-pabellon": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    "/ingreso-medico": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    "/ingreso-dental": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    // Preparación de materiales (Todos también)
+    "/preparacion-material-externo": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    "/preparacion-material-pabellon": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    "/preparacion-material-medico": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    "/preparacion-material-dental": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    // gestión de Sistema (Solo Administrador)
     "/usuarios": ["Administrador"],
     "/nuevo-usuario": ["Administrador"],
     "/editar-usuario/:rut": ["Administrador"],
     "/gestion-clientes/": ["Administrador"],
     "/gestion-clientes": ["Administrador"],
-    "/ingreso-externo": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
-    "/preparacion-material-externo": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
-    "/ingreso-pabellon": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
-    "/ingreso-medico": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
-    "/ingreso-dental": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
-    "/preparacion-material-pabellon": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
-    "/preparacion-material-medico": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
-    "/preparacion-material-dental": ["Instrumentista", "Coordinador", "Operador", "Administrador"],
+    // Modificación de materiales (Quitamos a los instrumentistas)
     "/modificacion-material-pabellon": ["Coordinador", "Operador", "Administrador"],
     "/modificacion-material-externo": ["Coordinador", "Operador", "Administrador"],
     "/modificacion-material-dental": ["Coordinador", "Operador", "Administrador"],
     "/modificacion-material-medico": ["Coordinador", "Operador", "Administrador"],
     "/ModificacionMaterial/:id": ["Coordinador", "Operador", "Administrador"],
+    // Operador: Cargar y ver cargas para marcarlas como finalizadas
     "/ingreso-carga": ["Operador", "Administrador"],
     "/cargas": ["Operador", "Administrador"],
 };
@@ -75,7 +80,7 @@ function ProtectedRoute({children}) {
     if (loadingUser) {
         return null;
     }
-
+    // si no está logueado, redirigir a /login
     if (!isLoggedIn) {
         if (location.pathname !== "/login") {
             toast.error("Debe iniciar sesión.");

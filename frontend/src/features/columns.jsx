@@ -3,7 +3,7 @@ import {Button} from "@/components/ui/button.jsx";
 import {
     Check, PackageCheck, CircleHelp, Bubbles, Pencil,
     Trash2, PackagePlus, PackageOpen, ChevronRight,
-    ToggleLeft, ToggleRight
+    ToggleLeft, ToggleRight, MessageCircleQuestion
 } from "lucide-react";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
@@ -272,7 +272,8 @@ export const materialsColumns = [
     },*/
     {
         accessorKey: "comentarios",
-        header: "Comentarios"
+        header: "Comentarios",
+        cell: ({ row }) => row.original.comentarios || <span className="flex items-center gap-2 text-neutral-400 font-medium"><MessageCircleQuestion className="h-4 w-4" /> Sin Comentarios</span>
     }
 ]
 
@@ -536,6 +537,10 @@ export const modificarMaterialBase = [
 
 export const materialesAgregadosColumns = (metEsterilizacion = [], tiposMateriales = []) => [
     {
+        accessorKey: "nombrematerial",
+        header: "Nombre"
+    },
+    {
         accessorKey: "cantidad",
         header: "Cantidad"
     },
@@ -556,10 +561,6 @@ export const materialesAgregadosColumns = (metEsterilizacion = [], tiposMaterial
         }
     },
     {
-        accessorKey: "nombrematerial",
-        header: "Nombre"
-    },
-    {
         accessorKey: "observacion",
         header: "Observación",
         cell: ({ row }) => row.original.observacion || "-"
@@ -569,7 +570,7 @@ export const materialesAgregadosColumns = (metEsterilizacion = [], tiposMaterial
         header: "Acción",
         cell: ({ row }) => (
             <Button
-                variant="ghost"
+                variant="destructive"
                 size="sm"
                 onClick={(e) => {
                     e.stopPropagation();

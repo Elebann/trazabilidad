@@ -104,7 +104,8 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
             options: clientes.map(cliente => ({
                 value: cliente.id.toString(),
                 label: cliente.nombre
-            }))
+            })),
+            description: "¿A quién le prestamos el servicio?"
         },
         {
             name: "servicio", label: "Servicio", placeholder: "Seleccione una opción.",
@@ -112,7 +113,8 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
             options: servicios.map(pres => ({
                 value: pres.id.toString(),
                 label: pres.servicio
-            }))
+            })),
+            description: "¿Qué servicio se está prestando?"
         },
         {
             name: "nfolio", label: "Número de Folio", placeholder: "Ingrese el número de folio/guía",
@@ -124,21 +126,26 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
     // --- Campos del formulario de materiales ---
     const materialFields = [
         {
-            name: "cantidad", label: "Cantidad", placeholder: "Cantidad", type: "number"
+            name: "cantidad", label: "Cantidad", placeholder: "Cantidad", type: "number",
+            description: "Cantidad de material que se está ingresando. Debe ser un número entero positivo."
         },
         {
             name: "mesterilizacion", label: "Método de Esterilización", placeholder: "Método de esterilización",
-            type: "select", options: metEsterilizacion.map(met => ({ value: met.id.toString(), label: met.metodo }))
+            type: "select", options: metEsterilizacion.map(met => ({ value: met.id.toString(), label: met.metodo })),
+            description: "¿Vapor o Plasma?"
         },
         {
             name: "tipomaterial", label: "Tipo de Material", placeholder: "Tipo de Material", type: "select",
             options: tiposMateriales.map(tiposMat => ({ value: tiposMat.id.toString(), label: tiposMat.tipo_material })),
+            description: "¿Individual o Plasma?"
         },
         {
-            name: "nombrematerial", label: "Nombre de Material", placeholder: "Nombre de Material", type: "text"
+            name: "nombrematerial", label: "Nombre de Material", placeholder: "Nombre de Material", type: "text",
+            description: "Nombre del material específico"
         },
         {
-            name: "observacion", label: "Observación", placeholder: "Observación (opcional)", type: "text",
+            name: "observacion", label: "Observación", placeholder: "Observación", type: "text",
+            description: "Observaciones adicionales sobre el material. Es opcional"
         },
     ];
 

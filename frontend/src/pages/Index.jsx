@@ -14,6 +14,7 @@ import SQLite from "@/components/icons/SQLite.jsx";
 import Shadcn from "@/components/icons/Shadcn.jsx";
 import Python from "@/components/icons/Python.jsx";
 import JavaScript from "@/components/icons/JavaScript.jsx";
+import Notion from "@/components/icons/Notion.jsx";
 
 function Index() {
     const {userName, userRol, isLoggedIn} = useCurrentUser()
@@ -59,6 +60,7 @@ function Index() {
 
                         <span className="flex mx-auto my-2 gap-2 text-3xl">
                             <GitHub />
+                            <Notion />
                             <PyCharm />
                             <VSCode />
                             <Django />
