@@ -21,16 +21,16 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
     // findTipoIngreso: "Pabellón", "Médico" o "Dental", se usará para buscar el tipo de ingreso específico en la API. Debe coincidir la palabra exacta, cuidado las mayúsculas y minúsculas.
 
     // Obtener las opciones de selección desde el hook personalizado
-    const { 
-        clientes, 
-        metEsterilizacion, 
-        usuarios, 
-        servicios, 
+    const {
+        clientes,
+        metEsterilizacion,
+        usuarios,
+        servicios,
         tiposMateriales,
-        estadosMaterial, 
-        tiposIngreso 
+        estadosMaterial,
+        tiposIngreso
     } = useFetchSelectOptions();
-    
+
     // Estado para el folio creado y para los materiales agregados
     const [folio, setFolio] = useState(null);
     const [materialesAgregados, setMaterialesAgregados] = useState([]);
@@ -43,14 +43,14 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
     const { userRut } = useCurrentUser();
     // para ir reseteando el formulario de materiales
     const formRef = useRef(null);
-    
+
     // Buscar los IDs necesarios para el tipo de ingreso y estado
     useEffect(() => {
         if (tiposIngreso.length > 0) {
             const tipoEncontrado = tiposIngreso.find(t => t.tipo_ingreso === findTipoIngreso);
             if (tipoEncontrado) setTipoIngresoEspecifico(tipoEncontrado.id);
         }
-        
+
         if (estadosMaterial.length > 0) {
             const recepcionado = estadosMaterial.find(e => e.estado === "Recepcionado");
             if (recepcionado) setEstadoRecepcionado(recepcionado.id);
@@ -68,7 +68,7 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
         servicio: z.string({ required_error: "Debe seleccionar una opción." }),
         nfolio: z.number({ required_error: "Debe seleccionar un número." }).positive("El número debe ser positivo")
     });
-    
+
     // --- Formulario 2: Agregar Material ---
     const materialSchema = z.object({
         cantidad: z.number({ required_error: "Debe ingresar un número." }).int().positive(),
@@ -267,9 +267,9 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
 
             // Llamar a la API para crear el folio y los materiales
             await createFolioWithMaterials(folioData, materialesData);
-            
+
             toast.success("Ingreso finalizado y guardado correctamente.");
-            
+
             // Reiniciar el formulario
             setFolio(null);
             setMaterialesAgregados([]);
@@ -301,7 +301,7 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
                     }
                 />
                 {folio && (
-                    <Button 
+                    <Button
                         variant="outline"
                         className="mt-2"
                         onClick={() => setFolio(null)}
@@ -339,7 +339,7 @@ function IngresoMaterialBase({ tipoTitulo, findTipoIngreso }) {
             </div>
 
             {folio && materialesAgregados.length > 0 && (
-                <div className="flex items-center gap-2">
+                <div className="flex mb-2 items-center gap-2">
                     <Button
                         className="btn btn-primary"
                         onClick={finalizarIngreso}

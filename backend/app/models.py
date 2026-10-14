@@ -177,3 +177,6 @@ class Autoclave(models.Model):
 
     def __str__(self):
         return f"Autoclave {self.carga.fechahora}"
+
+class Prestacion(models.Model):
+    prestacion = models.CharField(max_length=64)

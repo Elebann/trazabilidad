@@ -147,33 +147,6 @@
     }
   },
   {
-    "model": "app.usuario",
-    "pk": 1000,
-    "fields": {
-      "nombre": "Usuario 1",
-      "contrasena": "123456",
-      "id_Rol": 1
-    }
-  },
-  {
-    "model": "app.usuario",
-    "pk": 1001,
-    "fields": {
-      "nombre": "Usuario 2",
-      "contrasena": "123456",
-      "id_Rol": 2
-    }
-  },
-  {
-    "model": "app.usuario",
-    "pk": 1002,
-    "fields": {
-      "nombre": "Usuario 3",
-      "contrasena": "123456",
-      "id_Rol": 3
-    }
-  },
-  {
     "model": "app.cliente",
     "pk": 1,
     "fields": {
