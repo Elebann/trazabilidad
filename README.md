@@ -129,3 +129,5 @@ npm run dev
 
 > [!IMPORTANT]
 > El backend necesita un archivo `.env` en `/backend` (por seguridad, aquí no se comparte).
+
+El proyecto funciona y resuelve el problema, pero cumple fines académicos. No está implementado.
